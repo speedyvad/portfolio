@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>OG Image — Vinícius Dourado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #0A0A0A;
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 90px;
+      position: relative;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Yellow glow top center */
+    body::after {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(245,200,66,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .left {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,200,66,0.1);
+      border: 1px solid rgba(245,200,66,0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 14px;
+      color: #F5C842;
+      font-weight: 500;
+      width: fit-content;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #F5C842;
+    }
+
+    .name {
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #E8E8E8;
+    }
+
+    .role {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #F5C842;
+    }
+
+    .desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      color: #777;
+      line-height: 1.6;
+      max-width: 540px;
+    }
+
+    .right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 80px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: #F5C842;
+      line-height: 1;
+    }
+
+    .domain {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #444;
+      letter-spacing: 0.05em;
+    }
+
+    .stack {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      background: #181818;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #777;
+    }
+
+    /* Bottom line */
+    .line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #F5C842 30%, #F5C842 70%, transparent);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="left">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      Disponível para oportunidades
+    </div>
+    <div class="name">Vinícius<br/>Dourado</div>
+    <div class="role">Front-End Developer</div>
+    <div class="desc">React · TypeScript · Next.js<br/>Fortaleza, CE, Brasil</div>
+  </div>
+
+  <div class="right">
+    <div class="logo">VD.</div>
+    <div class="domain">viniciusdourado.dev</div>
+    <div class="stack">
+      <span class="tag">React</span>
+      <span class="tag">TypeScript</span>
+      <span class="tag">Tailwind</span>
+    </div>
+  </div>
+
+  <div class="line"></div>
+</body>
+</html>
