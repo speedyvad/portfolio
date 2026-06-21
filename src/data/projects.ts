@@ -74,4 +74,26 @@ export const projects: Project[] = [
     ],
     mockupTheme: 'caltracker',
   },
+  {
+    slug: 'closr',
+    title: 'Closr',
+    shortDesc: 'SaaS B2B de geração de mensagens de pós-venda para corretoras de seguros. Elimina o processo manual de copiar, colar e personalizar mensagens para clientes.',
+    fullDesc:
+      'O Closr nasceu de uma dor real do mercado de seguros: equipes de atendimento perdiam tempo copiando e colando mensagens manualmente, cometendo erros de dados e sem nenhum padrão de comunicação. A plataforma permite que gestores criem templates inteligentes com campos dinâmicos, e atendentes gerem mensagens personalizadas em segundos — só preenchendo um formulário e copiando o resultado pronto para o WhatsApp. Arquitetura multi-tenant com isolamento por corretora, sistema de convites via link e controle de acesso por roles (master, gestor, atendente).',
+    role: 'Full-Stack Developer',
+    status: 'in-progress',
+    year: 2025,
+    stack: ['react', 'vite', 'tailwindcss', 'nodejs', 'express', 'supabase', 'postgresql'],
+    color: '#10B981',
+    github: 'https://github.com/speedyvad/Closr',
+    live: 'https://closrr.vercel.app',
+    challenges: [
+      'Arquitetura multi-tenant com Row Level Security (RLS) no Supabase, garantindo isolamento total de dados entre corretoras',
+      'Sistema de templates dinâmicos com parser customizado que suporta campos simples {{campo}} e blocos de repetição {{#dependentes}}...{{/dependentes}} para estruturas variáveis',
+      'Autenticação e autorização com múltiplos roles, rotas protegidas por nível de acesso e fluxo de convite via token',
+      'Integração frontend React com backend Node.js em produção, resolvendo problemas de CORS, ordem de inicialização do dotenv e refresh automático de JWT expirado',
+      'Deploy em produção com variáveis de ambiente seguras — frontend no Vercel e backend no Railway com auto-deploy via GitHub',
+    ],
+    mockupTheme: 'mock-closr',
+  },
 ]

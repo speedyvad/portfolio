@@ -7,6 +7,7 @@ const MOCK_COLORS: Record<string, string> = {
   studyhub: '#4F8EF7',
   'lectio-divina': '#8B5CF6',
   caltracker: '#10B981',
+  closr: '#10B981',
 }
 
 function ProjectMockup({ slug, color }: { slug: string; color: string }) {
@@ -56,20 +57,53 @@ function ProjectMockup({ slug, color }: { slug: string; color: string }) {
     )
   }
 
+  if (slug === 'caltracker') {
+    return (
+      <div style={{ background: '#0a1a12', borderRadius: 8, padding: '1rem', height: '100%', fontFamily: 'monospace', fontSize: '0.65rem', color: '#a7f3d0' }}>
+        <div style={{ color: c, fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.8rem' }}>CalTracker</div>
+        {[{ name: 'Proteínas', val: 142, max: 160 }, { name: 'Carboidratos', val: 210, max: 300 }, { name: 'Gorduras', val: 58, max: 70 }].map(m => (
+          <div key={m.name} style={{ marginBottom: '0.6rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+              <span>{m.name}</span><span style={{ color: c }}>{m.val}g</span>
+            </div>
+            <div style={{ height: 4, background: '#0f1a0f', borderRadius: 2 }}>
+              <div style={{ width: `${(m.val / m.max) * 100}%`, height: '100%', background: c, borderRadius: 2, transition: 'width 0.5s' }} />
+            </div>
+          </div>
+        ))}
+        <div style={{ marginTop: '0.75rem', color: c, fontSize: '0.7rem', fontWeight: 700 }}>1.842 / 2.200 kcal</div>
+      </div>
+    )
+  }
+
   return (
-    <div style={{ background: '#0a1a12', borderRadius: 8, padding: '1rem', height: '100%', fontFamily: 'monospace', fontSize: '0.65rem', color: '#a7f3d0' }}>
-      <div style={{ color: c, fontWeight: 700, marginBottom: '0.75rem', fontSize: '0.8rem' }}>CalTracker</div>
-      {[{ name: 'Proteínas', val: 142, max: 160 }, { name: 'Carboidratos', val: 210, max: 300 }, { name: 'Gorduras', val: 58, max: 70 }].map(m => (
-        <div key={m.name} style={{ marginBottom: '0.6rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-            <span>{m.name}</span><span style={{ color: c }}>{m.val}g</span>
-          </div>
-          <div style={{ height: 4, background: '#0f1a0f', borderRadius: 2 }}>
-            <div style={{ width: `${(m.val / m.max) * 100}%`, height: '100%', background: c, borderRadius: 2, transition: 'width 0.5s' }} />
-          </div>
+    <div style={{
+      background: 'linear-gradient(135deg, #061a10, #0d2818)',
+      borderRadius: 8,
+      padding: '1rem',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.6rem',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(16,185,129,0.08), transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: 6, padding: '0.5rem 0.6rem', position: 'relative' }}>
+        <div style={{ fontSize: '0.55rem', color: '#6ee7b7', marginBottom: 2 }}>Nome do cliente</div>
+        <div style={{ fontSize: '0.7rem', color: '#a7f3d0' }}>João Silva</div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1, position: 'relative' }}>
+        <div style={{ background: 'rgba(16,185,129,0.2)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '8px 8px 2px 8px', padding: '0.4rem 0.6rem', alignSelf: 'flex-end', maxWidth: '85%' }}>
+          <div style={{ fontSize: '0.6rem', color: '#a7f3d0', lineHeight: 1.4 }}>Olá João! Seu seguro auto vence em 15 dias. 🚗</div>
         </div>
-      ))}
-      <div style={{ marginTop: '0.75rem', color: c, fontSize: '0.7rem', fontWeight: 700 }}>1.842 / 2.200 kcal</div>
+        <div style={{ background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: '8px 8px 2px 8px', padding: '0.4rem 0.6rem', alignSelf: 'flex-end', maxWidth: '85%' }}>
+          <div style={{ fontSize: '0.6rem', color: '#a7f3d0', lineHeight: 1.4 }}>Posso te ajudar com a renovação?</div>
+        </div>
+      </div>
+      <div style={{ background: 'rgba(16,185,129,0.8)', borderRadius: 6, padding: '0.4rem 0.6rem', textAlign: 'center', fontSize: '0.65rem', fontWeight: 700, color: '#000', position: 'relative' }}>
+        Copiar mensagem ↗
+      </div>
     </div>
   )
 }

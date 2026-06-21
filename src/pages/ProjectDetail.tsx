@@ -227,7 +227,7 @@ export default function ProjectDetail() {
                     onMouseEnter={(e) => (e.currentTarget.style.background = '#fff')}
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--yellow)')}
                   >
-                    ↗ Ver live demo
+                    ↗ Ver projeto ao vivo
                   </a>
                 )}
               </div>

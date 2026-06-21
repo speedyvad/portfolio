@@ -12,6 +12,7 @@ const THEME_COLORS: Record<string, string> = {
   studyhub: '#4F8EF7',
   'lectio-divina': '#8B5CF6',
   caltracker: '#10B981',
+  closr: '#10B981',
 }
 
 export default function ProjectImage({ src, alt, fallbackTheme, className, style }: Props) {
