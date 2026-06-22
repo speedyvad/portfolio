@@ -9,7 +9,7 @@ import { useTextScramble } from '../hooks/useTextScramble'
 import { useTypewriter } from '../hooks/useTypewriter'
 import { useCountUp } from '../hooks/useCountUp'
 
-const ROLES = ['Front-End Developer', 'React Specialist', 'UI/UX Enthusiast', 'CS Student']
+const ROLES = ['Front-End Developer', 'React Specialist', 'UI/UX Enthusiast', 'Computer Science Student']
 
 const SKILLS = {
   Frontend: [
@@ -496,7 +496,7 @@ export default function Home() {
                   Sou Vinícius Dourado, desenvolvedor Front-End de Fortaleza, CE. Cursando Ciências da Computação na Unifor (5º semestre), onde combino teoria sólida com prática intensa.
                 </p>
                 <p style={{ color: 'var(--muted)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '1rem' }}>
-                  Trabalho com React e TypeScript no maior portal de notícias do Ceará, e no tempo livre exploro novas tecnologias como Clojure e React Native.
+                  Trabalhei com React e TypeScript no maior portal de notícias do Ceará, e no tempo livre exploro novas tecnologias como Clojure e Ruby.
                 </p>
                 <p style={{ color: 'var(--muted)', lineHeight: 1.8, fontSize: '1.05rem' }}>
                   Acredito que código bonito e interfaces elegantes não são excludentes — são o objetivo. Inglês B1 e em constante evolução.
