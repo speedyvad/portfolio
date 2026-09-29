@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Playwright (usado como test runner de tests/pricing.spec.ts)
+test-results
+playwright-report
+blob-report
+playwright/.cache
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

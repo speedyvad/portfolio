@@ -14,6 +14,12 @@ export default function Cursor() {
   const [clicked, setClicked] = useState(false)
   const [hovered, setHovered] = useState(false)
 
+  // O cursor customizado existe apenas onde este componente estiver montado (/sobre)
+  useEffect(() => {
+    document.body.classList.add('custom-cursor')
+    return () => document.body.classList.remove('custom-cursor')
+  }, [])
+
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY }
@@ -92,7 +98,7 @@ export default function Cursor() {
             top: 0,
             left: 0,
             borderRadius: '50%',
-            backgroundColor: 'var(--yellow)',
+            backgroundColor: 'var(--gold)',
             pointerEvents: 'none',
             zIndex: 9997,
             transition: 'opacity 0.1s',
@@ -110,7 +116,7 @@ export default function Cursor() {
           width: 9,
           height: 9,
           borderRadius: '50%',
-          backgroundColor: 'var(--yellow)',
+          backgroundColor: 'var(--gold)',
           pointerEvents: 'none',
           zIndex: 9999,
           transform: clicked ? 'scale(0.7)' : 'scale(1)',
@@ -128,7 +134,7 @@ export default function Cursor() {
           width: 34,
           height: 34,
           borderRadius: '50%',
-          border: '1.5px solid var(--yellow)',
+          border: '1.5px solid var(--gold)',
           pointerEvents: 'none',
           zIndex: 9998,
           opacity: 0.6,

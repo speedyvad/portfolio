@@ -3,7 +3,8 @@ import { useInView } from 'framer-motion'
 
 export function useCountUp(target: number, duration = 1200) {
   const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-50px' })
+  // Começa a contar assim que 30% do elemento estiver visível.
+  const inView = useInView(ref, { once: true, amount: 0.3 })
   const [value, setValue] = useState(0)
   const frameRef = useRef<number>(0)
   const startRef = useRef<number | null>(null)
@@ -28,5 +29,7 @@ export function useCountUp(target: number, duration = 1200) {
     return () => cancelAnimationFrame(frameRef.current)
   }, [inView, target, duration])
 
-  return { ref, value }
+  // `started` deixa o consumidor reservar o espaço do valor final em
+  // opacidade 0 antes de iniciar — nunca aparece um "0" parado na tela.
+  return { ref, value, started: inView }
 }

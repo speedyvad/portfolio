@@ -60,7 +60,7 @@ export default function TiltCard({ children, className, style, intensity = 12 }:
             inset: 0,
             borderRadius: 'inherit',
             pointerEvents: 'none',
-            background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(245,200,66,0.08) 0%, transparent 60%)`,
+            background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(217,162,27,0.10) 0%, transparent 60%)`,
             zIndex: 1,
           }}
         />

@@ -2,20 +2,52 @@
 
 @layer base {
   :root {
-    --bg: #0A0A0A;
-    --bg2: #111111;
-    --bg3: #181818;
-    --bg4: #1E1E1E;
-    --yellow: #F5C842;
-    --yellow-dim: #C9A020;
-    --yellow-glow: rgba(245, 200, 66, 0.12);
-    --text: #E8E8E8;
-    --muted: #777777;
-    --border: rgba(255, 255, 255, 0.07);
-    --border2: rgba(255, 255, 255, 0.12);
+    /* Paleta Dourado Studio */
+    --white: #FFFFFF;
+    --sand: #EFEAE0;
+    --sea: #0E2C3F;
+    --sea-soft: #4B6272;
+    --line: rgba(14, 44, 63, 0.12);
+    --line-strong: rgba(14, 44, 63, 0.24);
+    --gold: #D9A21B;
+    --gold-deep: #8C6410;
+    --whatsapp: #25D366;
 
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    /* Sobre faixas escuras */
+    --on-sea: #FFFFFF;
+    --on-sea-soft: rgba(255, 255, 255, 0.72);
+    --on-sea-faint: rgba(255, 255, 255, 0.6);
+    --line-on-sea: rgba(255, 255, 255, 0.16);
+
+    --font-display: 'Archivo', system-ui, -apple-system, sans-serif;
+    --font-body: 'Archivo', system-ui, -apple-system, sans-serif;
+
+    /* Escala tipográfica */
+    --fs-display: clamp(2.75rem, 7vw, 6.5rem);
+    --fs-h2: clamp(2.25rem, 5vw, 4.5rem);
+    /* Títulos de seção "de serviço" (não hero, não CTA final) — mais discretos */
+    --fs-h2-section: clamp(2rem, 4vw, 3.25rem);
+    --fs-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+    --fs-lead: clamp(1.125rem, 1.6vw, 1.375rem);
+    --fs-body: 1.125rem;
+    --fs-small: 0.9375rem;
+
+    /* Layout */
+    --container: 1240px;
+    --pad: 24px;
+    --section: 5rem;
+
+    /* Raios */
+    --r-media: 20px;
+    --r-pill: 999px;
+    --r-input: 12px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --pad: 48px;
+      --section: 8rem;
+    }
   }
 
   *,
@@ -27,26 +59,31 @@
   }
 
   html {
-    scroll-behavior: auto;
-    color-scheme: dark;
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--bg);
-    color: var(--text);
+    background-color: var(--white);
+    color: var(--sea);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: var(--fs-body);
+    font-weight: 400;
+    font-stretch: 100%;
     line-height: 1.6;
     overflow-x: hidden;
-    cursor: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.04em;
-    font-weight: 700;
-    color: var(--text);
+    font-weight: 800;
+    font-stretch: 125%;
+    font-variation-settings: 'wdth' 125;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--sea);
+    text-wrap: balance;
   }
 
   a {
@@ -55,8 +92,11 @@
   }
 
   button {
-    cursor: none;
-    font-family: var(--font-body);
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
   }
 
   img {
@@ -64,44 +104,211 @@
     display: block;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
   ::selection {
-    background-color: var(--yellow);
-    color: #000;
+    background-color: var(--gold);
+    color: var(--sea);
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--white); }
+  ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-  ::-webkit-scrollbar-track {
-    background: var(--bg);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--yellow-dim);
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--yellow);
-  }
-}
-
-@media (max-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1fr !important;
+  /* Cursor customizado (apenas na página /sobre) */
+  body.custom-cursor,
+  body.custom-cursor a,
+  body.custom-cursor button,
+  body.custom-cursor [data-cursor-hover] {
+    cursor: none;
   }
 }
 
 @layer utilities {
-  .text-yellow { color: var(--yellow); }
-  .bg-bg { background-color: var(--bg); }
-  .bg-bg2 { background-color: var(--bg2); }
-  .bg-bg3 { background-color: var(--bg3); }
-  .bg-bg4 { background-color: var(--bg4); }
-  .border-border { border-color: var(--border); }
-  .border-border2 { border-color: var(--border2); }
-  .text-muted { color: var(--muted); }
-  .font-display { font-family: var(--font-display); }
-  .font-body { font-family: var(--font-body); }
+  .container-x {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--pad);
+  }
+
+  .section-y {
+    padding-block: var(--section);
+  }
+
+  /* Archivo expandida — usar em títulos e no wordmark */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 125%;
+    font-variation-settings: 'wdth' 125;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  .fs-display { font-size: var(--fs-display); }
+  .fs-h2 { font-size: var(--fs-h2); }
+  .fs-h2-section { font-size: var(--fs-h2-section); }
+  .fs-h3 { font-size: var(--fs-h3); }
+  .fs-lead { font-size: var(--fs-lead); line-height: 1.45; }
+  .fs-body { font-size: var(--fs-body); }
+  .fs-small { font-size: var(--fs-small); }
+
+  /* Texto corrido com no máximo ~70 caracteres */
+  .measure { max-width: 38rem; }
+
+  .text-sea { color: var(--sea); }
+  .text-sea-soft { color: var(--sea-soft); }
+  .text-gold-deep { color: var(--gold-deep); }
+  .bg-sea { background-color: var(--sea); }
+  .bg-sand { background-color: var(--sand); }
+
+  /* Botões */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--r-pill);
+    padding: 0.9rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+
+  .btn-primary {
+    background-color: var(--gold);
+    color: var(--sea);
+  }
+  .btn-primary:hover { background-color: #C08F12; }
+
+  .btn-secondary {
+    border: 1px solid var(--line-strong);
+    color: var(--sea);
+    background-color: transparent;
+    font-weight: 600;
+  }
+  .btn-secondary:hover { border-color: var(--sea); background-color: var(--sand); }
+
+  .btn-on-sea {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    background-color: transparent;
+    font-weight: 600;
+  }
+  .btn-on-sea:hover { background-color: rgba(255, 255, 255, 0.14); border-color: #fff; }
+
+  .link-underline {
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 2px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .link-underline:hover { border-color: var(--gold); color: var(--gold-deep); }
+
+  /* Blocos selecionáveis grandes do simulador de orçamento (OptionCard) */
+  .option-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 56px;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-input);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .option-card:hover { background-color: var(--sand); }
+  .option-card.checked { border-color: var(--gold); background-color: var(--sand); }
+  .option-card.disabled { cursor: default; }
+  .option-card.disabled:hover { background-color: var(--sand); }
+  .option-card-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .option-card:focus-within { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .option-card-mark {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--line-strong);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .option-card.checked .option-card-mark {
+    border-color: var(--gold);
+    background-color: var(--gold);
+    box-shadow: inset 0 0 0 3px var(--white);
+  }
+  .option-card-text { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+  .option-card-label { font-weight: 600; }
+  .option-card-hint { font-size: 0.875rem; color: var(--sea-soft); }
+  .option-card-badge {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gold-deep);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* Estimativa ao vivo do simulador de orçamento */
+  .estimate-sidebar { display: none; }
+  .estimate-mobilebar { display: none; }
+  @media (min-width: 860px) {
+    .estimate-sidebar { display: block; position: sticky; top: 100px; align-self: start; }
+  }
+  @media (max-width: 859px) {
+    .estimate-mobilebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 95;
+      background: var(--white);
+      border-top: 1px solid var(--line);
+      padding: 0.85rem var(--pad) calc(0.85rem + env(safe-area-inset-bottom));
+      box-shadow: 0 -8px 24px rgba(14, 44, 63, 0.1);
+    }
+    .orcamento-content.has-mobilebar { padding-bottom: 6rem; }
+    .step-continue-desktop-only { display: none !important; }
+  }
+
+  /* Reserva espaço para o botão flutuante do WhatsApp não cobrir o fim do
+     conteúdo no mobile (ex.: último item do FAQ, fechamento da faixa de dados). */
+  @media (max-width: 860px) {
+    .reserve-fab-space {
+      padding-bottom: calc(56px + 28px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
