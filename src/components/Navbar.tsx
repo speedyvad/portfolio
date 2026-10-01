@@ -6,7 +6,6 @@ import Wordmark from './Wordmark'
 const NAV_LINKS = [
   { label: 'Serviços', to: '/#servicos' },
   { label: 'Projetos', to: '/projetos' },
-  { label: 'Raio-X grátis', to: '/raio-x' },
   { label: 'Sobre', to: '/sobre' },
 ]
 

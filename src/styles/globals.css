@@ -19,15 +19,15 @@
     --on-sea-faint: rgba(255, 255, 255, 0.6);
     --line-on-sea: rgba(255, 255, 255, 0.16);
 
-    --font-display: 'Archivo', system-ui, -apple-system, sans-serif;
-    --font-body: 'Archivo', system-ui, -apple-system, sans-serif;
+    --font-display: 'Bricolage Grotesque Variable', system-ui, -apple-system, sans-serif;
+    --font-body: 'Bricolage Grotesque Variable', system-ui, -apple-system, sans-serif;
 
     /* Escala tipográfica */
-    --fs-display: clamp(2.75rem, 7vw, 6.5rem);
-    --fs-h2: clamp(2.25rem, 5vw, 4.5rem);
+    --fs-display: clamp(3rem, 8vw, 7.5rem);
+    --fs-h2: clamp(2.25rem, 5vw, 4.25rem);
     /* Títulos de seção "de serviço" (não hero, não CTA final) — mais discretos */
     --fs-h2-section: clamp(2rem, 4vw, 3.25rem);
-    --fs-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+    --fs-h3: clamp(1.5rem, 2.4vw, 2rem);
     --fs-lead: clamp(1.125rem, 1.6vw, 1.375rem);
     --fs-body: 1.125rem;
     --fs-small: 0.9375rem;
@@ -38,7 +38,8 @@
     --section: 5rem;
 
     /* Raios */
-    --r-media: 20px;
+    --r-media: 24px;
+    --r-card: 16px;
     --r-pill: 999px;
     --r-input: 12px;
   }
@@ -70,18 +71,20 @@
     font-size: var(--fs-body);
     font-weight: 400;
     font-stretch: 100%;
+    font-optical-sizing: auto;
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Títulos grandes (hero, capítulos, h2): leves, nunca peso 800 em título de seção. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 125%;
-    font-variation-settings: 'wdth' 125;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
+    font-weight: 500;
+    font-stretch: 100%;
+    font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
     color: var(--sea);
     text-wrap: balance;
   }
@@ -141,14 +144,38 @@
     padding-block: var(--section);
   }
 
-  /* Archivo expandida — usar em títulos e no wordmark */
+  /* Títulos grandes (hero, capítulos, h2) — mesmo papel do h1-h6 base */
   .display {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 125%;
-    font-variation-settings: 'wdth' 125;
+    font-weight: 500;
+    font-stretch: 100%;
+    font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+  }
+
+  /* Números de prova e preços — condensado, mais peso */
+  .text-proof {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 75%;
+    font-variation-settings: 'wdth' 75;
     letter-spacing: -0.02em;
-    line-height: 0.95;
+  }
+
+  /* Wordmark gigante do rodapé */
+  .wordmark-giant {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 75%;
+    font-variation-settings: 'wdth' 75;
+  }
+
+  /* Labels de interface e botões */
+  .label-ui {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
   }
 
   .fs-display { font-size: var(--fs-display); }
@@ -166,7 +193,20 @@
   .text-sea-soft { color: var(--sea-soft); }
   .text-gold-deep { color: var(--gold-deep); }
   .bg-sea { background-color: var(--sea); }
-  .bg-sand { background-color: var(--sand); }
+
+  /* Seções --sand recebem a textura de papel: ruído SVG em overlay, ~4% de opacidade. */
+  .bg-sand {
+    position: relative;
+    background-color: var(--sand);
+  }
+  .bg-sand::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
   /* Botões */
   .btn {
@@ -177,7 +217,7 @@
     border-radius: var(--r-pill);
     padding: 0.9rem 1.75rem;
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.2;
     text-align: center;
     cursor: pointer;

@@ -1,701 +1,422 @@
-# Dourado Studio — site comercial + portfólio
+# Dourado Studio — v3 "A jornada"
 
 ## O que é este projeto
 Site da **Dourado Studio**, o estúdio de Vinícius Dourado (desenvolvedor front-end, Fortaleza, CE).
-Objetivo principal: transformar donos de negócio em conversas no WhatsApp.
-Objetivo secundário: mostrar a trajetória do Vinícius para recrutadores (página /sobre).
+Objetivo: conduzir o dono de negócio por uma jornada (convite → dor → virada → prova → escolha do caminho)
+que termina numa conversa no WhatsApp ou numa simulação de orçamento.
+Objetivo secundário: mostrar a trajetória do Vinícius para recrutadores (/sobre).
 
-Público da home: donos de pequenos e médios negócios, organizadores de cursos e eventos,
-comunidades e organizações. Pessoas que NÃO são técnicas. A maioria acessa pelo celular.
+Público: donos de pequenos e médios negócios, organizadores de cursos e eventos, comunidades.
+Não técnicos. A maioria acessa pelo celular.
 
 Diferencial a comunicar sempre: "você fala direto com quem desenha e programa o seu site".
 
 ---
 
-## Stack (não mudar sem perguntar)
-- React 19 + TypeScript strict + Vite
-- Tailwind CSS v4
-- Framer Motion
-- React Router v7
-- Lenis (smooth scroll)
-- Devicon via CDN (somente na página /sobre)
-- Não adicionar bibliotecas novas sem perguntar. Carrossel, accordion e SEO por página
-  devem ser feitos com código próprio + Framer Motion.
+## Princípios da v3
+1. **Natural, não genérico.** Fotos reais convivendo com elementos do trabalho (cartões de interface,
+   mockups, notificações). Nada de efeitos que viraram assinatura de site de IA
+   (feixes de luz, holofote, meteoros, gradientes neon, Aceternity UI, Magic UI).
+2. **Quatro momentos de impacto, o resto calmo.** Os momentos estão listados na seção "Home".
+   Fora deles, movimento só em resposta a ação ou para ajudar a leitura.
+3. **O site vende velocidade, então precisa ser rápido.** Orçamento de performance obrigatório (abaixo).
+4. **Bater na dor com honestidade.** Só dados com fonte e contas feitas com os números do próprio visitante.
+   Sem urgência falsa, sem escassez inventada, sem estatística exagerada.
+
+---
+
+## Stack
+
+Já existentes: React 19, TypeScript strict, Vite, Tailwind v4, React Router v7, Framer Motion, Lenis,
+Devicon via CDN (só em /sobre).
+
+Novas (instalar):
+```
+npm install gsap @gsap/react
+npm install embla-carousel-react embla-carousel-autoplay embla-carousel-auto-scroll
+npm install ogl
+npm install @number-flow/react
+npm install @radix-ui/react-accordion @radix-ui/react-tabs
+npm install vaul
+npm install @phosphor-icons/react
+npm install @fontsource-variable/bricolage-grotesque
+```
+Remover: Archivo (Google Fonts) de todo o projeto.
+
+### Papel de cada biblioteca (não sobrepor)
+| Biblioteca | Usar para | Não usar para |
+|---|---|---|
+| GSAP + ScrollTrigger | cenas ligadas ao scroll (pin, scrub, troca de cor de fundo, parallax) | micro-interações de componente |
+| GSAP SplitText | títulos que se montam por linha/palavra (hero e títulos dos capítulos) | texto corrido |
+| Framer Motion | hover, AnimatePresence, transições de página, layout animations, simulador | cenas de scroll |
+| Lenis | scroll suave global, integrado ao ScrollTrigger | — |
+| Embla | carrosséis arrastáveis e faixa contínua de mockups | galeria 3D do hero |
+| OGL | galeria curva em WebGL do hero (somente desktop) | qualquer outra coisa |
+| NumberFlow | números que mudam: calculadora de perda, estimativa do simulador, faixa de prova | contagens decorativas |
+| Radix | Accordion (FAQ), Tabs | — |
+| Vaul | gavetas no mobile: menu e resumo do simulador | desktop |
+| Phosphor Icons | todos os ícones (peso "regular" ou "light") | — |
+
+Um elemento nunca é animado por GSAP e Framer Motion ao mesmo tempo.
+
+Integração Lenis + GSAP (em um único lugar, src/lib/motion.ts):
+```ts
+gsap.registerPlugin(ScrollTrigger, SplitText)
+lenis.on('scroll', ScrollTrigger.update)
+gsap.ticker.add((time) => lenis.raf(time * 1000))
+gsap.ticker.lagSmoothing(0)
+```
+Usar `useGSAP()` do @gsap/react em componentes React, sempre com escopo (scope) e limpeza automática.
+
+### Orçamento de performance (obrigatório)
+- JavaScript inicial da home: no máximo ~180 KB gzip.
+- OGL carregado com `React.lazy` + import dinâmico, só quando: largura ≥ 1024px,
+  sem `prefers-reduced-motion` e após o primeiro paint. Fora disso, usar o fallback Embla.
+- GSAP/ScrollTrigger/SplitText importados apenas nas páginas que usam.
+- Imagens em WebP com `width`/`height` definidos, `loading="lazy"` abaixo da dobra, `sizes` corretos.
+- Metas Lighthouse mobile: Performance ≥ 90, Acessibilidade ≥ 95, LCP ≤ 2,5 s, CLS ≤ 0,1.
+- Medir com `npm run build && npm run preview` + Lighthouse ao fim de cada etapa e reportar os números.
 
 ---
 
 ## Design system
 
-### Paleta (tokens em src/styles/globals.css)
+### Paleta (mantida)
 ```
---white:      #FFFFFF   fundo principal
---sand:       #EFEAE0   superfícies secundárias, hover de linhas, blocos de apoio (areia das dunas)
---sea:        #0E2C3F   cor do texto principal e das faixas escuras (azul-mar de Fortaleza)
+--white:      #FFFFFF
+--sand:       #EFEAE0   capítulo "virada", superfícies de apoio
+--sea:        #0E2C3F   texto principal e capítulo "dor"
 --sea-soft:   #4B6272   texto secundário
---line:       rgba(14,44,63,0.12)  bordas e divisórias
---gold:       #D9A21B   acento de marca: botões, linhas de destaque, números
---gold-deep:  #8C6410   ouro para TEXTO sobre fundo claro (contraste AA)
---whatsapp:   #25D366   usado SOMENTE no botão flutuante do WhatsApp
+--line:       rgba(14,44,63,0.12)
+--gold:       #D9A21B   acento, blocos de prova, botões
+--gold-deep:  #8C6410   ouro para texto sobre fundo claro (AA)
+--whatsapp:   #25D366   só no botão flutuante
 ```
-Regras de contraste:
-- Nunca usar --gold para texto pequeno sobre branco. Texto dourado em fundo claro = --gold-deep.
-- Botão dourado: fundo --gold, texto --sea.
-- Em faixas --sea, texto branco; números/destaques podem ser --gold.
+Contraste: texto dourado sobre claro = --gold-deep. Botão dourado = fundo --gold, texto --sea.
 
-### Tipografia
-- Família única: **Archivo** (Google Fonts, variável com eixos wght e wdth)
-  `https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap`
-- Títulos: Archivo expandida (`font-stretch: 125%`), peso 800, `letter-spacing: -0.02em`, `line-height: 0.95`
-- Corpo: Archivo largura normal (100%), peso 400, 18px, `line-height: 1.6`
-- Fallback: `system-ui, sans-serif`
+### Textura
+Seções --sand recebem uma textura de papel: ruído SVG (feTurbulence) em overlay, opacidade ~4%,
+`pointer-events: none`, gerada em CSS (sem imagem externa).
 
+### Tipografia — Bricolage Grotesque
+Fonte: `@fontsource-variable/bricolage-grotesque` (self-hosted, eixos opsz 12–96, wdth 75–100, wght 200–800).
+Importar em main.tsx. Pré-carregar o arquivo woff2 no index.html. `font-optical-sizing: auto` no body.
+Fallback: `system-ui, sans-serif`.
+
+Papéis:
+```
+Títulos grandes (hero, capítulos, h2):  wght 400–500, wdth 100, letter-spacing -0.035em, line-height 0.98
+Números de prova e preços:               wght 700, wdth 75 (condensado), letter-spacing -0.02em
+Wordmark gigante do rodapé:              wght 800, wdth 75
+Corpo:                                   wght 400, 18px, line-height 1.6
+Labels de interface e botões:            wght 600, 15–16px
+```
 Escala:
 ```
-display (hero):   clamp(2.75rem, 7vw, 6.5rem)
-h2 (seções):      clamp(2.25rem, 5vw, 4.5rem)
-h3:               clamp(1.5rem, 2.5vw, 2.25rem)
-lead:             clamp(1.125rem, 1.6vw, 1.375rem)
-body:             1.125rem
-small:            0.9375rem
+display:  clamp(3rem, 8vw, 7.5rem)
+h2:       clamp(2.25rem, 5vw, 4.25rem)
+h3:       clamp(1.5rem, 2.4vw, 2rem)
+lead:     clamp(1.125rem, 1.6vw, 1.375rem)
+body:     1.125rem
+small:    0.9375rem
 ```
-- Linhas de texto corrido com no máximo ~70 caracteres (`max-width: 38rem`).
-- Sentence case em tudo. NADA de labels em caixa alta acima dos títulos.
-- Não destacar uma única palavra do título com outra cor ou itálico.
+Regras: títulos LEVES, nunca peso 800 em título de seção. Sentence case. Sem labels em caixa alta
+acima dos títulos. Não destacar palavra isolada com outra cor. Texto corrido com max-width ~38rem.
 
 ### Layout
-- Container: `max-width: 1240px`, padding lateral 24px (mobile) / 48px (desktop)
-- Espaçamento vertical generoso entre seções: 8rem desktop / 5rem mobile
-- Alinhamento à esquerda como padrão. Centralizar apenas o CTA final.
-- Raios: fotos e mockups 20px; botões 999px (pílula); inputs 12px. Não usar o mesmo raio em tudo.
-- Evitar grades de cards idênticos. Serviços são LINHAS, cases são VITRINES grandes alternadas.
+- Container 1240px; padding lateral 24px (mobile) / 48px (desktop).
+- Cada capítulo da jornada tem cenário próprio (cor de fundo e composição diferentes).
+  Evitar repetir "título à esquerda + conteúdo abaixo" em seções seguidas.
+- Raios: fotos 24px, cartões de interface 16px, botões 999px.
 
-### Movimento
-- O momento memorável do site é o **carrossel do hero**. O resto é calmo.
-- Não aplicar fade-up automático em toda seção. Entradas animadas só onde ajudam a leitura
-  (contagem dos números na faixa de dados, linha dourada do processo).
-- Movimento em resposta a ação é bem-vindo: accordion do FAQ, hover das linhas de serviço, menu mobile.
-- Respeitar `prefers-reduced-motion`: sem autoplay, sem zoom, transições instantâneas.
-- Lenis e PageTransition continuam globais. A cortina de transição passa a ser --sea com uma linha --gold.
-- Cursor customizado e partículas ficam SOMENTE na página /sobre.
-
-### Botões e links
-- Primário: pílula --gold, texto --sea, peso 700. Ex.: "Falar no WhatsApp"
-- Secundário: pílula com borda --line, texto --sea
-- Texto do botão diz exatamente o que acontece. Não anexar "→" em todo botão.
-
----
-
-## Marca
-- Nome: **Dourado Studio**
-- Wordmark: "Dourado" em Archivo expandida 800 + "Studio" em Archivo 400, cor --sea,
-  com um pequeno traço horizontal --gold antes do nome (a "linha do horizonte")
-- Assinatura no rodapé: "Dourado Studio · por Vinícius Dourado · Fortaleza, CE"
-- Favicon: traço dourado + "D" em --sea sobre branco (atualizar public/favicon.svg)
+### Botões
+- Primário: pílula --gold, texto --sea, wght 600.
+- Secundário: pílula com borda --line (ou branca sobre --sea).
+- Texto do botão diz o que acontece. Sem "→" automático.
 
 ### Voz
-- Português do Brasil, fala com "você", direta e próxima.
-- Fala de resultado para o negócio, não de tecnologia. Na home não aparecem nomes como React ou TypeScript.
-- Frases curtas. Verbos simples. Sem jargão ("conversão" pode, "SPA" não).
+Português do Brasil, "você", frases curtas, resultado para o negócio, sem jargão técnico na home.
 
 ---
 
-## Contato (src/config/contact.ts)
-```ts
-export const WHATSAPP_NUMBER = '5585982116585'
-export const EMAIL = 'viniciusdourado020506@gmail.com'
-export const INSTAGRAM = 'https://www.instagram.com/douradovini/'
-export const LINKEDIN = 'https://www.linkedin.com/in/vinícius-dourado-29a5422b7'
-export const GITHUB = 'https://github.com/speedyvad'
-
-export function whatsappLink(message: string) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-}
-export const DEFAULT_MESSAGE = 'Olá! Vim pelo site da Dourado Studio e quero conversar sobre um projeto.'
-```
-Todo CTA de WhatsApp usa `whatsappLink()` com uma mensagem específica do contexto.
+## Contato e dados existentes
+- src/config/contact.ts (whatsappLink, DEFAULT_MESSAGE) — manter.
+- src/data/stats.ts, services.ts, faq.ts, projects.ts, pricing.ts, testimonials.ts — são a fonte da verdade.
+- src/data/hero.ts (slides de dores) deixa de ser usado no hero; as frases migram para o capítulo da dor
+  e para as páginas de serviço. Pode ser removido ao final.
 
 ---
 
 ## Rotas
 ```
-/                     Home comercial
-/sobre                Trajetória do Vinícius (conteúdo da antiga home, com o novo tema)
-/projetos             Todos os projetos (clientes + autorais)
-/projetos/:slug       Case individual
-/servicos/:slug       Página de cada serviço            (Fase 2)
-/modelos              Modelos por nicho (demonstrações) (Fase 2)
+/                     Home (a jornada)
+/servicos/:slug       Página de cada serviço (NOVA nesta versão)
+/orcamento            Simulador (já existe — só adaptar à tipografia nova)
+/projetos             Projetos
+/projetos/:slug       Case
+/sobre                Trajetória do Vinícius
+/creditos             Créditos de imagens
+/raio-x               PAUSADO — manter fora da navegação até ser construído
 ```
-Redirecionamentos obrigatórios (links antigos já foram divulgados no LinkedIn):
-```
-/projects        → /projetos
-/projects/:slug  → /projetos/:slug
-```
+Redirecionamentos /projects → /projetos continuam.
+
+Navegação: Serviços, Projetos, Sobre + botão primário "Simular orçamento".
+Menu mobile em gaveta Vaul.
 
 ---
 
-## Home — estrutura
+## Home — a jornada
 
-### 1. Navegação
-Wordmark à esquerda. Links: Serviços (âncora), Projetos, Sobre. Botão primário "Falar no WhatsApp".
-Fundo branco; ganha borda --line inferior após 24px de scroll. Menu mobile em tela cheia.
+### Capítulo 1 — O convite (hero) ★ momento de impacto 1
+Fundo branco. Título (display, SplitText por linha com máscara, entrada em ~1s, stagger curto):
+**"Seu negócio já é bom. Falta ser encontrado."**
+Texto (lead): "A Dourado Studio cria sites, landing pages e sistemas que trazem clientes pelo Google
+e pelo WhatsApp. Feito em Fortaleza, por quem você conhece pelo nome."
+Botões: "Simular orçamento" (/orcamento) e "Conversar no WhatsApp" (DEFAULT_MESSAGE).
 
-### 2. Hero — carrossel de dores (o momento memorável)
-Foto de fundo em tela cheia (altura 100svh no desktop, 88svh no mobile), sobreposição em
-gradiente --sea (de 85% no canto inferior esquerdo para 20% no superior direito).
-Título gigante em branco, subtítulo, botão primário que abre o WhatsApp com a mensagem do slide,
-botão secundário (borda branca) "Ver projetos".
+Visual: **galeria curva em WebGL (OGL)** com os prints reais dos projetos (desktop e mobile de
+public/images/cases e /projects), dispostos num arco, girando devagar sozinha e respondendo ao
+scroll e ao arrasto, com leve curvatura e fade nas bordas. Clicar numa imagem leva ao case.
+Referência de técnica: galeria circular em OGL (planos em arco com shader de curvatura).
+Fallback (mobile, reduced-motion ou sem WebGL): faixa contínua Embla Auto Scroll de mockups de celular
+com os mesmos prints, inclinada levemente, pausando ao toque.
 
-Comportamento:
-- Troca a cada 7s. Pausa no hover, no foco e quando a aba não está visível.
-- Imagem: crossfade 0.9s + zoom lento de 1.00 para 1.06 durante o slide.
-- Texto: título entra por máscara, linha a linha, de baixo para cima.
-- Indicador: 4 segmentos horizontais no rodapé do hero; o segmento ativo se preenche em --gold
-  durante os 7s (a linha do horizonte). Clicar num segmento vai para o slide.
-- Swipe no mobile. Setas acessíveis por teclado. `aria-roledescription="carousel"`.
-- Reduced motion: sem autoplay, sem zoom.
+Logo abaixo, faixa de confiança discreta (já existe): clientes + "1.500+ inscritos · 2.218+ respostas · 6 idiomas".
 
-Slides (src/data/hero.ts):
-```ts
-[
-  {
-    image: '/images/hero/dor-google.jpg',
-    title: 'Quando procuram o que você vende, quem aparece é o concorrente.',
-    text: 'Um site rápido e bem feito coloca sua empresa no Google e no caminho de quem já quer comprar.',
-    cta: 'Quero aparecer no Google',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero que minha empresa apareça no Google.'
-  },
-  {
-    image: '/images/hero/dor-curso.jpg',
-    title: 'Seu curso merece mais do que um link na bio.',
-    text: 'Uma página de inscrição explica tudo, organiza as vagas e deixa o seu direct livre.',
-    cta: 'Quero uma página para meu curso',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero uma página para meu curso ou evento.'
-  },
-  {
-    image: '/images/hero/dor-planilha.jpg',
-    title: 'Sua equipe passa o dia copiando e colando?',
-    text: 'Um sistema sob medida faz em segundos o que hoje toma a tarde inteira.',
-    cta: 'Quero automatizar um processo',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero automatizar um processo da minha empresa.'
-  },
-  {
-    image: '/images/hero/dor-site-antigo.jpg',
-    title: 'Seu site ficou menor que a sua empresa.',
-    text: 'Visual novo, carregamento rápido e textos claros para passar a confiança que o seu negócio já tem.',
-    cta: 'Quero renovar meu site',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero renovar o site da minha empresa.'
-  }
-]
-```
+### Capítulo 2 — A dor ★ momento de impacto 2 (parte A)
+Fundo --sea. No desktop, cena presa na tela (ScrollTrigger pin, ~250vh): as frases aparecem uma a uma,
+cada nova frase empurrando a anterior para opacidade 0.25:
+1. "Agora mesmo, alguém está procurando o que você vende."
+2. "Pesquisa no Google. Compara. Lê as avaliações."
+3. "E compra de quem aparece primeiro."
+No mobile: sem pin, as três frases empilhadas com revelação simples ao entrar na tela.
 
-### 2.5 Faixa de confiança (logo abaixo do hero)
-Uma linha discreta, fundo branco, texto --sea-soft:
-"Projetos no ar para a Comunidade Católica Shalom, o curso Imersão Coreia e corretoras de seguros."
-Em seguida, três números lado a lado em Archivo expandida: "1.500+ inscritos", "2.218+ respostas", "6 idiomas".
-Uso da marca Shalom autorizado pelo cliente.
+Depois do pin, os dados de mercado de src/data/stats.ts (93% protagonista; 96% e 53% lado a lado),
+com fontes visíveis. Números com NumberFlow ao entrar na tela.
 
-### 3. Faixa de dados (fundo --sea)
-Cada dado é uma FRASE grande, não um card. O número faz parte da frase, em --gold, e é o único
-elemento com contagem animada. Abaixo de cada frase, a fonte em texto pequeno (branco 60%), com link.
-Empilhadas verticalmente, alinhadas à esquerda, com bastante respiro.
+### Capítulo 3 — A calculadora de perda ★ momento de impacto 3
+Ainda em --sea. Título h2: "Quanto você deixa na mesa sem ser encontrado?"
+Entradas (grandes, fáceis no celular):
+- "Quanto vale um cliente para você?" — campo em R$ (ticket médio), máscara de moeda pt-BR, padrão vazio.
+- "Quantos clientes a mais por mês seriam realistas?" — slider 1 a 10, padrão 2.
+Saídas com NumberFlow, atualizando ao digitar:
+- "Por mês: R$ {ticket × clientes}"
+- "Por ano: R$ {ticket × clientes × 12}"
+- "Uma landing page começa em R$ 800. Ela se paga com {ceil(800 / ticket)} cliente(s)."
+  (pluralizar corretamente; se ticket ≥ 800, "com o primeiro cliente")
+Texto pequeno obrigatório: "Simulação feita com os seus números. Não é promessa de resultado."
+Botão: "Simular o orçamento do meu site" → /orcamento.
+Sem nenhum dado inventado de conversão.
 
-src/data/stats.ts:
-```ts
-[
-  {
-    value: 93, suffix: '%',
-    sentence: '{n} dos consumidores pesquisam na internet antes de decidir uma compra.',
-    source: 'State of Search Brasil — Hedgehog Digital e Opinion Box',
-    url: 'https://www.m9publicidade.com.br/93-dos-consumidores-pesquisam-online-antes-de-fazer-uma-compra/'
-  },
-  {
-    value: 9, suffix: ' em cada 10',
-    sentence: '{n} brasileiros pesquisam em cerca de seis canais antes de escolher onde comprar.',
-    source: 'Estudo Offerwise encomendado pelo Google, divulgado pelo Sebrae',
-    url: 'https://sebrae.com.br/sites/PortalSebrae/conteudos/posts/a-pesquisa-virtual-e-cada-vez-mais-presente-na-jornada-do-cliente,5673ad4496e47810VgnVCM1000001b00320aRCRD'
-  },
-  {
-    value: 96, suffix: '%',
-    sentence: '{n} leem avaliações no Google antes de escolher uma loja física.',
-    source: 'Decisão Local 2025 — Harmo e Reclame AQUI',
-    url: 'https://exame.com/bussola/96-dos-consumidores-checam-avaliacoes-antes-de-escolher-uma-loja-fisica/'
-  },
-  {
-    value: 53, suffix: '%',
-    sentence: '{n} das visitas no celular são abandonadas quando a página demora mais de 3 segundos.',
-    source: 'Google',
-    url: 'https://support.google.com/adsense/answer/7450973?hl=pt-BR'
-  }
-]
-```
-Fechamento da faixa (texto branco, tamanho lead): "Estar online deixou de ser opcional. A questão é
-como a sua empresa aparece quando alguém procura."
+### Transição — a tela clareia ★ momento de impacto 2 (parte B)
+Ao sair da calculadora, o fundo interpola de --sea para --sand com ScrollTrigger scrub
+(a página literalmente clareia), e o texto inverte de branco para --sea no mesmo ritmo.
+No centro, surge o título do capítulo 4. Reduced motion: troca direta de seção.
 
-### 4. Serviços (âncora #servicos)
-Título: "O que dá para construir para a sua empresa"
-Lista em LINHAS separadas por --line (não cards). Cada linha, no desktop, em 3 colunas:
-[nome do serviço em h3 expandido] [para quem + o que faz pelo negócio] [a partir de R$ X + botão WhatsApp].
-Hover: fundo --sand ocupando a linha inteira, transição suave.
-No mobile, as colunas empilham.
+### Capítulo 4 — A virada
+Fundo --sand com textura. Título (h2, SplitText): **"Dá pra mudar isso."**
+Três cenas foto + interface (técnica de composição: foto real com cartões flutuando por cima):
+1. Foto modelos/barbearia/hero.webp + cartão de notificação do WhatsApp
+   ("Oi! Vi o site de vocês. Tem horário no sábado?") + cartão de resultado do Google
+   ("Barbearia do Bairro · ★ 4,9 · Aberto agora").
+   Legenda: "Quem procura, encontra. E já chega querendo marcar."
+2. Foto servicos/curso-evento.webp + cartão "Nova inscrição · Turma de sábado" + contador de vagas.
+   Legenda: "As inscrições chegam organizadas, sem ninguém perguntar o horário de novo."
+3. Foto servicos/sistema-sob-medida.webp + cartão de painel ("Mensagem gerada em 3 s · Copiar").
+   Legenda: "O que tomava a tarde agora leva segundos."
+Os cartões são HTML/CSS (não imagens), estilo de interface real, com sombra suave; entram com stagger
+e têm parallax leve (GSAP scrub, deslocamento máx. 40px). Layout alternado e assimétrico entre as cenas.
+Os nomes nos cartões são fictícios e genéricos (nunca marcas reais).
 
-src/data/services.ts:
-```ts
-[
-  {
-    slug: 'landing-page',
-    name: 'Landing page',
-    forWho: 'Para quem quer vender um produto, serviço ou campanha específica.',
-    value: 'Uma página única, focada em levar o visitante até o seu WhatsApp.',
-    deliverables: ['Página responsiva', 'Botão direto para o WhatsApp', 'SEO básico', 'Publicação e domínio configurados'],
-    priceFrom: 800,
-    deadline: '7 a 10 dias úteis',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero uma landing page.'
-  },
-  {
-    slug: 'pagina-de-curso-ou-evento',
-    name: 'Página de curso ou evento',
-    forWho: 'Para professores, palestrantes, igrejas e organizadores.',
-    value: 'Explica a programação, apresenta quem ensina e organiza as inscrições num só lugar.',
-    proof: 'A página da Imersão Coreia reuniu mais de 1.500 inscritos para uma aula de nicho.',
-    deliverables: ['Programação e palestrantes', 'Inscrição integrada', 'Contagem regressiva', 'Compartilhamento otimizado'],
-    priceFrom: 1000,
-    deadline: '10 a 15 dias úteis',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero uma página para meu curso ou evento.'
-  },
-  {
-    slug: 'site-institucional',
-    name: 'Site institucional',
-    forWho: 'Para empresas que precisam passar credibilidade e ser encontradas.',
-    value: 'Várias páginas apresentando a empresa, os serviços e as formas de contato.',
-    deliverables: ['Até 6 páginas', 'Textos organizados com você', 'SEO para buscas locais', 'Integração com Google Maps e WhatsApp'],
-    priceFrom: 1800,
-    deadline: '15 a 25 dias úteis',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero um site institucional.'
-  },
-  {
-    slug: 'sistema-sob-medida',
-    name: 'Sistema sob medida',
-    forWho: 'Para equipes que dependem de planilhas e tarefas repetitivas.',
-    value: 'Uma ferramenta feita para o seu processo, com login, painel e dados organizados.',
-    deliverables: ['Levantamento do processo', 'Painel com login', 'Níveis de acesso', 'Publicação e suporte inicial'],
-    priceFrom: null,          // exibir "sob consulta"
-    deadline: 'Definido na proposta',
-    message: 'Olá! Vim pelo site da Dourado Studio e quero conversar sobre um sistema sob medida.'
-  }
-]
-```
-Quando o serviço tiver o campo `proof`, exibir essa frase abaixo do texto de valor, em --gold-deep,
-com um link discreto para o case correspondente.
+### Capítulo 5 — A prova
+Fundo branco.
+- Três blocos de cor --gold (texto --sea), números grandes condensados com NumberFlow:
+  "1.500+ inscritos na aula inaugural" · "2.218+ respostas em 6 idiomas" · "3 projetos no ar para clientes".
+- Vitrines dos cases (já existem), mantendo DeviceMockup.
+- Depoimentos (componente existente, só aparece com dados).
 
-Abaixo da lista, texto pequeno: "Manutenção mensal disponível para todos os projetos: hospedagem,
-ajustes e suporte." (preço combinado na conversa)
+### Capítulo 6 — Qual é o seu caso? ★ momento de impacto 4
+Fundo --sea ou branco (escolher o que contrastar melhor com os vizinhos).
+Título h2: "Qual é o seu caso?"
+Carrossel Embla arrastável (snap, mostra ~1.15 cartão no mobile e ~2.5 no desktop, setas + barra de progresso):
+quatro "portas", cada uma um cartão alto com foto, frase na voz do cliente, nome do serviço e "a partir de":
+1. "Quero ser encontrado no Google" → Site institucional → /servicos/site-institucional
+2. "Quero vender um curso ou evento" → Página de curso ou evento → /servicos/pagina-de-curso-ou-evento
+3. "Quero vender um produto ou serviço" → Landing page → /servicos/landing-page
+4. "Minha equipe perde tempo com tarefas repetidas" → Sistema sob medida → /servicos/sistema-sob-medida
+Hover/toque: foto aproxima levemente, cartão sobe 4px. Clicar abre a página do serviço.
 
-### 5. Projetos que já estão no ar
-Título: "Projetos que já estão no ar"
-Vitrines grandes, lado alternado a cada case. De um lado, o componente DeviceMockup
-(notebook com o print desktop + celular sobreposto com o print mobile). Do outro:
-cliente e segmento, o problema em uma frase, os resultados em destaque (números grandes em --gold-deep),
-botões "Ver case" (vai para /projetos/:slug) e "Abrir site" (nova aba).
-Mostrar os 3 cases de cliente: Imersão Coreia, Enquete da Juventude Shalom, Closr.
-Link ao final: "Ver todos os projetos".
+### Capítulo 7 — Como funciona
+Etapas existentes + foto about/vinicius-conversando.jpg (se existir).
 
-### 6. Como funciona (é uma sequência, então numerar faz sentido)
-4 etapas em linha horizontal no desktop, ligadas por uma linha --gold que se desenha ao entrar na tela:
-1. Conversa — você conta o que precisa pelo WhatsApp.
-2. Proposta — escopo, prazo e valor por escrito.
-3. Construção — você acompanha e aprova cada etapa.
-4. No ar — site publicado, com domínio e suporte inicial.
-No mobile, vertical.
+### Capítulo 8 — Quem faz
+Seção existente.
 
-### 7. Quem faz
-Foto /images/about/vinicius-trabalhando.jpg (raio 20px, sem filtro), ao lado:
-"A Dourado Studio é o estúdio de Vinícius Dourado, desenvolvedor front-end em Fortaleza, com
-experiência no Sistema Verdes Mares. Você fala direto com quem desenha e programa o seu site,
-sem intermediários."
-Link secundário: "Conhecer minha trajetória" → /sobre
+### Capítulo 9 — Perguntas frequentes
+Migrar o accordion para Radix Accordion (mantendo o visual).
 
-### 8. Perguntas frequentes (accordion)
-src/data/faq.ts:
-- Quanto custa um site? → Landing pages a partir de R$ 800 e sites institucionais a partir de R$ 1.800. O valor final depende do número de páginas e funcionalidades e vem por escrito na proposta.
-- Quanto tempo leva? → De 7 dias úteis para uma landing page a cerca de 25 para um site institucional. Sistemas têm prazo definido na proposta.
-- Preciso ter domínio e hospedagem? → Não. Eu cuido do registro do domínio e da publicação. O domínio .com.br custa em torno de R$ 40 por ano, pago diretamente no Registro.br em seu nome.
-- Vou conseguir atualizar o site depois? → Sim. Pequenos ajustes entram na manutenção mensal; mudanças maiores são orçadas à parte.
-- O site aparece no Google? → Todo projeto sai com a base de SEO configurada: títulos, descrições, velocidade e versão mobile. Aparecer bem nas buscas também depende de conteúdo e tempo.
-- Você atende fora de Fortaleza? → Sim, o atendimento é todo online, para qualquer cidade do Brasil.
-Uma pergunta aberta por vez. Animação de altura com Framer Motion.
+### Capítulo 10 — Fechamento
+CTA final com fortaleza/horizonte-beira-mar.webp e sobreposição --sea (contraste AA).
+Rodapé com wordmark **"Dourado Studio"** gigante (wght 800, wdth 75) ocupando a largura do container,
+parcialmente cortado pela borda inferior da página, cor --sea a 8% sobre branco.
 
-### 9. CTA final (fundo --sea, centralizado)
-Título: "Vamos colocar a sua empresa no lugar onde os clientes procuram."
-Botão primário "Falar no WhatsApp" (DEFAULT_MESSAGE). Abaixo, e-mail em texto.
-
-### 10. Rodapé
-Wordmark, links (Serviços, Projetos, Sobre), contatos (WhatsApp, e-mail, Instagram, LinkedIn),
-"Fortaleza, CE · Atendimento para todo o Brasil", assinatura da marca, ano.
-
-### Botão flutuante do WhatsApp (global)
-Círculo 56px --whatsapp com ícone branco, canto inferior direito, respeitando safe-area.
-Aparece depois que o usuário passa do hero (na home) ou imediatamente nas outras páginas.
-Tooltip no hover do desktop: "Fale com o estúdio". Usa DEFAULT_MESSAGE.
+### Botão flutuante do WhatsApp
+Regras existentes mantidas (some sobre CTA final e rodapé; oculto em /orcamento).
 
 ---
 
-## Projetos (src/data/projects.ts)
+## Páginas de serviço — /servicos/:slug
 
-Estender o tipo existente, mantendo compatibilidade:
-```ts
-type ProjectKind = 'cliente' | 'autoral' | 'modelo'
-interface Project {
-  // campos existentes: slug, title, shortDesc, fullDesc, role, status, year, stack,
-  // color, github?, live?, challenges, mockupTheme
-  kind: ProjectKind
-  client?: string
-  segment?: string
-  problem?: string          // uma frase
-  metrics?: { value: string; label: string }[]
-  images?: { desktop: string; mobile?: string }
-}
-```
+Template único alimentado por src/data/services.ts. Adicionar a cada serviço:
+`title`, `heroImage`, `painLines[3]`, `beforeAfter[3]`, `faq[]`, `caseSlug | null`.
 
-Novos cases de cliente (vêm primeiro):
+Estrutura da página:
+1. **Hero** (branco): título (display, SplitText) + foto grande (heroImage) com um cartão de interface
+   flutuando por cima, "a partir de R$ X", prazo, botões "Simular orçamento" (/orcamento?tipo={slug})
+   e "Conversar no WhatsApp" (message do serviço).
+2. **A dor** (--sea): as três painLines em sequência, grandes.
+3. **O que muda** (--sand + textura): três pares Antes/Depois lado a lado, o "depois" em destaque.
+4. **O que vem incluso** (branco): deliverables + prazo + manutenção opcional.
+5. **Calculadora de perda compacta** (reutilizar o componente do capítulo 3).
+6. **Prova**: case de caseSlug com DeviceMockup; se null, faixa com os cases de cliente.
+7. **Como funciona** (componente compartilhado).
+8. **Perguntas** específicas (Radix Accordion).
+9. **CTA final** (componente compartilhado).
+SEO: useSEO com título "{nome do serviço} em Fortaleza — Dourado Studio" e description própria.
+
+Conteúdo:
+
 ```ts
-{
-  slug: 'imersao-coreia',
-  title: 'Imersão Coreia',
-  kind: 'cliente',
-  client: 'Curso Imersão Coreia — Comunidade Católica Shalom',
-  segment: 'Educação e eventos',
-  problem: 'Divulgar uma aula inaugural gratuita e ao vivo e captar inscrições para um curso de 10 meses de preparação para a JMJ Seul 2027.',
-  shortDesc: 'Landing page de inscrição para a aula inaugural de um curso de língua e cultura coreana.',
-  fullDesc: 'Página de captação para a aula inaugural do Imersão Coreia, curso de 10 meses de língua, cultura e história coreana em preparação para a Jornada Mundial da Juventude em Seul, 2027. A página apresenta a programação da noite, a participação ao vivo direto da Coreia, a professora do curso e leva o visitante até a inscrição, com uma identidade visual inspirada no Hangeul.',
-  role: 'Design e desenvolvimento',
-  status: 'completed',
-  year: 2025,
-  stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-  live: 'https://cursoimersaocoreia.vercel.app',
-  metrics: [
-    { value: '1.500+', label: 'inscritos na aula inaugural' },
-    { value: '1', label: 'página, do anúncio à inscrição' },
-    { value: '100%', label: 'online e responsiva' }
+'landing-page': {
+  title: 'Você tem o que vender. Falta uma página que venda por você.',
+  heroImage: '/images/servicos/landing-page.webp',
+  painLines: [
+    'Seu link na bio leva para um perfil cheio de posts antigos.',
+    'Quem chega não entende rápido o que você oferece nem quanto custa.',
+    'E vai embora sem mandar mensagem.'
   ],
-  images: { desktop: '/images/cases/imersao-coreia-desktop.png', mobile: '/images/cases/imersao-coreia-mobile.png' },
-  challenges: [
-    'Traduzir a identidade coreana (Hangeul) em um visual leve para um público jovem',
-    'Conduzir o visitante da curiosidade até a inscrição em uma única página',
-    'Carregamento rápido no celular, onde está a maior parte do público'
+  beforeAfter: [
+    { before: 'Explicar tudo de novo para cada pessoa no direct', after: 'Uma página que responde as dúvidas antes da conversa' },
+    { before: 'Divulgação que leva para lugar nenhum', after: 'Um endereço próprio para anúncios, bio e QR code' },
+    { before: 'Cliente que desiste no meio do caminho', after: 'Um botão que leva direto para o seu WhatsApp' }
   ],
-  color: '#C0392B',
-  mockupTheme: 'mock-coreia'
+  faq: [
+    { q: 'Posso usar a página em anúncios?', a: 'Sim. Ela é feita para receber tráfego de anúncios, da bio e de QR codes.' },
+    { q: 'Consigo mudar a oferta depois?', a: 'Sim. Ajustes de texto e preço entram na manutenção mensal.' },
+    { q: 'Preciso de domínio?', a: 'Eu cuido do registro. O domínio .com.br custa em torno de R$ 40 por ano, no seu nome.' }
+  ],
+  caseSlug: 'imersao-coreia'
 },
-{
-  slug: 'enquete-juventude-shalom',
-  title: 'Enquete da Juventude Shalom',
-  kind: 'cliente',
-  client: 'Assessoria Jovem — Comunidade Católica Shalom',
-  segment: 'Comunidades e organizações',
-  problem: 'Ouvir jovens de missões espalhadas pelo mundo e transformar as respostas em informação para o conselho da comunidade.',
-  shortDesc: 'Plataforma de enquete em 6 idiomas com ranking de participação entre missões em tempo real.',
-  fullDesc: 'Enquete rápida (4 perguntas, cerca de 3 minutos) para ouvir os desafios dos jovens da Comunidade Shalom no mundo todo. Disponível em 6 idiomas, com contador de respostas ao vivo e um ranking entre missões que premia a proporção de jovens mobilizados, não o tamanho da missão. As respostas são consolidadas pela assessoria jovem e levadas ao Conselho Geral.',
-  role: 'Design e desenvolvimento full-stack',
-  status: 'completed',
-  year: 2025,
-  stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-  live: 'https://enquete-shalom.vercel.app',
-  metrics: [
-    { value: '2.218+', label: 'respostas' },
-    { value: '6', label: 'idiomas' },
-    { value: 'Ao vivo', label: 'ranking entre missões' }
+'pagina-de-curso-ou-evento': {
+  title: 'Seu curso merece mais do que um link na bio.',
+  heroImage: '/images/servicos/curso-evento.webp',
+  painLines: [
+    'As inscrições chegam espalhadas entre direct, WhatsApp e planilha.',
+    'Cada pessoa pergunta a mesma coisa: horário, valor, onde é.',
+    'E o evento enche menos do que poderia.'
   ],
-  images: { desktop: '/images/cases/enquete-shalom-desktop.png', mobile: '/images/cases/enquete-shalom-mobile.png' },
-  challenges: [
-    'Interface em 6 idiomas (PT, ES, EN, FR, IT, PL) com a mesma experiência',
-    'Ranking justo entre missões de tamanhos diferentes, calculado pela proporção de participação',
-    'Contador e atividade em tempo real para estimular novas respostas',
-    'Garantir uma resposta por pessoa sem expor os dados de quem respondeu'
+  beforeAfter: [
+    { before: 'Inscrições espalhadas em vários lugares', after: 'Todas as inscrições organizadas num só lugar' },
+    { before: 'Responder as mesmas perguntas o dia inteiro', after: 'Programação, valores e local claros na página' },
+    { before: 'Divulgação que esfria depois do primeiro post', after: 'Contagem regressiva e link fácil de compartilhar' }
   ],
-  color: '#1F6FB2',
-  mockupTheme: 'mock-enquete'
+  faq: [
+    { q: 'Dá para receber as inscrições numa planilha?', a: 'Sim. As respostas chegam organizadas para você acompanhar.' },
+    { q: 'Funciona para evento online e presencial?', a: 'Funciona para os dois, com as informações de cada formato.' },
+    { q: 'Posso reaproveitar a página na próxima turma?', a: 'Sim. Atualizar datas e programação é rápido.' }
+  ],
+  caseSlug: 'imersao-coreia'
+},
+'site-institucional': {
+  title: 'Quem procura sua empresa no Google precisa te encontrar.',
+  heroImage: '/images/servicos/site-institucional.webp',
+  painLines: [
+    'Seu cliente pesquisa antes de comprar.',
+    'Se não encontra a sua empresa, encontra o concorrente.',
+    'E se encontra um site antigo, desconfia.'
+  ],
+  beforeAfter: [
+    { before: 'Invisível nas buscas da sua região', after: 'Presente quando procuram o que você faz' },
+    { before: 'Um site que passa insegurança', after: 'Um site que passa a confiança que sua empresa já tem' },
+    { before: 'Contato difícil de achar', after: 'WhatsApp, telefone e mapa a um toque' }
+  ],
+  faq: [
+    { q: 'Quantas páginas o site tem?', a: 'Até 6 no pacote base. Dá para ampliar no simulador de orçamento.' },
+    { q: 'Vou aparecer no Google?', a: 'O site sai com a base de SEO configurada. A posição nas buscas também depende de conteúdo e tempo.' },
+    { q: 'Vocês escrevem os textos?', a: 'Organizamos os textos com você. Se precisar de ajuda maior, isso entra como extra.' }
+  ],
+  caseSlug: null
+},
+'sistema-sob-medida': {
+  title: 'Sua equipe não deveria passar a tarde copiando e colando.',
+  heroImage: '/images/servicos/sistema-sob-medida.webp',
+  painLines: [
+    'Tarefas repetidas tomam horas que deveriam ir para o cliente.',
+    'Cada pessoa faz de um jeito, e os erros aparecem.',
+    'As planilhas se multiplicam e ninguém sabe qual é a certa.'
+  ],
+  beforeAfter: [
+    { before: 'Mensagens montadas à mão, uma por uma', after: 'Mensagens geradas em segundos, sem erro de dado' },
+    { before: 'Cada pessoa trabalhando de um jeito', after: 'Um padrão para a equipe inteira' },
+    { before: 'Dados espalhados em planilhas', after: 'Tudo num painel com login e níveis de acesso' }
+  ],
+  faq: [
+    { q: 'Como sei se o meu processo dá para automatizar?', a: 'Se é repetido e segue regras, quase sempre dá. Começamos com uma conversa sobre como ele funciona hoje.' },
+    { q: 'Quanto custa?', a: 'Depende do processo. O valor vem por escrito na proposta, depois do levantamento.' },
+    { q: 'Minha equipe vai conseguir usar?', a: 'O sistema é desenhado em cima da rotina de vocês, e a entrega inclui suporte inicial.' }
+  ],
+  caseSlug: 'closr'
 }
 ```
-Closr: marcar `kind: 'cliente'`, `segment: 'Corretoras de seguros'`, adicionar
-`problem` e `images: { desktop: '/images/cases/closr-desktop.png', mobile: '/images/cases/closr-mobile.png' }`
-(manter fallback para /images/projects/closr.png).
-StudyHub, Lectio Divina e CalTracker: `kind: 'autoral'`.
-
-Página /projetos: duas seções — "Para clientes" e "Projetos autorais".
-Manter o hover preview flutuante, adaptado ao tema claro.
-
-### DeviceMockup
-Componente em CSS puro: moldura de notebook (tela 16:10, base fina) e celular (raio 36px, notch)
-sobreposto no canto inferior direito. Imagens com `loading="lazy"` e `object-fit: cover; object-position: top`.
-Se a imagem não carregar: bloco --sand com o nome do projeto em Archivo expandida.
 
 ---
 
-## Página /sobre
-Reaproveitar o conteúdo da home antiga (sobre, aprendendo agora, stack, experiência, contato)
-adaptado à nova paleta clara. Aqui ficam as animações mais expressivas já existentes:
-TextScramble no nome, Typewriter, TiltCard, CountUp, MagneticButton, timeline que cresce,
-cursor customizado e partículas (partículas em --gold com opacidade baixa sobre branco).
-Remover do cursor/partículas qualquer cor amarela antiga (#F5C842) e usar os tokens novos.
-Botão de download do CV continua (public/cv-vinicius-dourado.pdf).
+## Páginas existentes — ajustes
+- /orcamento: aplicar a tipografia nova; estimativa ao vivo com NumberFlow; resumo no mobile em gaveta Vaul.
+- /projetos e /projetos/:slug: tipografia nova; hover preview mantido.
+- /sobre: tipografia nova; cursor e partículas continuam só aqui.
+
+---
+
+## Imagens
+```
+cases/*-desktop.png, *-mobile.png      prints dos projetos (galeria do hero e vitrines)
+servicos/landing-page.webp             hero da página de serviço e porta do capítulo 6
+servicos/curso-evento.webp             idem + cena 2 da virada
+servicos/site-institucional.webp       idem
+servicos/sistema-sob-medida.webp       idem + cena 3 da virada
+modelos/barbearia/hero.webp            cena 1 da virada
+fortaleza/horizonte-beira-mar.webp     CTA final
+about/vinicius-conversando.jpg         como funciona
+about/vinicius-trabalhando.jpg         quem faz
+hero/dor-*.webp                        não são mais usadas no hero (podem ficar como acervo)
+```
+Toda imagem com alt em português e fallback elegante (bloco --sand) se não existir.
+Imagens gratuitas do Freepik: registrar autor em src/data/credits.ts.
 
 ---
 
 ## SEO
-Hook próprio `useSEO({ title, description, path })` que atualiza document.title, meta description,
-og:title, og:description, og:url e canonical a cada rota.
-
-Títulos:
-- /          → "Dourado Studio — Criação de sites e landing pages em Fortaleza"
-- /sobre     → "Vinícius Dourado — Desenvolvedor front-end | Dourado Studio"
-- /projetos  → "Projetos — Dourado Studio"
-- /projetos/:slug → "{title} — Case Dourado Studio"
-
-Description da home: "Sites, landing pages e sistemas sob medida para empresas, cursos e eventos.
-Estúdio em Fortaleza com atendimento para todo o Brasil. Fale direto pelo WhatsApp."
-
-No index.html, adicionar JSON-LD:
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Dourado Studio",
-  "url": "https://vinidourado.vercel.app",
-  "telephone": "+55 85 98211-6585",
-  "email": "viniciusdourado020506@gmail.com",
-  "founder": { "@type": "Person", "name": "Vinícius Dourado" },
-  "address": { "@type": "PostalAddress", "addressLocality": "Fortaleza", "addressRegion": "CE", "addressCountry": "BR" },
-  "areaServed": "BR",
-  "priceRange": "R$ 800+"
-}
-```
-Trocar a URL base quando o domínio próprio estiver ativo (Fase 3).
-
----
-
-## Imagens (public/images)
-```
-hero/dor-google.jpg            pessoa pesquisando no celular
-hero/dor-curso.jpg             professor ou palestrante
-hero/dor-planilha.jpg          pessoa cansada diante de planilhas
-hero/dor-site-antigo.jpg       fachada ou interior de negócio local
-cases/imersao-coreia-desktop.png  / cases/imersao-coreia-mobile.png
-cases/enquete-shalom-desktop.png  / cases/enquete-shalom-mobile.png
-cases/closr-desktop.png           / cases/closr-mobile.png
-about/vinicius-trabalhando.jpg
-profile.png                    (já existe, usada em /sobre)
-```
-Fotos do hero: largura mínima 1920px, converter para .webp se passar de 400KB.
-Toda imagem precisa de alt descritivo em português. Toda imagem ausente tem fallback elegante.
-
----
+Hook useSEO existente em todas as rotas. JSON-LD ProfessionalService no index.html (mantido).
+Home: "Dourado Studio — Criação de sites e landing pages em Fortaleza".
 
 ## Qualidade mínima
-- Mobile-first. Testar em 375px, 768px, 1280px e 1440px.
-- Foco de teclado visível (outline 2px --gold, offset 3px).
-- Contraste AA em todo texto.
-- Lighthouse mobile: performance ≥ 90, acessibilidade ≥ 95.
-- Imagens do hero: a primeira com `fetchpriority="high"`, as outras com lazy.
+Mobile-first (375, 768, 1280, 1440). Foco visível (outline 2px --gold). Contraste AA.
+`prefers-reduced-motion`: sem pin, sem scrub, sem WebGL, sem SplitText — conteúdo direto.
+Todo carrossel navegável por teclado e com rótulos acessíveis.
 
----
-
-## Fases
-- **Fase 1:** design system novo, rotas e redirecionamentos, Home completa, /sobre com o tema novo,
-  /projetos e /projetos/:slug adaptados, botão do WhatsApp, SEO por página.
-- **Fase 2:** páginas /servicos/:slug (geradas a partir de services.ts) e /modelos
-  (sites demonstrativos por nicho, sempre identificados como demonstração, nunca como cliente).
-- **Fase 3:** domínio próprio, sitemap.xml, robots.txt, Google Search Console e Perfil da Empresa no Google.
+## Etapas de implementação
+- **Etapa A — Fundação:** branch `redesign-v3`, bibliotecas, src/lib/motion.ts, Bricolage, remoção do Archivo,
+  textura, orçamento de performance medido.
+- **Etapa B — Jornada parte 1:** capítulos 1 a 4 (convite, dor, calculadora, clareamento, virada).
+- **Etapa C — Jornada parte 2:** capítulos 5 a 10, rodapé com wordmark, Radix no FAQ.
+- **Etapa D — Páginas de serviço** + ajustes de /orcamento, /projetos e /sobre.
 
 ## Comandos
 ```
 npm run dev
 npm run build
+npm run preview
+npm test
 ```
 PowerShell não aceita `&&`: rodar comandos git um por vez.
-
----
-
-## Inovações
-
-### Navegação atualizada
-Links: Serviços, Projetos, Raio-X grátis, Sobre. Botão primário da nav: "Simular orçamento" → /orcamento.
-O WhatsApp continua acessível pelo botão flutuante e pelos CTAs das seções.
-
-### Botão flutuante do WhatsApp — correções
-- No mobile, reservar espaço: todo o conteúdo ganha `padding-bottom` suficiente para o botão não cobrir texto
-  nem controles (ex.: último item do FAQ, texto de fechamento da faixa de dados).
-- Esconder o botão enquanto o CTA final ou o rodapé estiverem visíveis (eles já têm WhatsApp).
-- Esconder o botão nas telas de resultado do simulador e do Raio-X (elas têm CTA próprio de WhatsApp).
-
----
-
-### Simulador de orçamento — rota /orcamento
-
-Objetivo: o visitante monta o projeto, vê uma faixa de preço ao vivo e envia um resumo pronto pelo WhatsApp.
-Chega um contato já qualificado.
-
-Entradas:
-- Botão da nav "Simular orçamento"
-- Botões "Pedir orçamento" de cada serviço → `/orcamento?tipo={slug}` (tipo já selecionado, pula a etapa 1)
-- Link "Ainda não tenho site" do Raio-X
-
-#### Fluxo (uma pergunta por tela, com botão Voltar e barra de progresso)
-1. **Tipo de projeto**: Landing page · Página de curso ou evento · Site institucional · Sistema sob medida · "Ainda não sei"
-   - "Ainda não sei" mostra uma mini-pergunta: "O que você quer que o site faça?" com 3 opções
-     (vender um produto/serviço específico → Landing page; divulgar curso/evento → Curso/evento;
-     apresentar a empresa → Institucional) e segue com o tipo recomendado, avisando qual foi.
-   - "Sistema sob medida" vai para um fluxo curto: campo de texto "Descreva o processo que você quer automatizar",
-     quantas pessoas vão usar, e resultado "sob consulta".
-2. **Tamanho** (só para Institucional): até 4 páginas · 5 a 6 · 7 a 10
-3. **Funcionalidades extras** (múltipla escolha, cada uma com explicação de 1 linha em linguagem simples)
-4. **Conteúdo**: "Já tenho textos e fotos" · "Tenho parte" · "Preciso de ajuda com os textos"
-5. **Identidade visual**: "Já tenho logo e cores" · "Preciso de uma identidade simples"
-6. **Prazo**: "Prazo normal" · "Preciso com urgência" (+25%)
-7. **Manutenção mensal**: sim · não (valor mensal exibido à parte, nunca somado ao projeto)
-8. **Contato**: nome (obrigatório) e nome da empresa (opcional)
-
-#### Preços — src/data/pricing.ts
-PROPOSTA INICIAL. O Vinícius revisa estes valores antes do deploy.
-```ts
-export const BASE = {
-  'landing-page':              { min: 800,  max: 1200 },
-  'pagina-de-curso-ou-evento': { min: 1000, max: 1500 },
-  'site-institucional':        { min: 1800, max: 2400 },   // até 4 páginas
-}
-export const INSTITUTIONAL_SIZE = {
-  'ate-4':  { min: 0,   max: 0 },
-  '5-6':    { min: 400, max: 600 },
-  '7-10':   { min: 900, max: 1300 },
-}
-export const EXTRAS = [
-  { id: 'inscricao',   label: 'Formulário de inscrição ou contato',  hint: 'As respostas chegam organizadas numa planilha.', min: 200, max: 350 },
-  { id: 'idiomas',     label: 'Site em outro idioma',                 hint: 'Valor por idioma adicional.',                 min: 300, max: 450, perUnit: true },
-  { id: 'blog',        label: 'Blog ou área de notícias',             hint: 'Para publicar conteúdo e aparecer mais no Google.', min: 450, max: 700 },
-  { id: 'galeria',     label: 'Galeria ou portfólio de trabalhos',    hint: 'Fotos de produtos, obras ou eventos.',        min: 150, max: 300 },
-  { id: 'agendamento', label: 'Agendamento online',                   hint: 'O cliente marca horário sem precisar ligar.', min: 350, max: 600 },
-  { id: 'maps',        label: 'Google Maps e avaliações',             hint: 'Mapa e avaliações do Google no site.',        min: 100, max: 200, includedIn: ['site-institucional'] },
-  { id: 'animacoes',   label: 'Animações e interações especiais',     hint: 'Movimento que deixa o site memorável.',      min: 300, max: 600 },
-]
-export const CONTENT_HELP = { min: 250, max: 450 }        // "Preciso de ajuda com os textos"
-export const CONTENT_PARTIAL = { min: 100, max: 200 }     // "Tenho parte"
-export const VISUAL_IDENTITY = { min: 350, max: 600 }
-export const URGENCY_MULTIPLIER = 1.25
-export const MAINTENANCE_MONTHLY = { min: 80, max: 150 }
-```
-Regras de cálculo:
-- Somar min e max separadamente; aplicar urgência no final; arredondar para múltiplos de 50.
-- Extras marcados como `includedIn` aparecem como "Incluso" para aquele tipo, sem custo.
-- Prazo estimado = prazo do serviço em services.ts, +3 a 5 dias úteis se houver 3 ou mais extras;
-  com urgência, mostrar "prazo reduzido, a combinar".
-
-#### Interface
-- Página clara, uma pergunta por vez, título da pergunta em h2, opções como blocos selecionáveis grandes
-  (área de toque mínima 56px), com radio/checkbox reais por baixo para acessibilidade e teclado.
-- **Estimativa ao vivo**: coluna fixa à direita no desktop; barra fixa no rodapé no mobile
-  ("Estimativa: R$ 1.800 – R$ 2.400" + botão Continuar). Quando a faixa muda, os números fazem uma
-  transição curta de contagem (este é o momento memorável da página).
-- Transição entre perguntas: deslizamento horizontal curto (Framer Motion, AnimatePresence).
-- O estado da simulação fica em memória; recarregar a página recomeça.
-
-#### Resultado
-- Faixa estimada grande, prazo estimado, lista do que está incluso, extras escolhidos, manutenção à parte.
-- Aviso honesto: "Esta é uma estimativa. O valor final vem por escrito na proposta, depois da nossa conversa."
-- CTA primário: "Enviar resumo pelo WhatsApp", mensagem gerada:
-```
-Olá! Fiz uma simulação no site da Dourado Studio.
-
-Projeto: Site institucional (5 a 6 páginas)
-Extras: Blog, Agendamento online
-Conteúdo: preciso de ajuda com os textos
-Identidade visual: já tenho
-Prazo: normal
-Manutenção mensal: sim
-
-Estimativa: R$ 3.300 – R$ 4.400
-
-Meu nome é {nome}, da {empresa}.
-```
-  (omitir linhas vazias; para sistema sob medida, incluir a descrição digitada)
-- CTA secundário: "Refazer simulação"
-
-SEO: título "Simulador de orçamento de site — Dourado Studio",
-description "Descubra quanto custa o site da sua empresa em menos de 2 minutos e receba a proposta pelo WhatsApp."
-
----
-
-### Raio-X do site — rota /raio-x
-
-Objetivo: o visitante descobre em segundos se o site dele está afastando clientes e recebe
-os problemas em linguagem simples. Quem tem nota baixa está pronto para contratar.
-
-Entradas:
-- Link "Raio-X grátis" na nav
-- **Campo inline no fim da faixa de dados da home**, logo após o texto de fechamento:
-  "Seu site está nos 53%? Descubra em 30 segundos." + input de URL + botão "Analisar meu site".
-  Ao enviar, navega para `/raio-x?url={url}` e inicia a análise automaticamente.
-
-#### API
-PageSpeed Insights API v5 (Google):
-```
-GET https://www.googleapis.com/pagespeedonline/v5/runPagespeed
-  ?url={url}
-  &strategy=mobile
-  &category=performance&category=accessibility&category=seo&category=best-practices
-  &locale=pt_BR
-  &key={import.meta.env.VITE_PSI_API_KEY}
-```
-- Chave em `.env.local` (VITE_PSI_API_KEY), nunca commitada; também cadastrada nas Environment Variables da Vercel.
-- Se a variável não existir, chamar sem key (funciona com cota baixa) e registrar aviso no console.
-- Normalizar a URL digitada: adicionar https:// se faltar, remover espaços, validar formato.
-- Timeout de 60s com AbortController.
-
-#### Estados
-1. **Entrada**: título "Raio-X do seu site", subtítulo explicando que a análise simula um celular,
-   campo de URL grande, botão "Analisar". Abaixo, link "Ainda não tenho site" → /orcamento.
-2. **Analisando** (10 a 40s): lista de etapas que vão sendo marcadas em sequência
-   ("Abrindo seu site num celular", "Medindo a velocidade", "Verificando o Google", "Checando acessibilidade",
-   "Montando o relatório"). Sem porcentagem falsa. Mensagem: "Isso leva até 40 segundos."
-3. **Resultado**:
-   - Nota de velocidade no celular em destaque (0 a 100), com rótulo:
-     0–49 "Precisa de atenção urgente", 50–89 "Pode melhorar", 90–100 "Ótimo".
-     Cores semânticas: vermelho #C0392B, âmbar #B7791F, verde #2F855A (sempre com texto, nunca só cor).
-   - Três notas menores: SEO, Acessibilidade, Boas práticas.
-   - Métricas traduzidas:
-     - largest-contentful-paint → "Tempo até o conteúdo principal aparecer" (ideal: até 2,5 s)
-     - cumulative-layout-shift → "Estabilidade da página enquanto carrega" (ideal: até 0,1)
-     - total-blocking-time → "Tempo em que a página fica travada" (ideal: até 200 ms)
-   - **O que está afastando visitantes**: até 5 problemas, só auditorias com score < 0.9 presentes no mapa abaixo,
-     ordenadas por impacto. Cada uma com título simples e uma frase explicando o efeito no negócio.
-     Mapa (src/data/audits-pt.ts):
-     ```
-     render-blocking-resources → "Arquivos que atrasam a abertura da página"
-     modern-image-formats / uses-optimized-images / uses-responsive-images → "Imagens pesadas demais para o celular"
-     unused-javascript / unused-css-rules → "Código que carrega sem ser usado"
-     server-response-time → "Servidor demorando para responder"
-     uses-text-compression → "Arquivos enviados sem compressão"
-     meta-description → "Sem descrição para aparecer no Google"
-     document-title → "Página sem título adequado no Google"
-     viewport → "Site não adaptado para celular"
-     tap-targets → "Botões pequenos ou colados demais para o dedo"
-     font-size → "Textos pequenos demais para ler no celular"
-     image-alt → "Imagens sem descrição (ruim para Google e acessibilidade)"
-     color-contrast → "Textos com pouco contraste, difíceis de ler"
-     is-crawlable → "O Google pode estar impedido de ler o site"
-     ```
-   - Aviso: "As notas podem variar um pouco entre uma análise e outra. Análise feita com a ferramenta
-     PageSpeed Insights do Google. Nenhum dado é armazenado."
-   - CTA primário: "Quero que a Dourado Studio resolva isso" → WhatsApp:
-     "Olá! Fiz o Raio-X do site {url} no site da Dourado Studio e a nota de velocidade no celular foi {nota}. Quero entender como melhorar."
-   - Se nota ≥ 90: tom de parabéns + CTA "Quer ir além? Vamos conversar" (mensagem adaptada).
-   - CTA secundário: "Analisar outro site".
-4. **Erro**: mensagens humanas para URL inválida, site fora do ar, tempo esgotado e limite da API.
-   Todo erro oferece: "Me manda o endereço pelo WhatsApp que eu analiso pessoalmente."
-
-SEO: título "Raio-X grátis do seu site — velocidade e Google | Dourado Studio",
-description "Descubra em 30 segundos se o seu site está lento no celular e o que está afastando seus clientes."
-
----
-
-### Contagem da faixa de dados — correção
-A contagem começa quando 30% do elemento estiver visível (não 100%). Antes de iniciar, o número já aparece
-com o valor final em opacidade 0 (reserva espaço), para nunca exibir "0%" parado na tela.

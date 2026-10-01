@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import HeroCarousel from '../components/HeroCarousel'
+import JourneyInvite from '../components/home/journey/JourneyInvite'
+import JourneyPain from '../components/home/journey/JourneyPain'
+import LossCalculator from '../components/home/journey/LossCalculator'
+import JourneyTurn from '../components/home/journey/JourneyTurn'
+import FortalezaBand from '../components/home/journey/FortalezaBand'
 import TrustBar from '../components/home/TrustBar'
-import StatsBand from '../components/home/StatsBand'
 import ServicesList from '../components/home/ServicesList'
 import CaseShowcase from '../components/home/CaseShowcase'
 import Testimonials from '../components/home/Testimonials'
@@ -36,13 +39,16 @@ export default function Home() {
   return (
     <>
       <main>
-        <HeroCarousel />
+        <JourneyInvite />
         <TrustBar />
-        <StatsBand />
+        <JourneyPain />
+        <LossCalculator />
+        <JourneyTurn />
         <ServicesList />
         <CaseShowcase />
         <Testimonials />
         <ProcessSteps />
+        <FortalezaBand />
         <WhoSection />
         <FaqAccordion />
         <FinalCta />

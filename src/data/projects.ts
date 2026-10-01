@@ -120,8 +120,7 @@ export const projects: Project[] = [
       { value: '3', label: 'níveis de acesso' },
     ],
     images: {
-      desktop: '/images/cases/closr-desktop.png',
-      mobile: '/images/cases/closr-mobile.png',
+      desktop: '/images/projects/closr.png',
     },
     challenges: [
       'Arquitetura multi-tenant com Row Level Security (RLS) no Supabase, garantindo isolamento total de dados entre corretoras',
