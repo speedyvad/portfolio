@@ -1,257 +1,267 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Footer from '../components/Footer'
+import ProjectMedia from '../components/ProjectMedia'
 import {
-  clientProjects,
-  personalProjects,
-  projectPreview,
-  projectPreviewFallback,
+  highlightProjects,
+  labProjects,
+  studyProjects,
+  KIND_LABEL,
   techLabel,
   type Project,
 } from '../data/projects'
 import { useSEO } from '../hooks/useSEO'
 
-const containerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
+
+const reveal = {
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.15 },
+  transition: { duration: 0.7, ease },
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, x: -30 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
-  },
-}
-
-function FloatingPreview({ project }: { project: Project }) {
-  const sources = [projectPreview(project), projectPreviewFallback(project)]
-  const [index, setIndex] = useState(0)
-
-  if (index >= sources.length) {
-    return (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          background: 'var(--sand)',
-          display: 'grid',
-          placeItems: 'center',
-          padding: '1rem',
-        }}
-      >
-        <span className="display" style={{ fontSize: '1.1rem', color: 'var(--sea)', textAlign: 'center' }}>
-          {project.title}
-        </span>
-      </div>
-    )
-  }
-
+function Meta({ project }: { project: Project }) {
   return (
-    <img
-      src={sources[index]}
-      alt=""
-      aria-hidden="true"
-      onError={() => setIndex((i) => i + 1)}
-      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
-    />
+    <p className="fs-small pj-meta">
+      <span className="pj-kind" data-kind={project.kind}>
+        {KIND_LABEL[project.kind]}
+      </span>
+      {project.segment && <span>{project.segment}</span>}
+      <span>{project.year}</span>
+    </p>
   )
 }
 
-function ProjectRow({
-  project,
-  position,
-  onHover,
-}: {
-  project: Project
-  position: number
-  onHover: (slug: string | null) => void
-}) {
+function Metrics({ project, max = 3 }: { project: Project; max?: number }) {
+  if (!project.metrics?.length) return null
   return (
-    <motion.li variants={itemVariants} style={{ borderBottom: '1px solid var(--line)' }}>
-      <Link
-        to={`/projetos/${project.slug}`}
-        className="project-row"
-        onMouseEnter={() => onHover(project.slug)}
-        onMouseLeave={() => onHover(null)}
-        onFocus={() => onHover(project.slug)}
-        onBlur={() => onHover(null)}
-      >
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div
-            className="fs-small"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', color: 'var(--sea-soft)', marginBottom: '0.6rem' }}
-          >
-            <span>{String(position).padStart(2, '0')}</span>
-            <span aria-hidden="true">·</span>
-            <span>{project.year}</span>
-            {project.segment && (
-              <>
-                <span aria-hidden="true">·</span>
-                <span>{project.segment}</span>
-              </>
-            )}
-          </div>
+    <dl className="pj-metrics">
+      {project.metrics.slice(0, max).map((m) => (
+        <div key={m.label}>
+          <dt className="text-proof">{m.value}</dt>
+          <dd className="fs-small">{m.label}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
 
-          <h3 className="project-title" style={{ fontSize: 'clamp(1.9rem, 5vw, 3.25rem)', marginBottom: '0.75rem' }}>
+/** Destaque principal: painel grande + texto ao lado. */
+function FeatureCard({ project }: { project: Project }) {
+  return (
+    <motion.article {...reveal}>
+      <Link to={`/projetos/${project.slug}`} className="pm-host pj-feature">
+        <ProjectMedia project={project} priority />
+        <div className="pj-feature-text">
+          <Meta project={project} />
+          <h2 className="pj-title" style={{ fontSize: 'clamp(2.25rem, 5vw, 4rem)' }}>
             {project.title}
-          </h3>
-
-          <p className="measure" style={{ color: 'var(--sea-soft)' }}>
+          </h2>
+          <p className="fs-lead" style={{ color: 'var(--sea-soft)' }}>
             {project.problem ?? project.shortDesc}
           </p>
+          <Metrics project={project} />
+          <span className="pj-cta label-ui">Ver o case</span>
+        </div>
+      </Link>
+    </motion.article>
+  )
+}
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginTop: '1.25rem' }}>
-            {project.stack.slice(0, 4).map((tech) => (
-              <span
-                key={tech}
-                className="fs-small"
-                style={{
-                  fontSize: '0.8rem',
-                  color: 'var(--sea-soft)',
-                  padding: '0.2rem 0.7rem',
-                  border: '1px solid var(--line)',
-                  borderRadius: 'var(--r-pill)',
-                }}
-              >
-                {techLabel(tech)}
-              </span>
+function GridCard({ project, index }: { project: Project; index: number }) {
+  return (
+    <motion.article {...reveal} transition={{ ...reveal.transition, delay: (index % 2) * 0.1 }}>
+      <Link to={`/projetos/${project.slug}`} className="pm-host pj-card">
+        <ProjectMedia project={project} />
+        <div style={{ paddingTop: '1.5rem' }}>
+          <Meta project={project} />
+          <h2 className="pj-title fs-h3" style={{ marginBottom: '0.75rem' }}>
+            {project.title}
+          </h2>
+          <p style={{ color: 'var(--sea-soft)' }}>{project.problem ?? project.shortDesc}</p>
+          <Metrics project={project} max={2} />
+          <span className="pj-cta label-ui">Ver o case</span>
+        </div>
+      </Link>
+    </motion.article>
+  )
+}
+
+function LabCard({ project }: { project: Project }) {
+  return (
+    <motion.article {...reveal}>
+      <Link to={`/projetos/${project.slug}`} className="pm-host pj-lab">
+        <ProjectMedia project={project} ratio="16 / 10" />
+        <div>
+          <Meta project={project} />
+          <h3 className="pj-title fs-h3" style={{ marginBottom: '0.75rem' }}>
+            {project.title}
+          </h3>
+          <p style={{ color: 'var(--sea-soft)', marginBottom: '1.25rem' }}>{project.shortDesc}</p>
+          <div className="pj-tags">
+            {project.stack.slice(0, 5).map((t) => (
+              <span key={t}>{techLabel(t)}</span>
             ))}
           </div>
+          <span className="pj-cta label-ui">Ver detalhes</span>
         </div>
-
-        <span className="project-arrow" aria-hidden="true">
-          →
-        </span>
       </Link>
-    </motion.li>
+    </motion.article>
+  )
+}
+
+function StudyRow({ project }: { project: Project }) {
+  return (
+    <li>
+      <Link to={`/projetos/${project.slug}`} className="pj-study">
+        <span className="pj-thumb">
+          {project.images?.desktop ? (
+            <img src={project.images.desktop} alt="" loading="lazy" decoding="async" />
+          ) : (
+            <span aria-hidden="true" style={{ background: project.color }} className="pj-thumb-dot" />
+          )}
+        </span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span className="pj-title" style={{ display: 'block', fontWeight: 600, fontSize: '1.125rem' }}>
+            {project.title}
+          </span>
+          <span className="fs-small" style={{ color: 'var(--sea-soft)' }}>
+            {project.shortDesc}
+          </span>
+        </span>
+        <span className="fs-small pj-study-year">{project.year}</span>
+      </Link>
+    </li>
   )
 }
 
 export default function Projects() {
-  const [hovered, setHovered] = useState<string | null>(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
-  const reduced = useReducedMotion()
-
-  const hoveredProject =
-    hovered !== null ? [...clientProjects, ...personalProjects].find((p) => p.slug === hovered) : undefined
+  const [feature, ...rest] = highlightProjects
 
   useSEO({
     title: 'Projetos — Dourado Studio',
     description:
-      'Sites, landing pages e sistemas feitos pela Dourado Studio para clientes, além dos projetos autorais de Vinícius Dourado.',
+      'Sites, landing pages e sistemas desenhados e programados pela Dourado Studio: cases de clientes, projetos conceito e laboratório.',
     path: '/projetos',
   })
 
   return (
     <>
-      <main onMouseMove={(e) => setMouse({ x: e.clientX, y: e.clientY })}>
-        <section style={{ paddingBlock: '5rem 3rem' }}>
+      <main>
+        <section style={{ paddingBlock: 'clamp(3rem, 8vw, 6rem) clamp(2.5rem, 5vw, 4rem)' }}>
           <div className="container-x">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+            <motion.h1
+              className="fs-display"
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.7, ease }}
+              style={{ marginBottom: '1.5rem' }}
             >
-              <h1 className="fs-display" style={{ marginBottom: '1.5rem' }}>
-                Projetos
-              </h1>
-              <p className="fs-lead measure" style={{ color: 'var(--sea-soft)' }}>
-                Trabalhos feitos para clientes e projetos autorais construídos para aprender e testar
-                ideias.
-              </p>
-            </motion.div>
+              Projetos
+            </motion.h1>
+            <motion.p
+              className="fs-lead measure"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease, delay: 0.1 }}
+              style={{ color: 'var(--sea-soft)' }}
+            >
+              Cada projeto começou com um problema de negócio. Aqui está como cada um foi resolvido,
+              do primeiro esboço até o site no ar.
+            </motion.p>
           </div>
         </section>
 
-        <section className="container-x" style={{ paddingBottom: '5rem' }}>
-          <h2 className="fs-h3" style={{ marginBottom: '1.5rem' }}>
-            Para clientes
-          </h2>
-          <motion.ul
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            style={{ listStyle: 'none', borderTop: '1px solid var(--line)' }}
-          >
-            {clientProjects.map((project, i) => (
-              <ProjectRow key={project.slug} project={project} position={i + 1} onHover={setHovered} />
-            ))}
-          </motion.ul>
+        <section className="container-x" aria-label="Projetos em destaque" style={{ paddingBottom: 'var(--section)' }}>
+          {feature && <FeatureCard project={feature} />}
+          {rest.length > 0 && (
+            <div className="pj-grid">
+              {rest.map((p, i) => (
+                <GridCard key={p.slug} project={p} index={i} />
+              ))}
+            </div>
+          )}
         </section>
 
-        <section className="container-x" style={{ paddingBottom: '6rem' }}>
-          <h2 className="fs-h3" style={{ marginBottom: '1.5rem' }}>
-            Projetos autorais
-          </h2>
-          <motion.ul
-            variants={containerVariants}
-            initial="hidden"
-            animate="show"
-            style={{ listStyle: 'none', borderTop: '1px solid var(--line)' }}
-          >
-            {personalProjects.map((project, i) => (
-              <ProjectRow key={project.slug} project={project} position={i + 1} onHover={setHovered} />
-            ))}
-          </motion.ul>
-        </section>
-      </main>
-
-      {/* Preview flutuante */}
-      <AnimatePresence>
-        {hoveredProject && !reduced && (
-          <motion.div
-            key={hoveredProject.slug}
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.94 }}
-            transition={{ duration: 0.2 }}
-            className="project-preview"
-            style={{
-              top: mouse.y - 130,
-              left: mouse.x + 32,
-            }}
-          >
-            <FloatingPreview project={hoveredProject} />
-          </motion.div>
+        {labProjects.length > 0 && (
+          <section className="bg-sand section-y">
+            <div className="container-x">
+              <div className="pj-section-head">
+                <h2 className="fs-h2-section">Laboratório</h2>
+                <p className="measure" style={{ color: 'var(--sea-soft)' }}>
+                  Protótipos e ferramentas criados para resolver um problema de perto, fora do formato de
+                  site para cliente.
+                </p>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+                {labProjects.map((p) => (
+                  <LabCard key={p.slug} project={p} />
+                ))}
+              </div>
+            </div>
+          </section>
         )}
-      </AnimatePresence>
+
+        {studyProjects.length > 0 && (
+          <section className="section-y">
+            <div className="container-x">
+              <div className="pj-section-head">
+                <h2 className="fs-h3">Estudos da faculdade</h2>
+                <p className="fs-small" style={{ color: 'var(--sea-soft)' }}>
+                  Ciência da Computação, Unifor.
+                </p>
+              </div>
+              <ul className="pj-study-list">
+                {studyProjects.map((p) => (
+                  <StudyRow key={p.slug} project={p} />
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+      </main>
 
       <Footer />
 
       <style>{`
-        .project-row {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          padding-block: 2.5rem;
+        .pj-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.9rem; color: var(--sea-soft); margin-bottom: 0.9rem; }
+        .pj-kind { font-weight: 600; color: var(--sea); display: inline-flex; align-items: center; gap: 0.45rem; }
+        .pj-kind::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+        .pj-kind[data-kind='conceito']::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--gold-deep); }
+        .pj-kind[data-kind='laboratorio']::before, .pj-kind[data-kind='faculdade']::before { background: var(--sea-soft); }
+        .pj-title { transition: color 0.25s ease; }
+        .pm-host:hover .pj-title { color: var(--gold-deep); }
+        .pj-cta { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.75rem; border-bottom: 1.5px solid var(--gold); padding-bottom: 2px; }
+        .pj-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: 1.25rem 1.5rem; margin-top: 1.75rem; max-width: 34rem; }
+        .pj-metrics dt { font-size: clamp(1.9rem, 3.2vw, 2.6rem); line-height: 1; color: var(--gold-deep); }
+        .pj-metrics dd { color: var(--sea-soft); margin-top: 0.35rem; line-height: 1.3; font-size: 0.875rem; }
+
+        .pj-feature { display: grid; gap: 2rem; align-items: center; }
+        .pj-feature-text .pj-title { margin-bottom: 1.25rem; }
+        @media (min-width: 1000px) {
+          .pj-feature { grid-template-columns: 1.35fr 1fr; gap: 4rem; }
         }
-        .project-title { transition: color 0.2s ease; }
-        .project-row:hover .project-title { color: var(--gold-deep); }
-        .project-arrow {
-          flex-shrink: 0;
-          font-size: 1.5rem;
-          color: var(--gold-deep);
-          opacity: 0.35;
-          transform: translateX(-8px);
-          transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-        .project-row:hover .project-arrow { opacity: 1; transform: translateX(0); }
-        .project-preview {
-          position: fixed;
-          width: 280px;
-          height: 190px;
-          border-radius: var(--r-media);
-          overflow: hidden;
-          background: var(--sand);
-          border: 1px solid var(--line);
-          box-shadow: 0 24px 60px rgba(14,44,63,0.22);
-          pointer-events: none;
-          z-index: 90;
-        }
-        @media (max-width: 900px) { .project-preview { display: none; } }
+
+        .pj-grid { display: grid; gap: 4rem 2.5rem; margin-top: clamp(4rem, 8vw, 7rem); }
+        @media (min-width: 860px) { .pj-grid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 860px) { .pj-grid > :nth-child(2n) { margin-top: 6rem; } }
+        .pj-card { display: block; }
+
+        .pj-section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem 3rem; margin-bottom: 3rem; }
+        .pj-lab { display: grid; gap: 2rem; align-items: center; }
+        @media (min-width: 900px) { .pj-lab { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+        .pj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .pj-tags span { font-size: 0.8rem; color: var(--sea-soft); padding: 0.2rem 0.7rem; border: 1px solid var(--line-strong); border-radius: var(--r-pill); }
+
+        .pj-study-list { list-style: none; border-top: 1px solid var(--line); }
+        .pj-study-list li { border-bottom: 1px solid var(--line); }
+        .pj-study { display: flex; align-items: center; gap: 1.25rem; padding-block: 1.25rem; }
+        .pj-study:hover .pj-title { color: var(--gold-deep); }
+        .pj-thumb { flex-shrink: 0; width: 88px; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: var(--sand); display: grid; place-items: center; border: 1px solid var(--line); }
+        .pj-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        .pj-thumb-dot { width: 14px; height: 14px; border-radius: 50%; }
+        .pj-study-year { color: var(--sea-soft); flex-shrink: 0; }
       `}</style>
     </>
   )

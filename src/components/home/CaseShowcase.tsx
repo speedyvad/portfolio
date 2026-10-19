@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import DeviceMockup from '../DeviceMockup'
-import { featuredCases, projectPreviewFallback, type Project } from '../../data/projects'
+import { featuredCases, KIND_LABEL, type Project } from '../../data/projects'
 
 function Case({ project, flipped }: { project: Project; flipped: boolean }) {
   return (
@@ -9,14 +9,13 @@ function Case({ project, flipped }: { project: Project; flipped: boolean }) {
         <DeviceMockup
           title={project.title}
           desktop={project.images?.desktop}
-          mobile={project.images?.mobile}
-          desktopFallback={projectPreviewFallback(project)}
+          mobile={project.images?.mobile}
         />
       </div>
 
       <div className="case-text">
         <p className="fs-small" style={{ color: 'var(--sea-soft)', marginBottom: '0.75rem' }}>
-          {project.client ?? project.title}
+          {KIND_LABEL[project.kind]} · {project.client ?? project.segment}
         </p>
 
         <h3 className="fs-h3" style={{ marginBottom: '1rem' }}>
@@ -78,7 +77,7 @@ export default function CaseShowcase() {
     <section className="section-y" style={{ background: 'var(--sand)' }}>
       <div className="container-x">
         <h2 className="fs-h2-section" style={{ marginBottom: '4rem' }}>
-          Projetos que já estão no ar
+          Projetos recentes
         </h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6rem' }}>

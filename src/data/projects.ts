@@ -1,38 +1,135 @@
-export type ProjectKind = 'cliente' | 'autoral' | 'modelo'
+/**
+ * Projetos do site. Regras de cada `kind` e como adicionar um novo: docs/01 e docs/05.
+ * A ordem do array é a ordem de exibição em /projetos.
+ */
+export type ProjectKind = 'cliente' | 'conceito' | 'laboratorio' | 'faculdade'
 
 export interface ProjectMetric {
   value: string
   label: string
 }
 
+export interface ProjectHighlight {
+  title: string
+  text: string
+}
+
+export interface ProjectShot {
+  src: string
+  alt: string
+  caption?: string
+  device: 'desktop' | 'mobile'
+}
+
 export interface Project {
   slug: string
   title: string
-  shortDesc: string
-  fullDesc: string
-  role: string
-  status: 'completed' | 'in-progress'
-  year: number
-  stack: string[]
-  color: string
-  github?: string
-  live?: string
-  challenges: string[]
-  mockupTheme: string
   kind: ProjectKind
+  year: number
+  /** Uma linha, para cartões. */
+  shortDesc: string
+  /** "O desafio": contexto em um parágrafo. */
+  fullDesc: string
+  /** A dor do cliente em uma frase, em linguagem de negócio. */
+  problem?: string
+  /** O que foi feito, em linguagem de negócio. */
+  highlights?: ProjectHighlight[]
+  /** Resultado em uma frase. Só fatos. */
+  outcome?: string
+  metrics?: ProjectMetric[]
   client?: string
   segment?: string
-  /** O problema do cliente em uma frase. */
-  problem?: string
-  metrics?: ProjectMetric[]
+  role: string
+  duration?: string
+  /** Situação atual, quando não for um projeto entregue (ex.: em apresentação). */
+  stage?: string
+  /** Vai para "Por trás do código". */
+  stack: string[]
+  challenges: string[]
   images?: { desktop: string; mobile?: string }
+  gallery?: ProjectShot[]
+  live?: string
+  github?: string
+  /** Cor da marca do projeto — usada como brilho sutil atrás da vitrine. */
+  color: string
+}
+
+export const KIND_LABEL: Record<ProjectKind, string> = {
+  cliente: 'Projeto para cliente',
+  conceito: 'Projeto conceito',
+  laboratorio: 'Laboratório',
+  faculdade: 'Estudo',
 }
 
 export const projects: Project[] = [
   {
+    slug: 'harmon-visagismo',
+    title: 'Harmon Visagismo',
+    kind: 'conceito',
+    year: 2026,
+    segment: 'Barbearia premium',
+    problem:
+      'Uma barbearia de visagismo com nota 4,6 no Google, mas sem site: quem pesquisava pelo nome caía no Instagram e precisava caçar o número para marcar horário.',
+    shortDesc:
+      'Site para uma barbearia de visagismo na Aldeota, pensado para ser encontrado no Google e levar direto ao agendamento pelo WhatsApp.',
+    fullDesc:
+      'A Harmon Visagismo é uma barbearia de visagismo masculino na Aldeota, em Fortaleza, com um espaço físico de clube de cavalheiros: mármore, couro, dourado e atendimento com hora marcada. Toda essa experiência ficava invisível para quem pesquisava no Google. O desafio era criar uma presença digital à altura do espaço, que fosse encontrada nas buscas da região e transformasse a visita em agendamento sem nenhuma fricção.',
+    highlights: [
+      {
+        title: 'A marca traduzida para a tela',
+        text: 'Creme, café e dourado tirados do próprio salão, tipografia clássica e o brasão redesenhado em vetor, que se desenha na tela. O site passa a mesma sensação de entrar no espaço.',
+      },
+      {
+        title: 'Do Google ao WhatsApp em um toque',
+        text: 'Cada serviço abre o WhatsApp com a mensagem pronta. No celular, o botão de agendar acompanha a leitura sem atrapalhar.',
+      },
+      {
+        title: 'Feito para ser encontrado',
+        text: 'Estrutura de SEO local, dados estruturados de barbearia, endereço e contato idênticos ao Google Meu Negócio.',
+      },
+      {
+        title: 'Elegante e leve',
+        text: 'Animações lentas e com propósito, que respeitam quem prefere menos movimento. Carrega rápido até no 4G.',
+      },
+    ],
+    outcome:
+      'Do Google ao agendamento em um toque, num site que carrega rápido até no 4G e tira nota máxima em acessibilidade e SEO.',
+    stage: 'Versão de teste no ar, em apresentação ao dono',
+    metrics: [
+      { value: '97+', label: 'de desempenho no celular (Lighthouse)' },
+      { value: '100', label: 'em acessibilidade e SEO' },
+      { value: '1 toque', label: 'do site até o WhatsApp' },
+    ],
+    role: 'Direção visual, desenvolvimento e SEO',
+    stack: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP'],
+    challenges: [
+      'Lighthouse mobile de 79 para 97–98: GSAP carregado só na primeira interação, CSS crítico embutido, pré-carregamento das fontes e brasão como sprite SVG (o HTML tinha 113 KB de SVG repetido)',
+      'Hero 100% em CSS (palavras por máscara, arco e órbita) para o título e a foto aparecerem no primeiro frame e o LCP ficar rápido',
+      'Motor de animação declarativo por atributos (data-split, data-reveal, data-draw), com rede de segurança para conexões lentas e respeito a prefers-reduced-motion',
+      'Seção fixa no scroll com espaço reservado no CSS: CLS 0 mesmo com o GSAP chegando depois',
+      'Dados estruturados HairSalon sem publicar nenhum dado provisório (horário e coordenadas ficam de fora até serem confirmados)',
+    ],
+    images: {
+      desktop: '/images/cases/harmon-desktop.webp',
+      mobile: '/images/cases/harmon-mobile.webp',
+    },
+    gallery: [
+      { src: '/images/cases/harmon-1.webp', device: 'desktop', alt: 'Seção "O nome": HAR e MON separados por filetes dourados', caption: 'O conceito do nome, contado no scroll.' },
+      { src: '/images/cases/harmon-2.webp', device: 'desktop', alt: 'Seção "A experiência" com fotos do espaço em cartões escalonados', caption: 'A experiência do salão em cartões que mudam o fundo.' },
+      { src: '/images/cases/harmon-6.webp', device: 'mobile', alt: 'Seção "A experiência" no celular' },
+      { src: '/images/cases/harmon-3.webp', device: 'desktop', alt: 'Seção "O método" com foto do salão', caption: 'O método de visagismo, explicado em quatro passos.' },
+      { src: '/images/cases/harmon-7.webp', device: 'mobile', alt: 'Galeria curva de fotos do espaço no celular' },
+      { src: '/images/cases/harmon-4.webp', device: 'desktop', alt: 'Galeria curva e arrastável com fotos do espaço', caption: 'Galeria curva e arrastável com os detalhes do espaço.' },
+      { src: '/images/cases/harmon-8.webp', device: 'mobile', alt: 'Chamada final para agendar no celular' },
+      { src: '/images/cases/harmon-5.webp', device: 'desktop', alt: 'Chamada final com letreiro em movimento', caption: 'Fechamento com letreiro que reage ao scroll.' },
+    ],
+    color: '#B08D57',
+  },
+  {
     slug: 'imersao-coreia',
     title: 'Imersão Coreia',
     kind: 'cliente',
+    year: 2025,
     client: 'Curso Imersão Coreia — Comunidade Católica Shalom',
     segment: 'Educação e eventos',
     problem:
@@ -40,32 +137,45 @@ export const projects: Project[] = [
     shortDesc:
       'Landing page de inscrição para a aula inaugural de um curso de língua e cultura coreana.',
     fullDesc:
-      'Página de captação para a aula inaugural do Imersão Coreia, curso de 10 meses de língua, cultura e história coreana em preparação para a Jornada Mundial da Juventude em Seul, 2027. A página apresenta a programação da noite, a participação ao vivo direto da Coreia, a professora do curso e leva o visitante até a inscrição, com uma identidade visual inspirada no Hangeul.',
-    role: 'Design e desenvolvimento',
-    status: 'completed',
-    year: 2025,
-    stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    live: 'https://cursoimersaocoreia.vercel.app',
+      'O Imersão Coreia é um curso de 10 meses de língua, cultura e história coreana em preparação para a Jornada Mundial da Juventude em Seul, 2027. A aula inaugural seria gratuita, ao vivo e com participação direto da Coreia, mas a divulgação dependia de posts soltos e de um link na bio. Era preciso uma página que explicasse a noite em poucos segundos e levasse o visitante até a inscrição.',
+    highlights: [
+      {
+        title: 'Uma página, uma decisão',
+        text: 'A página conduz da curiosidade até a inscrição: o que vai acontecer na noite, quem ensina, a participação ao vivo da Coreia e o botão para garantir a vaga.',
+      },
+      {
+        title: 'Identidade inspirada no Hangeul',
+        text: 'O alfabeto coreano virou grafismo, com um visual leve para um público jovem.',
+      },
+      {
+        title: 'Pensada para o celular',
+        text: 'A maior parte do público chegava pelo Instagram e pelo WhatsApp, então tudo foi desenhado primeiro para a tela pequena.',
+      },
+    ],
+    outcome: 'Mais de 1.500 pessoas se inscreveram na aula inaugural.',
     metrics: [
       { value: '1.500+', label: 'inscritos na aula inaugural' },
       { value: '1', label: 'página, do anúncio à inscrição' },
     ],
-    images: {
-      desktop: '/images/cases/imersao-coreia-desktop.png',
-      mobile: '/images/cases/imersao-coreia-mobile.png',
-    },
+    role: 'Design e desenvolvimento',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
     challenges: [
       'Traduzir a identidade coreana (Hangeul) em um visual leve para um público jovem',
       'Conduzir o visitante da curiosidade até a inscrição em uma única página',
       'Carregamento rápido no celular, onde está a maior parte do público',
     ],
+    images: {
+      desktop: '/images/cases/imersao-coreia-desktop.webp',
+      mobile: '/images/cases/imersao-coreia-mobile.webp',
+    },
+    live: 'https://cursoimersaocoreia.vercel.app',
     color: '#C0392B',
-    mockupTheme: 'mock-coreia',
   },
   {
     slug: 'enquete-juventude-shalom',
     title: 'Enquete da Juventude Shalom',
     kind: 'cliente',
+    year: 2025,
     client: 'Assessoria Jovem — Comunidade Católica Shalom',
     segment: 'Comunidades e organizações',
     problem:
@@ -73,142 +183,155 @@ export const projects: Project[] = [
     shortDesc:
       'Plataforma de enquete em 6 idiomas com ranking de participação entre missões em tempo real.',
     fullDesc:
-      'Enquete rápida (4 perguntas, cerca de 3 minutos) para ouvir os desafios dos jovens da Comunidade Shalom no mundo todo. Disponível em 6 idiomas, com contador de respostas ao vivo e um ranking entre missões que premia a proporção de jovens mobilizados, não o tamanho da missão. As respostas são consolidadas pela assessoria jovem e levadas ao Conselho Geral.',
-    role: 'Design e desenvolvimento full-stack',
-    status: 'completed',
-    year: 2025,
-    stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    live: 'https://enquete-shalom.vercel.app',
+      'A Assessoria Jovem da Comunidade Shalom precisava ouvir os desafios dos jovens de missões em vários países e levar essas respostas ao Conselho Geral. Formulários comuns não davam conta de seis idiomas, nem davam motivo para as missões mobilizarem a sua juventude.',
+    highlights: [
+      {
+        title: 'Seis idiomas, a mesma experiência',
+        text: 'Português, espanhol, inglês, francês, italiano e polonês, com quatro perguntas e cerca de três minutos para responder.',
+      },
+      {
+        title: 'Um ranking justo',
+        text: 'As missões competem pela proporção de jovens mobilizados, não pelo tamanho. Uma missão pequena pode liderar.',
+      },
+      {
+        title: 'Participação ao vivo',
+        text: 'Contador de respostas e atividade em tempo real, que incentivam novas respostas a cada visita.',
+      },
+    ],
+    outcome:
+      'Mais de 2.218 respostas, consolidadas pela assessoria jovem e levadas ao Conselho Geral da comunidade.',
     metrics: [
       { value: '2.218+', label: 'respostas' },
       { value: '6', label: 'idiomas' },
       { value: 'Ao vivo', label: 'ranking entre missões' },
     ],
-    images: {
-      desktop: '/images/cases/enquete-shalom-desktop.png',
-      mobile: '/images/cases/enquete-shalom-mobile.png',
-    },
+    role: 'Design e desenvolvimento full-stack',
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
     challenges: [
       'Interface em 6 idiomas (PT, ES, EN, FR, IT, PL) com a mesma experiência',
       'Ranking justo entre missões de tamanhos diferentes, calculado pela proporção de participação',
       'Contador e atividade em tempo real para estimular novas respostas',
       'Garantir uma resposta por pessoa sem expor os dados de quem respondeu',
     ],
+    images: {
+      desktop: '/images/cases/enquete-shalom-desktop.webp',
+      mobile: '/images/cases/enquete-shalom-mobile.webp',
+    },
+    live: 'https://enquete-shalom.vercel.app',
     color: '#1F6FB2',
-    mockupTheme: 'mock-enquete',
   },
   {
     slug: 'closr',
     title: 'Closr',
-    kind: 'cliente',
+    kind: 'laboratorio',
+    year: 2025,
     segment: 'Corretoras de seguros',
     problem:
-      'Equipes de atendimento perdiam horas copiando, colando e personalizando manualmente cada mensagem de pós-venda enviada aos clientes.',
+      'A equipe de atendimento de uma corretora perdia horas copiando, colando e ajustando à mão cada mensagem de pós-venda.',
     shortDesc:
-      'SaaS B2B de geração de mensagens de pós-venda para corretoras de seguros. Elimina o processo manual de copiar, colar e personalizar mensagens para clientes.',
+      'Protótipo de gerador de mensagens de pós-venda criado durante um estágio e usado pela equipe de atendimento de uma corretora.',
     fullDesc:
-      'O Closr nasceu de uma dor real do mercado de seguros: equipes de atendimento perdiam tempo copiando e colando mensagens manualmente, cometendo erros de dados e sem nenhum padrão de comunicação. A plataforma permite que gestores criem templates inteligentes com campos dinâmicos, e atendentes gerem mensagens personalizadas em segundos — só preenchendo um formulário e copiando o resultado pronto para o WhatsApp. Arquitetura multi-tenant com isolamento por corretora, sistema de convites via link e controle de acesso por roles (master, gestor, atendente).',
-    role: 'Full-Stack Developer',
-    status: 'in-progress',
-    year: 2025,
-    stack: ['react', 'vite', 'tailwindcss', 'nodejs', 'express', 'supabase', 'postgresql'],
-    color: '#10B981',
-    github: 'https://github.com/speedyvad/Closr',
-    live: 'https://closrr.vercel.app',
-    metrics: [
-      { value: 'Segundos', label: 'para gerar cada mensagem' },
-      { value: '3', label: 'níveis de acesso' },
+      'Criei o Closr durante um estágio de pouco mais de três meses numa corretora de seguros. As mensagens de pós-venda eram montadas à mão, com erros de dados e sem padrão entre atendentes. O protótipo virou ferramenta do dia a dia da equipe e ficou com a empresa ao fim do estágio.',
+    highlights: [
+      {
+        title: 'Templates com campos dinâmicos',
+        text: 'Gestores criam os modelos uma vez; atendentes preenchem um formulário e copiam a mensagem pronta para o WhatsApp.',
+      },
+      {
+        title: 'Um padrão para a equipe',
+        text: 'Três níveis de acesso (master, gestor e atendente) e convite por link para entrar na equipe.',
+      },
     ],
-    images: {
-      desktop: '/images/projects/closr.png',
-    },
+    role: 'Full-stack (estágio)',
+    duration: 'Pouco mais de 3 meses',
+    stack: ['react', 'vite', 'tailwindcss', 'nodejs', 'express', 'supabase', 'postgresql'],
     challenges: [
       'Arquitetura multi-tenant com Row Level Security (RLS) no Supabase, garantindo isolamento total de dados entre corretoras',
-      'Sistema de templates dinâmicos com parser customizado que suporta campos simples e blocos de repetição para estruturas variáveis',
+      'Parser de templates próprio, com campos simples e blocos de repetição para estruturas variáveis (ex.: dependentes)',
       'Autenticação e autorização com múltiplos roles, rotas protegidas por nível de acesso e fluxo de convite via token',
-      'Integração frontend React com backend Node.js em produção, resolvendo problemas de CORS, ordem de inicialização do dotenv e refresh automático de JWT expirado',
-      'Deploy em produção com variáveis de ambiente seguras — frontend no Vercel e backend no Railway com auto-deploy via GitHub',
+      'Integração React + Node.js em produção: CORS, ordem de inicialização do dotenv e refresh automático de JWT expirado',
+      'Deploy com variáveis de ambiente seguras — frontend na Vercel e backend no Railway com auto-deploy via GitHub',
     ],
-    mockupTheme: 'mock-closr',
-  },
-  {
-    slug: 'studyhub',
-    title: 'StudyHub',
-    kind: 'autoral',
-    shortDesc: 'Plataforma de estudos com dashboard, progresso e estatísticas de aprendizado.',
-    fullDesc:
-      'StudyHub é uma plataforma completa de gestão de estudos, permitindo que estudantes organizem matérias, acompanhem seu progresso ao longo do tempo e visualizem estatísticas detalhadas de desempenho. Desenvolvida com React 19 e TypeScript, utiliza Zustand para gerenciamento de estado e Recharts para visualizações de dados.',
-    role: 'Front-End Developer',
-    status: 'completed',
-    year: 2024,
-    stack: ['react', 'typescript', 'tailwindcss', 'vite'],
-    color: '#4F8EF7',
-    github: 'https://github.com/speedyvad/studyhub',
-    challenges: [
-      'Implementar gráficos de progresso responsivos com dados dinâmicos usando Recharts',
-      'Gerenciar estado complexo de múltiplas matérias e sessões de estudo com Zustand',
-      'Criar um sistema de streaks e gamificação para engajar o usuário',
-      'Otimizar re-renders em listas longas de anotações com memoização',
-    ],
-    mockupTheme: 'studyhub',
+    images: {
+      desktop: '/images/projects/closr.webp',
+    },
+    github: 'https://github.com/speedyvad/Closr',
+    color: '#10B981',
   },
   {
     slug: 'lectio-divina',
     title: 'Lectio Divina',
-    kind: 'autoral',
-    shortDesc:
-      'App de espiritualidade cristã para praticar a leitura orante da Bíblia com liturgia diária real',
+    kind: 'faculdade',
+    year: 2024,
+    shortDesc: 'App para praticar a leitura orante da Bíblia com a liturgia diária real.',
     fullDesc:
       'O Lectio Divina guia o usuário pelas 7 etapas da leitura orante com o evangelho real do dia, buscado de uma API externa. Permite navegar pelos 73 livros da Bíblia católica com versículos interativos, além de salvar sessões, anotações e favoritos. Design com paleta terrosa e tipografia litúrgica que remete a manuscritos antigos.',
-    role: 'Full-Stack Developer',
-    status: 'completed',
-    year: 2024,
+    role: 'Full-stack',
     stack: ['nextjs', 'typescript', 'tailwindcss', 'supabase'],
-    color: '#8B5CF6',
-    github: 'https://github.com/speedyvad/lectio-divina',
     challenges: [
       'Integração com API de liturgia diária e sincronização em tempo real',
       'Autenticação e persistência de dados com Supabase',
-      'Design system próprio com identidade visual contemplativa e afastada do ruído digital',
+      'Design system próprio com identidade visual contemplativa',
     ],
-    mockupTheme: 'lectio-divina',
+    images: { desktop: '/images/projects/lectio-divina.webp' },
+    github: 'https://github.com/speedyvad/lectio-divina',
+    color: '#8B5CF6',
   },
   {
     slug: 'caltracker',
     title: 'CalTracker',
-    kind: 'autoral',
-    shortDesc: 'Controle de calorias com back-end em Clojure e interface React intuitiva.',
-    fullDesc:
-      'CalTracker é um rastreador de calorias e macronutrientes com um back-end funcional desenvolvido em Clojure usando o framework Ring. A interface React permite adicionar refeições, visualizar consumo diário e acompanhar metas nutricionais. Projeto que explorou paradigma funcional no back-end.',
-    role: 'Full-Stack Developer',
-    status: 'in-progress',
+    kind: 'faculdade',
     year: 2025,
+    shortDesc: 'Controle de calorias com back-end funcional em Clojure.',
+    fullDesc:
+      'CalTracker é um rastreador de calorias e macronutrientes com back-end em Clojure usando Ring. A interface permite adicionar refeições, visualizar o consumo diário e acompanhar metas. Projeto para explorar o paradigma funcional no back-end.',
+    role: 'Full-stack',
     stack: ['clojure', 'javascript', 'react', 'css3'],
-    color: '#10B981',
-    github: 'https://github.com/speedyvad/caltracker',
     challenges: [
       'Aprender Clojure e o paradigma funcional para construir a API REST com Ring',
-      'Integrar front-end React com back-end Clojure via fetch/JSON',
-      'Implementar banco de dados de alimentos com busca e autocompletar eficiente',
-      'Calcular macronutrientes dinamicamente com base em porções ajustáveis',
+      'Integrar front-end React com back-end Clojure via JSON',
+      'Busca com autocompletar no banco de alimentos',
+      'Cálculo de macronutrientes com porções ajustáveis',
     ],
-    mockupTheme: 'caltracker',
+    images: { desktop: '/images/projects/caltracker.webp' },
+    github: 'https://github.com/speedyvad/caltracker',
+    color: '#10B981',
+  },
+  {
+    slug: 'studyhub',
+    title: 'StudyHub',
+    kind: 'faculdade',
+    year: 2024,
+    shortDesc: 'Plataforma de estudos com dashboard, progresso e estatísticas.',
+    fullDesc:
+      'StudyHub organiza matérias, acompanha o progresso ao longo do tempo e mostra estatísticas de desempenho. Feito com React 19 e TypeScript, com Zustand para estado e Recharts para gráficos.',
+    role: 'Front-end',
+    stack: ['react', 'typescript', 'tailwindcss', 'vite'],
+    challenges: [
+      'Gráficos de progresso responsivos com dados dinâmicos (Recharts)',
+      'Estado de múltiplas matérias e sessões de estudo com Zustand',
+      'Sistema de sequência de dias (streaks) para engajar o usuário',
+    ],
+    github: 'https://github.com/speedyvad/studyhub',
+    color: '#4F8EF7',
   },
 ]
 
 export const clientProjects = projects.filter((p) => p.kind === 'cliente')
-export const personalProjects = projects.filter((p) => p.kind === 'autoral')
+/** Destaques de /projetos: clientes e conceitos, na ordem do array. */
+export const highlightProjects = projects.filter((p) => p.kind === 'cliente' || p.kind === 'conceito')
+export const labProjects = projects.filter((p) => p.kind === 'laboratorio')
+export const studyProjects = projects.filter((p) => p.kind === 'faculdade')
 
-/** Cases mostrados nas vitrines da home. */
-export const featuredCases = clientProjects
+/** Vitrines da home: clientes primeiro (prova), depois os conceitos. */
+export const featuredCases = [
+  ...clientProjects,
+  ...projects.filter((p) => p.kind === 'conceito'),
+]
 
-/** Imagem desktop do case, com queda para /images/projects/<slug>.png */
+/** Imagem principal do projeto (ou undefined, e quem usa mostra o placeholder). */
 export function projectPreview(project: Project) {
-  return project.images?.desktop ?? `/images/projects/${project.slug}.png`
-}
-
-export function projectPreviewFallback(project: Project) {
-  return `/images/projects/${project.slug}.png`
+  return project.images?.desktop
 }
 
 const DEVICON_MAP: Record<string, string> = {
@@ -217,8 +340,8 @@ const DEVICON_MAP: Record<string, string> = {
   react: 'devicon-react-original',
   typescript: 'devicon-typescript-plain',
   javascript: 'devicon-javascript-plain',
-  'tailwind css': 'devicon-tailwindcss-plain',
-  tailwindcss: 'devicon-tailwindcss-plain',
+  'tailwind css': 'devicon-tailwindcss-original',
+  tailwindcss: 'devicon-tailwindcss-original',
   vite: 'devicon-vitejs-plain',
   'node.js': 'devicon-nodejs-plain',
   nodejs: 'devicon-nodejs-plain',
@@ -228,6 +351,7 @@ const DEVICON_MAP: Record<string, string> = {
   clojure: 'devicon-clojure-plain',
   css3: 'devicon-css3-plain',
   html5: 'devicon-html5-plain',
+  astro: 'devicon-astro-plain',
 }
 
 const TECH_LABEL: Record<string, string> = {
@@ -246,9 +370,9 @@ const TECH_LABEL: Record<string, string> = {
   html5: 'HTML5',
 }
 
-/** Classe do Devicon, aceitando slugs e nomes já formatados. */
+/** Classe do Devicon, aceitando slugs e nomes já formatados. undefined quando não existe ícone. */
 export function techIcon(tech: string) {
-  return DEVICON_MAP[tech.toLowerCase()] ?? 'devicon-devicon-plain'
+  return DEVICON_MAP[tech.toLowerCase()]
 }
 
 export function techLabel(tech: string) {
