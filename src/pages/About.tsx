@@ -6,6 +6,8 @@ import ScrollReveal from '../components/ScrollReveal'
 import MagneticButton from '../components/MagneticButton'
 import TiltCard from '../components/TiltCard'
 import Footer from '../components/Footer'
+import ProjectMedia from '../components/ProjectMedia'
+import { projects, KIND_LABEL } from '../data/projects'
 import { useTextScramble } from '../hooks/useTextScramble'
 import { useTypewriter } from '../hooks/useTypewriter'
 import { useCountUp } from '../hooks/useCountUp'
@@ -13,10 +15,10 @@ import { useSEO } from '../hooks/useSEO'
 import { EMAIL, GITHUB, INSTAGRAM, LINKEDIN, WHATSAPP_DISPLAY, whatsappLink } from '../config/contact'
 
 const ROLES = [
-  'Front-End Developer',
-  'React Specialist',
-  'UI/UX Enthusiast',
-  'Computer Science Student',
+  'Desenvolvedor front-end',
+  'React e TypeScript',
+  'Fundador da Dourado Studio',
+  'Ciência da Computação',
 ]
 
 const SKILLS = {
@@ -73,6 +75,9 @@ const EXPERIENCE = [
   },
 ]
 
+/** Projetos com mais conteúdo técnico, mostrados para recrutadores. */
+const RECRUITER_PICKS = ['harmon-visagismo', 'enquete-juventude-shalom', 'closr']
+
 const LEARNING = [
   {
     title: 'React Native',
@@ -126,7 +131,7 @@ function ProfilePhoto() {
       style={{ position: 'relative', borderRadius: 'var(--r-media)', overflow: 'hidden', aspectRatio: '3/4' }}
     >
       <motion.img
-        src="/images/profile.png"
+        src="/images/profile.webp"
         alt="Vinícius Dourado"
         loading="lazy"
         onError={() => setError(true)}
@@ -168,7 +173,7 @@ function StatCard({ value, suffix, label }: { value: number; suffix: string; lab
         className="display"
         style={{ fontSize: '2.5rem', color: 'var(--gold-deep)' }}
       >
-        {count}
+        {count.toLocaleString('pt-BR')}
         {suffix}
       </p>
       <p className="fs-small" style={{ color: 'var(--sea-soft)', marginTop: '0.35rem' }}>
@@ -327,9 +332,13 @@ export default function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.7 }}
-                style={{ fontSize: 'var(--fs-display)', marginBottom: '1rem' }}
+                style={{ fontSize: 'var(--fs-display)', marginBottom: '1rem', position: 'relative' }}
               >
-                {name}
+                {/* O texto final reserva o espaço; o embaralhado fica por cima (sem mexer no layout). */}
+                <span style={{ visibility: 'hidden' }}>Vinícius Dourado</span>
+                <span aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
+                  {name}
+                </span>
               </motion.h1>
 
               <motion.div
@@ -344,6 +353,7 @@ export default function About() {
                   marginBottom: '1.5rem',
                   display: 'flex',
                   alignItems: 'center',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {role}
@@ -366,8 +376,9 @@ export default function About() {
                 className="fs-lead measure"
                 style={{ color: 'var(--sea-soft)', marginBottom: '2.5rem' }}
               >
-                Desenvolvedor front-end de Fortaleza, CE. Apaixonado por interfaces elegantes, código
-                limpo e experiências de usuário que encantam.
+                Desenvolvedor front-end em Fortaleza. Passei pelo portal de notícias do Sistema Verdes
+                Mares e hoje desenho e programo sites e sistemas para negócios reais, do primeiro
+                esboço ao deploy.
               </motion.p>
 
               <motion.div
@@ -430,9 +441,9 @@ export default function About() {
 
                 <ScrollReveal delay={0.2}>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '2.5rem' }}>
-                    <StatCard value={10} suffix="+" label="Meses de experiência" />
-                    <StatCard value={6} suffix="+" label="Projetos entregues" />
-                    <StatCard value={3} suffix="" label="Produtos em produção" />
+                    <StatCard value={10} suffix="+" label="Meses de experiência profissional" />
+                    <StatCard value={3700} suffix="+" label="Inscrições e respostas em sites que fiz" />
+                    <StatCard value={2} suffix="" label="Sites de clientes no ar" />
                     <StatCard value={1} suffix="" label="Idioma adicional (EN B1)" />
                   </div>
                 </ScrollReveal>
@@ -511,6 +522,39 @@ export default function About() {
                 </div>
               </ScrollReveal>
             ))}
+          </div>
+        </section>
+
+        {/* Projetos para recrutadores */}
+        <section className="section-y" style={{ background: 'var(--white)', paddingBottom: 0 }}>
+          <div className="container-x">
+            <ScrollReveal>
+              <h2 className="fs-h2" style={{ marginBottom: '1rem' }}>
+                Projetos para olhar de perto
+              </h2>
+              <p className="measure" style={{ color: 'var(--sea-soft)', marginBottom: '3rem' }}>
+                Cada case tem um bloco "Por trás do código" com a stack e os desafios técnicos.
+              </p>
+            </ScrollReveal>
+            <div className="about-projects">
+              {RECRUITER_PICKS.map((slug, i) => {
+                const p = projects.find((x) => x.slug === slug)
+                if (!p) return null
+                return (
+                  <ScrollReveal key={p.slug} delay={i * 0.08}>
+                    <Link to={`/projetos/${p.slug}`} className="pm-host about-project">
+                      <ProjectMedia project={p} ratio="4 / 3" />
+                      <span className="fs-small" style={{ display: 'block', color: 'var(--sea-soft)', marginTop: '1.1rem' }}>
+                        {KIND_LABEL[p.kind]} · {p.stack.slice(0, 3).join(', ')}
+                      </span>
+                      <span className="display pj-title" style={{ display: 'block', fontSize: '1.6rem', marginTop: '0.35rem' }}>
+                        {p.title}
+                      </span>
+                    </Link>
+                  </ScrollReveal>
+                )
+              })}
+            </div>
           </div>
         </section>
 
@@ -673,6 +717,11 @@ export default function About() {
         @media (min-width: 900px) {
           .about-grid { grid-template-columns: 0.8fr 1.6fr; gap: 3.5rem; }
         }
+        .about-projects { display: grid; gap: 2.5rem 1.5rem; }
+        @media (min-width: 860px) { .about-projects { grid-template-columns: repeat(3, 1fr); } }
+        .about-project { display: block; }
+        .about-project .pj-title { transition: color 0.25s ease; }
+        .about-project:hover .pj-title { color: var(--gold-deep); }
         .contact-card { transition: border-color 0.2s ease, background-color 0.2s ease; }
         .contact-card:hover { border-color: var(--gold); background-color: rgba(255,255,255,0.06); }
         .pulse-dot { animation: about-pulse 2s ease-in-out infinite; }

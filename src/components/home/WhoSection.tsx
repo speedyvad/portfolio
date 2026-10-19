@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const SOURCES = ['/images/about/vinicius-trabalhando.jpg', '/images/profile.png']
+const SOURCES = ['/images/about/vinicius-trabalhando.jpg', '/images/profile.webp']
 
 function Portrait() {
   const [index, setIndex] = useState(0)
