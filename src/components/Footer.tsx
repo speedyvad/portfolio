@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import Wordmark from './Wordmark'
 import {
   EMAIL,
+  GITHUB,
   INSTAGRAM,
   LINKEDIN,
   WHATSAPP_DISPLAY,
@@ -19,7 +20,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--white)' }}>
+    <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--white)', overflow: 'hidden' }}>
       <div className="container-x" style={{ paddingBlock: '4rem 2.5rem' }}>
         <div className="footer-grid">
           <div>
@@ -87,6 +88,17 @@ export default function Footer() {
                   LinkedIn
                 </a>
               </li>
+              <li>
+                <a
+                  className="fs-small link-underline"
+                  style={{ color: 'var(--sea-soft)' }}
+                  href={GITHUB}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -109,6 +121,11 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Wordmark gigante, cortado pela borda inferior da página */}
+      <div className="container-x" aria-hidden="true">
+        <p className="wordmark-giant footer-giant" data-text="Dourado Studio" />
+      </div>
+
       <style>{`
         .footer-grid {
           display: grid;
@@ -118,6 +135,17 @@ export default function Footer() {
         @media (min-width: 768px) {
           .footer-grid { grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
         }
+        .footer-giant {
+          font-size: clamp(3rem, 20vw, 16.25rem);
+          line-height: 0.8;
+          letter-spacing: -0.02em;
+          white-space: nowrap;
+          color: rgba(14, 44, 63, 0.08);
+          margin-bottom: -0.12em;
+          user-select: none;
+        }
+        /* Texto via pseudo-elemento: é decorativo e não entra na árvore de acessibilidade. */
+        .footer-giant::before { content: attr(data-text); }
       `}</style>
     </footer>
   )

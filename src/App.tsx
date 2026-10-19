@@ -12,6 +12,7 @@ const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const Projects = lazy(() => import('./pages/Projects'))
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
+const Service = lazy(() => import('./pages/Service'))
 const Orcamento = lazy(() => import('./pages/Orcamento'))
 const RaioX = lazy(() => import('./pages/RaioX'))
 
@@ -57,6 +58,7 @@ function AppInner() {
               <Route path="/sobre" element={<About />} />
               <Route path="/projetos" element={<Projects />} />
               <Route path="/projetos/:slug" element={<ProjectDetail />} />
+              <Route path="/servicos/:slug" element={<Service />} />
               <Route path="/orcamento" element={<Orcamento />} />
               <Route path="/raio-x" element={<RaioX />} />
 

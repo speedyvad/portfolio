@@ -6,7 +6,8 @@ import LossCalculator from '../components/home/journey/LossCalculator'
 import JourneyTurn from '../components/home/journey/JourneyTurn'
 import FortalezaBand from '../components/home/journey/FortalezaBand'
 import TrustBar from '../components/home/TrustBar'
-import ServicesList from '../components/home/ServicesList'
+import ProofBlocks from '../components/home/ProofBlocks'
+import CaseDoors from '../components/home/CaseDoors'
 import CaseShowcase from '../components/home/CaseShowcase'
 import Testimonials from '../components/home/Testimonials'
 import ProcessSteps from '../components/home/ProcessSteps'
@@ -44,9 +45,10 @@ export default function Home() {
         <JourneyPain />
         <LossCalculator />
         <JourneyTurn />
-        <ServicesList />
+        <ProofBlocks />
         <CaseShowcase />
         <Testimonials />
+        <CaseDoors />
         <ProcessSteps />
         <FortalezaBand />
         <WhoSection />
