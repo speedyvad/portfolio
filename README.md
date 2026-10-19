@@ -1,73 +1,26 @@
-# React + TypeScript + Vite
+# Dourado Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Site do estúdio de Vinícius Dourado — sites, landing pages e sistemas sob medida, em Fortaleza.
+Também é o portfólio do Vinícius para recrutadores (`/sobre`).
 
-Currently, two official plugins are available:
+**Stack:** React 19, TypeScript, Vite, Tailwind CSS v4, React Router v7, Framer Motion, GSAP, Lenis, Embla, OGL.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | servidor de desenvolvimento em http://localhost:5173 |
+| `npm run build` | checagem de tipos + build de produção |
+| `npm run preview` | serve o build |
+| `npm test` | testes unitários |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Documentação
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- [`CLAUDE.md`](CLAUDE.md) — regras do projeto e ordem de leitura (para IA e para humanos)
+- [`MEMORY.md`](MEMORY.md) — estado atual, decisões e changelog
+- [`docs/`](docs) — posicionamento, design system, páginas, técnico e como adicionar um projeto
+
+Deploy automático na Vercel a partir do `main`.
