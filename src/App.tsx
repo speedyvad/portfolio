@@ -1,10 +1,11 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useLayoutEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Cursor from './components/Cursor'
 import PageTransition from './components/PageTransition'
 import WhatsAppFloat from './components/WhatsAppFloat'
 import { useLenis } from './hooks/useLenis'
+import { resetScroll } from './lib/motion'
 
 // Cada página vira o próprio chunk, carregado só quando a rota é acessada —
 // mantém o JS inicial da home dentro do orçamento de performance do v3.
@@ -25,9 +26,9 @@ function LegacyProjectRedirect() {
 function ScrollToTop() {
   const { pathname, state } = useLocation()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if ((state as { scrollTo?: string } | null)?.scrollTo) return
-    window.scrollTo(0, 0)
+    resetScroll()
   }, [pathname, state])
 
   return null

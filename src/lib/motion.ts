@@ -31,6 +31,16 @@ export function startLenis() {
   return lenis
 }
 
+/**
+ * Volta ao topo na hora, cancelando a inércia do Lenis. Sem isso, um clique
+ * enquanto a página ainda desliza fazia a página nova abrir lá embaixo:
+ * o Lenis ignorava o window.scrollTo e continuava indo para o alvo antigo.
+ */
+export function resetScroll() {
+  lenis?.scrollTo(0, { immediate: true, force: true })
+  window.scrollTo(0, 0)
+}
+
 export function stopLenis() {
   if (tick) {
     gsap.ticker.remove(tick)

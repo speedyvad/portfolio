@@ -1,5 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
+import { resetScroll } from '../lib/motion'
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const location = useLocation()
@@ -37,7 +38,14 @@ export default function PageTransition({ children }: { children: React.ReactNode
         </AnimatePresence>
       )}
 
-      <AnimatePresence mode="wait">
+      {/* A página antiga sai antes da nova entrar: zera o scroll de novo nesse momento,
+          senão a página nova herda a posição de onde a antiga estava. */}
+      <AnimatePresence
+        mode="wait"
+        onExitComplete={() => {
+          if (!(window.history.state?.usr as { scrollTo?: string } | null)?.scrollTo) resetScroll()
+        }}
+      >
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0 }}

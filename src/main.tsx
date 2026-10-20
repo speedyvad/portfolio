@@ -5,6 +5,9 @@ import '@fontsource-variable/bricolage-grotesque/standard.css'
 import './styles/globals.css'
 import App from './App.tsx'
 
+// O app cuida da posição do scroll em cada troca de página (ver resetScroll).
+if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
+
 // Pré-carrega o recorte latino (cobre pt-BR) da variável antes do primeiro paint.
 const fontPreload = document.createElement('link')
 fontPreload.rel = 'preload'
