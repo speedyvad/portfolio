@@ -114,7 +114,7 @@ export default function ProjectDetail() {
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '2rem' }}>
                     {project.live && (
                       <a className="btn btn-primary" href={project.live} target="_blank" rel="noopener noreferrer">
-                        Abrir o site
+                        Ver o site no ar
                       </a>
                     )}
                     {project.github && (
@@ -196,7 +196,7 @@ export default function ProjectDetail() {
           <div className="container-x" style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(4rem, 8vw, 6.5rem)' }}>
             <ScrollReveal>
               <div className="cs-row">
-                <h2 className="fs-h3">O desafio</h2>
+                <h2 className="fs-h3">Como estava</h2>
                 <p className="fs-lead" style={{ color: 'var(--sea-soft)', maxWidth: '42rem' }}>
                   {project.fullDesc}
                 </p>
@@ -236,7 +236,7 @@ export default function ProjectDetail() {
             <div className="container-x">
               <ScrollReveal>
                 <p className="fs-small" style={{ color: 'var(--on-sea-soft)', marginBottom: '1.25rem' }}>
-                  Resultado
+                  E no fim
                 </p>
                 <p className="display" style={{ color: 'var(--on-sea)', fontSize: 'clamp(1.9rem, 4.2vw, 3.5rem)', maxWidth: '22ch', lineHeight: 1.08 }}>
                   {project.outcome}
@@ -252,7 +252,7 @@ export default function ProjectDetail() {
             <div className="container-x">
               <ScrollReveal>
                 <h2 className="fs-h2-section" style={{ marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
-                  Por dentro do site
+                  Dá uma olhada por dentro
                 </h2>
               </ScrollReveal>
 
@@ -291,7 +291,7 @@ export default function ProjectDetail() {
                     Por trás do código
                   </span>
                   <span className="fs-small" style={{ color: 'var(--sea-soft)' }}>
-                    Stack e desafios técnicos — para quem é da área.
+                    Pra quem é da área: a stack e o que deu mais trabalho.
                   </span>
                 </span>
                 <span className="cs-tech-icon" aria-hidden="true" />
@@ -324,7 +324,7 @@ export default function ProjectDetail() {
           <ScrollReveal>
             <div className="cs-cta">
               <h2 className="fs-h2-section" style={{ color: 'var(--on-sea)', maxWidth: '16ch' }}>
-                Quer algo assim para o seu negócio?
+                Curtiu? Dá pra fazer algo assim pro seu negócio.
               </h2>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <a

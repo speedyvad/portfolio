@@ -43,7 +43,10 @@ Situação de cada projeto:
 
 ## Voz
 
-- Português do Brasil, "você", frases curtas, resultado para o negócio.
+- **Tom de conversa.** Como o Vinícius explicaria pessoalmente para um cliente: primeira pessoa ("eu faço", "eu cuido"), "você", "pra" no lugar de "para" quando soa natural, frases curtas.
+- Começar pela situação real do cliente ("você manda áudio, print, link... e a pessoa some"), não por um conceito ("presença digital", "experiência premium", "sem fricção").
+- Evitar jargão de agência e frases que serviriam para qualquer empresa. Se a frase cabe no site de outro estúdio, reescreva.
+- Sinceridade vale mais que promessa ("vou ser sincero: subir no Google leva tempo").
 - Títulos em sentence case, sem caixa alta, sem destacar palavra isolada com outra cor.
 - Botão diz o que acontece ("Simular orçamento", "Ver o case"), sem "→" automático.
 - Na home e nas páginas de serviço: zero jargão técnico. Termos técnicos ficam em `/sobre` e no bloco "Por trás do código" dos cases.

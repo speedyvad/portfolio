@@ -15,7 +15,7 @@ import { useSEO } from '../hooks/useSEO'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
-function ProofCase({ project }: { project: Project }) {
+function ProofCase({ project, note }: { project: Project; note?: string }) {
   return (
     <div className="sv-proof">
       <DeviceMockup title={project.title} desktop={project.images?.desktop} mobile={project.images?.mobile} />
@@ -27,9 +27,9 @@ function ProofCase({ project }: { project: Project }) {
         <h3 className="fs-h3" style={{ marginBottom: '1rem' }}>
           {project.title}
         </h3>
-        <p style={{ color: 'var(--sea-soft)', marginBottom: '1.5rem' }}>{project.outcome ?? project.problem ?? project.shortDesc}</p>
+        <p style={{ color: 'var(--sea-soft)', marginBottom: '1.5rem' }}>{note ?? project.outcome ?? project.shortDesc}</p>
         <Link className="btn btn-secondary" to={`/projetos/${project.slug}`}>
-          Ver o case
+          Ver como ficou
         </Link>
       </div>
     </div>
@@ -42,7 +42,7 @@ export default function Service() {
 
   useSEO({
     title: service ? `${service.name} em Fortaleza — Dourado Studio` : 'Serviços — Dourado Studio',
-    description: service ? `${service.forWho} ${service.value} ${formatPrice(service.priceFrom)}.` : '',
+    description: service ? `${service.title} ${formatPrice(service.priceFrom)}, em ${service.deadline.toLowerCase()}.` : '',
     path: `/servicos/${slug ?? ''}`,
     image: service?.heroImage,
   })
@@ -65,16 +65,16 @@ export default function Service() {
               </p>
               <h1 style={{ fontSize: 'clamp(2.6rem, 6vw, 5.25rem)', marginBottom: '1.5rem' }}>{service.title}</h1>
               <p className="fs-lead measure" style={{ color: 'var(--sea-soft)' }}>
-                {service.forWho} {service.value}
+                {service.intro}
               </p>
 
               <dl className="sv-price">
                 <div>
-                  <dt className="fs-small">Investimento</dt>
+                  <dt className="fs-small">Quanto custa</dt>
                   <dd className="text-proof">{formatPrice(service.priceFrom)}</dd>
                 </div>
                 <div>
-                  <dt className="fs-small">Prazo</dt>
+                  <dt className="fs-small">Quanto tempo leva</dt>
                   <dd className="text-proof">{service.deadline}</dd>
                 </div>
               </dl>
@@ -142,7 +142,7 @@ export default function Service() {
           <div className="container-x">
             <ScrollReveal>
               <h2 className="fs-h2-section" style={{ marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
-                O que muda
+                O que muda na prática
               </h2>
             </ScrollReveal>
             <div className="sv-ba">
@@ -173,7 +173,7 @@ export default function Service() {
         <section className="section-y">
           <div className="container-x sv-included">
             <ScrollReveal>
-              <h2 className="fs-h2-section">O que vem incluso</h2>
+              <h2 className="fs-h2-section">O que você recebe</h2>
               <p style={{ color: 'var(--sea-soft)', marginTop: '1.25rem', maxWidth: '24rem' }}>{servicesNote}</p>
             </ScrollReveal>
             <ScrollReveal delay={0.1}>
@@ -196,13 +196,13 @@ export default function Service() {
             <div className="container-x">
               <ScrollReveal>
                 <h2 className="fs-h2-section" style={{ marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
-                  {proofCases.length > 1 ? 'Projetos parecidos' : 'Um projeto parecido'}
+                  {proofCases.length > 1 ? 'Coisas parecidas que já fiz' : 'Já fiz algo bem parecido'}
                 </h2>
               </ScrollReveal>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5rem' }}>
                 {proofCases.map((p) => (
                   <ScrollReveal key={p.slug}>
-                    <ProofCase project={p} />
+                    <ProofCase project={p} note={proofCase ? service.proofNote : undefined} />
                   </ScrollReveal>
                 ))}
               </div>
@@ -215,7 +215,7 @@ export default function Service() {
 
         {/* 8. Perguntas */}
         <FaqAccordion
-          title="Perguntas sobre este serviço"
+          title="Dúvidas que sempre aparecem"
           items={service.faq.map((f) => ({ question: f.q, answer: f.a }))}
         />
 
@@ -223,7 +223,7 @@ export default function Service() {
         <section className="section-y" style={{ paddingBottom: 'clamp(3rem, 6vw, 5rem)' }}>
           <div className="container-x">
             <h2 className="fs-h3" style={{ marginBottom: '1.5rem' }}>
-              Outros serviços
+              Não é bem isso que você precisa?
             </h2>
             <ul className="sv-others">
               {others.map((s) => (

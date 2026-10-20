@@ -529,7 +529,7 @@ export default function Orcamento() {
                 checked={answers.type === s.slug}
                 onChange={() => update('type', s.slug as TypeChoice)}
                 label={s.name}
-                hint={s.forWho}
+                hint={s.door}
               />
             ))}
             <OptionCard

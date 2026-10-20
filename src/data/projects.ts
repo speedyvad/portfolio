@@ -69,36 +69,36 @@ export const projects: Project[] = [
     year: 2026,
     segment: 'Barbearia premium',
     problem:
-      'Uma barbearia de visagismo com nota 4,6 no Google, mas sem site: quem pesquisava pelo nome caía no Instagram e precisava caçar o número para marcar horário.',
+      'Nota 4,6 no Google e nenhum site. Quem pesquisava a Harmon caía no Instagram e tinha que caçar o número pra marcar horário.',
     shortDesc:
-      'Site para uma barbearia de visagismo na Aldeota, pensado para ser encontrado no Google e levar direto ao agendamento pelo WhatsApp.',
+      'Site pra uma barbearia de visagismo na Aldeota: aparece no Google e leva direto pro agendamento no WhatsApp.',
     fullDesc:
-      'A Harmon Visagismo é uma barbearia de visagismo masculino na Aldeota, em Fortaleza, com um espaço físico de clube de cavalheiros: mármore, couro, dourado e atendimento com hora marcada. Toda essa experiência ficava invisível para quem pesquisava no Google. O desafio era criar uma presença digital à altura do espaço, que fosse encontrada nas buscas da região e transformasse a visita em agendamento sem nenhuma fricção.',
+      'Quem entra na Harmon entende na hora: mármore, sofá de couro, detalhe dourado, tudo com hora marcada. Parece um clube. Só que quem ainda não conhecia e pesquisava no Google não via nada disso. Achava um perfil no Instagram e precisava ir atrás do WhatsApp. Eu queria que o site desse a mesma sensação de entrar no salão e que marcar horário fosse questão de um toque.',
     highlights: [
       {
-        title: 'A marca traduzida para a tela',
-        text: 'Creme, café e dourado tirados do próprio salão, tipografia clássica e o brasão redesenhado em vetor, que se desenha na tela. O site passa a mesma sensação de entrar no espaço.',
+        title: 'Com a cara do salão',
+        text: 'As cores saíram do próprio espaço: creme, café e dourado. Redesenhei o brasão em vetor pra ele se desenhar na tela, e escolhi uma tipografia clássica que conversa com o logo.',
       },
       {
-        title: 'Do Google ao WhatsApp em um toque',
-        text: 'Cada serviço abre o WhatsApp com a mensagem pronta. No celular, o botão de agendar acompanha a leitura sem atrapalhar.',
+        title: 'Marcar horário sem esforço',
+        text: 'Escolheu o serviço? O WhatsApp abre com a mensagem já escrita. No celular, o botão de agendar fica sempre por perto, sem atrapalhar a leitura.',
       },
       {
-        title: 'Feito para ser encontrado',
-        text: 'Estrutura de SEO local, dados estruturados de barbearia, endereço e contato idênticos ao Google Meu Negócio.',
+        title: 'Pronto pro Google',
+        text: 'Endereço e contato iguaizinhos aos do Google Meu Negócio, e o site avisa pro Google que ali é uma barbearia na Aldeota. Isso ajuda a aparecer pra quem pesquisa na região.',
       },
       {
-        title: 'Elegante e leve',
-        text: 'Animações lentas e com propósito, que respeitam quem prefere menos movimento. Carrega rápido até no 4G.',
+        title: 'Bonito sem ficar pesado',
+        text: 'As animações são lentas, com calma, e somem pra quem prefere menos movimento. E mesmo com tudo isso o site abre rápido no 4G.',
       },
     ],
     outcome:
-      'Do Google ao agendamento em um toque, num site que carrega rápido até no 4G e tira nota máxima em acessibilidade e SEO.',
+      'Agora quem pesquisa encontra um site com a cara do salão e marca horário em um toque. E ele tirou nota máxima do Google em acessibilidade e SEO.',
     stage: 'Versão de teste no ar, em apresentação ao dono',
     metrics: [
-      { value: '97+', label: 'de desempenho no celular (Lighthouse)' },
+      { value: '97+', label: 'de velocidade no celular, segundo o Google' },
       { value: '100', label: 'em acessibilidade e SEO' },
-      { value: '1 toque', label: 'do site até o WhatsApp' },
+      { value: '1 toque', label: 'pra chegar no WhatsApp' },
     ],
     role: 'Direção visual, desenvolvimento e SEO',
     stack: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP'],
@@ -133,29 +133,29 @@ export const projects: Project[] = [
     client: 'Curso Imersão Coreia — Comunidade Católica Shalom',
     segment: 'Educação e eventos',
     problem:
-      'Divulgar uma aula inaugural gratuita e ao vivo e captar inscrições para um curso de 10 meses de preparação para a JMJ Seul 2027.',
+      'Uma aula gratuita, ao vivo, com gente falando direto da Coreia. O desafio era fazer muita gente se inscrever.',
     shortDesc:
-      'Landing page de inscrição para a aula inaugural de um curso de língua e cultura coreana.',
+      'Página de inscrição pra aula inaugural de um curso de língua e cultura coreana.',
     fullDesc:
-      'O Imersão Coreia é um curso de 10 meses de língua, cultura e história coreana em preparação para a Jornada Mundial da Juventude em Seul, 2027. A aula inaugural seria gratuita, ao vivo e com participação direto da Coreia, mas a divulgação dependia de posts soltos e de um link na bio. Era preciso uma página que explicasse a noite em poucos segundos e levasse o visitante até a inscrição.',
+      'O Imersão Coreia é um curso de 10 meses de língua, cultura e história coreana, pra quem vai à Jornada Mundial da Juventude em Seul, em 2027. A aula inaugural ia ser gratuita e ao vivo, com participação direto da Coreia, mas a divulgação dependia de post solto e link na bio. Precisava de uma página que explicasse a noite rapidinho e levasse a pessoa até a inscrição.',
     highlights: [
       {
-        title: 'Uma página, uma decisão',
-        text: 'A página conduz da curiosidade até a inscrição: o que vai acontecer na noite, quem ensina, a participação ao vivo da Coreia e o botão para garantir a vaga.',
+        title: 'Uma página, um caminho só',
+        text: 'Quem chega entende o que vai rolar na noite, conhece a professora, vê que tem gente falando ao vivo da Coreia e já encontra o botão pra garantir a vaga. Nada de ficar procurando.',
       },
       {
-        title: 'Identidade inspirada no Hangeul',
-        text: 'O alfabeto coreano virou grafismo, com um visual leve para um público jovem.',
+        title: 'O alfabeto coreano como desenho',
+        text: 'Usei o Hangeul (o alfabeto coreano) como grafismo da página. Fica bonito e leve, do jeito que o público jovem curte.',
       },
       {
-        title: 'Pensada para o celular',
-        text: 'A maior parte do público chegava pelo Instagram e pelo WhatsApp, então tudo foi desenhado primeiro para a tela pequena.',
+        title: 'Feita pro celular',
+        text: 'Quase todo mundo chegava pelo Instagram e pelos grupos de WhatsApp, então desenhei tudo primeiro pra tela pequena.',
       },
     ],
-    outcome: 'Mais de 1.500 pessoas se inscreveram na aula inaugural.',
+    outcome: 'Mais de 1.500 pessoas se inscreveram na aula inaugural. Pra uma aula de nicho, foi muita gente.',
     metrics: [
       { value: '1.500+', label: 'inscritos na aula inaugural' },
-      { value: '1', label: 'página, do anúncio à inscrição' },
+      { value: '1', label: 'página, do anúncio até a inscrição' },
     ],
     role: 'Design e desenvolvimento',
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
@@ -179,27 +179,27 @@ export const projects: Project[] = [
     client: 'Assessoria Jovem — Comunidade Católica Shalom',
     segment: 'Comunidades e organizações',
     problem:
-      'Ouvir jovens de missões espalhadas pelo mundo e transformar as respostas em informação para o conselho da comunidade.',
+      'Ouvir jovens de missões no mundo todo, em vários idiomas, e levar o que eles disseram até o conselho da comunidade.',
     shortDesc:
-      'Plataforma de enquete em 6 idiomas com ranking de participação entre missões em tempo real.',
+      'Enquete em 6 idiomas, com ranking ao vivo entre as missões.',
     fullDesc:
-      'A Assessoria Jovem da Comunidade Shalom precisava ouvir os desafios dos jovens de missões em vários países e levar essas respostas ao Conselho Geral. Formulários comuns não davam conta de seis idiomas, nem davam motivo para as missões mobilizarem a sua juventude.',
+      'A Assessoria Jovem da Comunidade Shalom queria saber o que os jovens das missões espalhadas pelo mundo estavam vivendo, e levar isso ao Conselho Geral. Um formulário comum não dava conta de seis idiomas e não dava nenhum motivo pras missões chamarem a juventude pra responder.',
     highlights: [
       {
-        title: 'Seis idiomas, a mesma experiência',
-        text: 'Português, espanhol, inglês, francês, italiano e polonês, com quatro perguntas e cerca de três minutos para responder.',
+        title: 'Cada um no seu idioma',
+        text: 'Português, espanhol, inglês, francês, italiano e polonês. Quatro perguntas, uns três minutos, e pronto.',
       },
       {
-        title: 'Um ranking justo',
-        text: 'As missões competem pela proporção de jovens mobilizados, não pelo tamanho. Uma missão pequena pode liderar.',
+        title: 'Uma competição justa',
+        text: 'O ranking conta a proporção de jovens que responderam, não o total. Assim uma missão pequena consegue ficar na frente de uma grande.',
       },
       {
-        title: 'Participação ao vivo',
-        text: 'Contador de respostas e atividade em tempo real, que incentivam novas respostas a cada visita.',
+        title: 'Dá vontade de responder',
+        text: 'Contador de respostas e atividade em tempo real. Quem entra vê que tem gente respondendo agora e responde também.',
       },
     ],
     outcome:
-      'Mais de 2.218 respostas, consolidadas pela assessoria jovem e levadas ao Conselho Geral da comunidade.',
+      'Mais de 2.218 jovens responderam. A assessoria juntou tudo e levou ao Conselho Geral da comunidade.',
     metrics: [
       { value: '2.218+', label: 'respostas' },
       { value: '6', label: 'idiomas' },
@@ -227,19 +227,19 @@ export const projects: Project[] = [
     year: 2025,
     segment: 'Corretoras de seguros',
     problem:
-      'A equipe de atendimento de uma corretora perdia horas copiando, colando e ajustando à mão cada mensagem de pós-venda.',
+      'Numa corretora de seguros, a equipe passava horas montando mensagem de pós-venda na mão, uma por uma.',
     shortDesc:
-      'Protótipo de gerador de mensagens de pós-venda criado durante um estágio e usado pela equipe de atendimento de uma corretora.',
+      'Gerador de mensagens de pós-venda que criei no estágio e que a equipe de atendimento usava no dia a dia.',
     fullDesc:
-      'Criei o Closr durante um estágio de pouco mais de três meses numa corretora de seguros. As mensagens de pós-venda eram montadas à mão, com erros de dados e sem padrão entre atendentes. O protótipo virou ferramenta do dia a dia da equipe e ficou com a empresa ao fim do estágio.',
+      'Fiz um estágio de pouco mais de três meses numa corretora de seguros e vi de perto o atendimento montando cada mensagem de pós-venda na mão: copia o nome, cola a apólice, ajusta o texto. Saía erro de dado e cada atendente escrevia de um jeito. O Closr começou como um protótipo pra resolver isso, virou ferramenta do dia a dia da equipe e ficou com a empresa quando o estágio acabou.',
     highlights: [
       {
-        title: 'Templates com campos dinâmicos',
-        text: 'Gestores criam os modelos uma vez; atendentes preenchem um formulário e copiam a mensagem pronta para o WhatsApp.',
+        title: 'Preenche e copia',
+        text: 'O gestor cria o modelo da mensagem uma vez. Depois o atendente só preenche um formulário e copia o texto pronto pro WhatsApp.',
       },
       {
-        title: 'Um padrão para a equipe',
-        text: 'Três níveis de acesso (master, gestor e atendente) e convite por link para entrar na equipe.',
+        title: 'Todo mundo no mesmo padrão',
+        text: 'Cada pessoa vê só o que precisa (master, gestor ou atendente), e pra entrar na equipe basta um link de convite.',
       },
     ],
     role: 'Full-stack (estágio)',

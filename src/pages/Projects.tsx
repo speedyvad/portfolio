@@ -62,7 +62,7 @@ function FeatureCard({ project }: { project: Project }) {
             {project.problem ?? project.shortDesc}
           </p>
           <Metrics project={project} />
-          <span className="pj-cta label-ui">Ver o case</span>
+          <span className="pj-cta label-ui">Ver como foi</span>
         </div>
       </Link>
     </motion.article>
@@ -81,7 +81,7 @@ function GridCard({ project, index }: { project: Project; index: number }) {
           </h2>
           <p style={{ color: 'var(--sea-soft)' }}>{project.problem ?? project.shortDesc}</p>
           <Metrics project={project} max={2} />
-          <span className="pj-cta label-ui">Ver o case</span>
+          <span className="pj-cta label-ui">Ver como foi</span>
         </div>
       </Link>
     </motion.article>
@@ -167,8 +167,8 @@ export default function Projects() {
               transition={{ duration: 0.7, ease, delay: 0.1 }}
               style={{ color: 'var(--sea-soft)' }}
             >
-              Cada projeto começou com um problema de negócio. Aqui está como cada um foi resolvido,
-              do primeiro esboço até o site no ar.
+              Todo projeto aqui começou com alguém me contando um problema. Esses são os que eu mais gosto
+              de mostrar, e o que eu fiz em cada um.
             </motion.p>
           </div>
         </section>
@@ -190,8 +190,8 @@ export default function Projects() {
               <div className="pj-section-head">
                 <h2 className="fs-h2-section">Laboratório</h2>
                 <p className="measure" style={{ color: 'var(--sea-soft)' }}>
-                  Protótipos e ferramentas criados para resolver um problema de perto, fora do formato de
-                  site para cliente.
+                  Coisas que eu construí pra resolver um problema que vi de perto, fora do formato de site
+                  pra cliente.
                 </p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
@@ -209,7 +209,7 @@ export default function Projects() {
               <div className="pj-section-head">
                 <h2 className="fs-h3">Estudos da faculdade</h2>
                 <p className="fs-small" style={{ color: 'var(--sea-soft)' }}>
-                  Ciência da Computação, Unifor.
+                  Feitos durante Ciência da Computação, na Unifor.
                 </p>
               </div>
               <ul className="pj-study-list">

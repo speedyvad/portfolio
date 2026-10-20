@@ -23,12 +23,10 @@ export interface Service {
   faq: ServiceFaq[]
   /** Case usado como prova na página do serviço. */
   caseSlug: string | null
-  forWho: string
-  value: string
-  /** Prova social curta, com link discreto para o case correspondente. */
-  proof?: string
-  /** Slug do projeto em /projetos que comprova a frase acima. */
-  proofCaseSlug?: string
+  /** Parágrafo de abertura da página do serviço, em tom de conversa. */
+  intro: string
+  /** Frase que liga o case ao serviço, na seção de prova. */
+  proofNote?: string
   deliverables: string[]
   /** null exibe "sob consulta" */
   priceFrom: number | null
@@ -41,32 +39,34 @@ export const services: Service[] = [
     slug: 'landing-page',
     name: 'Landing page',
     door: 'Quero vender um produto ou serviço',
-    title: 'Você tem o que vender. Falta uma página que venda por você.',
+    title: 'Você tem o que vender. Só falta um lugar que mostre isso direito.',
+    intro:
+      'Sabe quando alguém pergunta "como funciona?" e você manda áudio, print, link do destaque… e a pessoa some? Uma landing page resolve isso: uma página só, direta, que explica o que você vende e leva a pessoa até o seu WhatsApp já sabendo o que quer.',
     heroImage: '/images/servicos/landing-page.webp',
-    heroCard: { label: 'Nova mensagem', text: 'Oi! Vi a página. Ainda tem vaga para essa semana?' },
+    heroCard: { label: 'Nova mensagem', text: 'Oi! Vi a página. Ainda tem vaga essa semana?' },
     painLines: [
-      'Seu link na bio leva para um perfil cheio de posts antigos.',
-      'Quem chega não entende rápido o que você oferece nem quanto custa.',
-      'E vai embora sem mandar mensagem.',
+      'Você posta, alguém se interessa e clica no link da bio.',
+      'Cai num perfil cheio de post antigo, sem preço, sem explicação.',
+      'E fecha o app antes de te mandar um "oi".',
     ],
     beforeAfter: [
-      { before: 'Explicar tudo de novo para cada pessoa no direct', after: 'Uma página que responde as dúvidas antes da conversa' },
-      { before: 'Divulgação que leva para lugar nenhum', after: 'Um endereço próprio para anúncios, bio e QR code' },
-      { before: 'Cliente que desiste no meio do caminho', after: 'Um botão que leva direto para o seu WhatsApp' },
+      { before: 'Explicar tudo de novo pra cada pessoa no direct', after: 'A página tira as dúvidas antes mesmo da conversa começar' },
+      { before: 'Anúncio levando pra um perfil bagunçado', after: 'Um endereço seu, pronto pra anúncio, bio e QR code' },
+      { before: 'Gente interessada que desiste no meio do caminho', after: 'Um botão que leva direto pro seu WhatsApp' },
     ],
     faq: [
-      { q: 'Posso usar a página em anúncios?', a: 'Sim. Ela é feita para receber tráfego de anúncios, da bio e de QR codes.' },
-      { q: 'Consigo mudar a oferta depois?', a: 'Sim. Ajustes de texto e preço entram na manutenção mensal.' },
-      { q: 'Preciso de domínio?', a: 'Eu cuido do registro. O domínio .com.br custa em torno de R$ 40 por ano, no seu nome.' },
+      { q: 'Dá pra usar em anúncio?', a: 'Dá, e é pra isso mesmo. Ela funciona bem com anúncio, link da bio e QR code impresso.' },
+      { q: 'E se eu mudar a oferta depois?', a: 'Sem problema. Trocar texto, preço ou foto entra na manutenção mensal, é só me chamar.' },
+      { q: 'Preciso ter um domínio?', a: 'Não precisa se preocupar com isso. Eu registro pra você, no seu nome. Um .com.br sai por volta de R$ 40 por ano.' },
     ],
     caseSlug: 'imersao-coreia',
-    forWho: 'Para quem quer vender um produto, serviço ou campanha específica.',
-    value: 'Uma página única, focada em levar o visitante até o seu WhatsApp.',
+    proofNote:
+      'O Imersão Coreia precisava lotar uma aula gratuita. Fiz uma página que explicava a noite em poucos segundos e levava direto pra inscrição. Mais de 1.500 pessoas se inscreveram.',
     deliverables: [
-      'Página responsiva',
-      'Botão direto para o WhatsApp',
-      'SEO básico',
-      'Publicação e domínio configurados',
+      'Página feita primeiro pro celular',
+      'Botão direto pro seu WhatsApp',
+      'Configuração básica pro Google',
+      'Domínio e publicação por minha conta',
     ],
     priceFrom: 800,
     deadline: '7 a 10 dias úteis',
@@ -76,34 +76,34 @@ export const services: Service[] = [
     slug: 'pagina-de-curso-ou-evento',
     name: 'Página de curso ou evento',
     door: 'Quero vender um curso ou evento',
-    title: 'Seu curso merece mais do que um link na bio.',
+    title: 'Seu curso merece mais do que um link perdido na bio.',
+    intro:
+      'Quem organiza curso ou evento conhece a rotina: a mesma pergunta cinquenta vezes, inscrição chegando por todo lado, planilha que ninguém atualiza. Eu faço uma página que conta tudo de uma vez (o que é, quando, quanto, quem ensina) e junta as inscrições num lugar só.',
     heroImage: '/images/servicos/curso-evento.webp',
     heroCard: { label: 'Nova inscrição', text: 'Turma de sábado · 12 vagas restantes' },
     painLines: [
-      'As inscrições chegam espalhadas entre direct, WhatsApp e planilha.',
-      'Cada pessoa pergunta a mesma coisa: horário, valor, onde é.',
-      'E o evento enche menos do que poderia.',
+      'Uma inscrição chega no direct, outra no WhatsApp, outra num formulário.',
+      '"Que horas começa?" "É presencial?" "Quanto custa?" De novo.',
+      'E na semana do evento você ainda não sabe quantas pessoas vão.',
     ],
     beforeAfter: [
-      { before: 'Inscrições espalhadas em vários lugares', after: 'Todas as inscrições organizadas num só lugar' },
-      { before: 'Responder as mesmas perguntas o dia inteiro', after: 'Programação, valores e local claros na página' },
-      { before: 'Divulgação que esfria depois do primeiro post', after: 'Contagem regressiva e link fácil de compartilhar' },
+      { before: 'Inscrição espalhada em três lugares diferentes', after: 'Todas as inscrições juntas, organizadas pra você acompanhar' },
+      { before: 'Responder as mesmas perguntas o dia inteiro', after: 'Programação, valor e local claros logo de cara' },
+      { before: 'Divulgação que esfria depois do primeiro post', after: 'Contagem regressiva e um link fácil de mandar nos grupos' },
     ],
     faq: [
-      { q: 'Dá para receber as inscrições numa planilha?', a: 'Sim. As respostas chegam organizadas para você acompanhar.' },
-      { q: 'Funciona para evento online e presencial?', a: 'Funciona para os dois, com as informações de cada formato.' },
-      { q: 'Posso reaproveitar a página na próxima turma?', a: 'Sim. Atualizar datas e programação é rápido.' },
+      { q: 'As inscrições podem cair numa planilha?', a: 'Podem. Você acompanha tudo organizado, sem copiar nada à mão.' },
+      { q: 'Serve pra evento online e presencial?', a: 'Serve pros dois. A página mostra o que importa em cada formato: link, endereço, horário.' },
+      { q: 'Dá pra reaproveitar na próxima turma?', a: 'Dá sim. Troco datas e programação e a página fica pronta de novo.' },
     ],
     caseSlug: 'imersao-coreia',
-    forWho: 'Para professores, palestrantes, igrejas e organizadores.',
-    value: 'Explica a programação, apresenta quem ensina e organiza as inscrições num só lugar.',
-    proof: 'A página da Imersão Coreia reuniu mais de 1.500 inscritos para uma aula de nicho.',
-    proofCaseSlug: 'imersao-coreia',
+    proofNote:
+      'Foi exatamente o caso do Imersão Coreia: uma aula inaugural ao vivo, com participação direto da Coreia. A página juntou mais de 1.500 inscrições.',
     deliverables: [
-      'Programação e palestrantes',
+      'Programação e quem vai ensinar',
       'Inscrição integrada',
       'Contagem regressiva',
-      'Compartilhamento otimizado',
+      'Prévia bonita quando o link é compartilhado',
     ],
     priceFrom: 1000,
     deadline: '10 a 15 dias úteis',
@@ -113,32 +113,34 @@ export const services: Service[] = [
     slug: 'site-institucional',
     name: 'Site institucional',
     door: 'Quero ser encontrado no Google',
-    title: 'Quem procura sua empresa no Google precisa te encontrar.',
+    title: 'Quando alguém pesquisar o que você faz, é você que tem que aparecer.',
+    intro:
+      'Antes de comprar, quase todo mundo dá uma olhada no Google. Se a sua empresa não aparece, ou aparece com um site de 2015, a pessoa segue pro próximo resultado. Eu faço um site que passa a mesma confiança que você passa pessoalmente, e que deixa fácil chegar até você.',
     heroImage: '/images/servicos/site-institucional.webp',
     heroCard: { label: 'Google', text: 'Sua Empresa · ★ 4,9 · Aberto agora' },
     painLines: [
-      'Seu cliente pesquisa antes de comprar.',
-      'Se não encontra a sua empresa, encontra o concorrente.',
-      'E se encontra um site antigo, desconfia.',
+      'Seu cliente pesquisa antes de decidir. Todo mundo faz isso.',
+      'Se não te encontra, encontra o concorrente.',
+      'E se encontra um site velho, fica com o pé atrás.',
     ],
     beforeAfter: [
-      { before: 'Invisível nas buscas da sua região', after: 'Presente quando procuram o que você faz' },
-      { before: 'Um site que passa insegurança', after: 'Um site que passa a confiança que sua empresa já tem' },
-      { before: 'Contato difícil de achar', after: 'WhatsApp, telefone e mapa a um toque' },
+      { before: 'Ninguém te acha quando procura o seu serviço na região', after: 'Você aparece pra quem está procurando o que você faz' },
+      { before: 'Um site que não combina com o seu trabalho', after: 'Um site à altura do que você entrega' },
+      { before: 'Telefone e endereço difíceis de achar', after: 'WhatsApp, telefone e mapa a um toque' },
     ],
     faq: [
-      { q: 'Quantas páginas o site tem?', a: 'Até 6 no pacote base. Dá para ampliar no simulador de orçamento.' },
-      { q: 'Vou aparecer no Google?', a: 'O site sai com a base de SEO configurada. A posição nas buscas também depende de conteúdo e tempo.' },
-      { q: 'Vocês escrevem os textos?', a: 'Organizamos os textos com você. Se precisar de ajuda maior, isso entra como extra.' },
+      { q: 'Quantas páginas vêm?', a: 'Até 6 no pacote base, o que cobre a maioria das empresas. Se precisar de mais, dá pra ver no simulador.' },
+      { q: 'Vou aparecer no Google?', a: 'O site já sai preparado pra isso: rápido, bem estruturado e com as informações certas. Mas vou ser sincero: subir nas buscas também leva tempo e depende de conteúdo.' },
+      { q: 'Preciso escrever os textos?', a: 'Não sozinho. A gente conversa, eu organizo e escrevo com você. Se precisar de um trabalho maior de texto, eu te aviso antes.' },
     ],
     caseSlug: 'harmon-visagismo',
-    forWho: 'Para empresas que precisam passar credibilidade e ser encontradas.',
-    value: 'Várias páginas apresentando a empresa, os serviços e as formas de contato.',
+    proofNote:
+      'A Harmon é uma barbearia na Aldeota com nota 4,6 no Google, mas sem site: quem pesquisava caía no Instagram. Desenhei um site com a cara do salão, pensado pra aparecer nas buscas e levar direto pro agendamento.',
     deliverables: [
       'Até 6 páginas',
-      'Textos organizados com você',
-      'SEO para buscas locais',
-      'Integração com Google Maps e WhatsApp',
+      'Textos organizados junto com você',
+      'Preparado pra aparecer nas buscas da sua região',
+      'Google Maps e WhatsApp integrados',
     ],
     priceFrom: 1800,
     deadline: '15 a 25 dias úteis',
@@ -149,31 +151,33 @@ export const services: Service[] = [
     name: 'Sistema sob medida',
     door: 'Minha equipe perde tempo com tarefas repetidas',
     title: 'Sua equipe não deveria passar a tarde copiando e colando.',
+    intro:
+      'Toda empresa tem aquela tarefa que todo mundo faz igual, todo dia, na mão: montar mensagem, preencher planilha, conferir dado. Se ela segue regras, dá pra virar um sistema simples, feito em cima da rotina de vocês, que resolve em segundos o que hoje leva horas.',
     heroImage: '/images/servicos/sistema-sob-medida.webp',
     heroCard: { label: 'Painel', text: 'Mensagem gerada em 3 s · Copiar' },
     painLines: [
-      'Tarefas repetidas tomam horas que deveriam ir para o cliente.',
+      'Horas por semana indo embora em tarefa repetida.',
       'Cada pessoa faz de um jeito, e os erros aparecem.',
-      'As planilhas se multiplicam e ninguém sabe qual é a certa.',
+      'Três planilhas com o mesmo nome. Ninguém sabe qual é a certa.',
     ],
     beforeAfter: [
-      { before: 'Mensagens montadas à mão, uma por uma', after: 'Mensagens geradas em segundos, sem erro de dado' },
-      { before: 'Cada pessoa trabalhando de um jeito', after: 'Um padrão para a equipe inteira' },
-      { before: 'Dados espalhados em planilhas', after: 'Tudo num painel com login e níveis de acesso' },
+      { before: 'Mensagem montada à mão, uma por uma', after: 'Mensagem pronta em segundos, sem erro de nome ou de dado' },
+      { before: 'Cada pessoa trabalhando de um jeito', after: 'Um padrão que a equipe inteira segue sem pensar' },
+      { before: 'Informação espalhada em planilhas', after: 'Tudo num painel só, com login e quem pode ver o quê' },
     ],
     faq: [
-      { q: 'Como sei se o meu processo dá para automatizar?', a: 'Se é repetido e segue regras, quase sempre dá. Começamos com uma conversa sobre como ele funciona hoje.' },
-      { q: 'Quanto custa?', a: 'Depende do processo. O valor vem por escrito na proposta, depois do levantamento.' },
-      { q: 'Minha equipe vai conseguir usar?', a: 'O sistema é desenhado em cima da rotina de vocês, e a entrega inclui suporte inicial.' },
+      { q: 'Como sei se o meu processo dá pra automatizar?', a: 'Se é repetido e segue regras, quase sempre dá. A gente começa com uma conversa: você me mostra como faz hoje e eu te digo o que dá pra simplificar.' },
+      { q: 'Quanto custa?', a: 'Depende muito do processo. Depois da conversa eu te mando uma proposta por escrito, com valor e prazo fechados.' },
+      { q: 'Minha equipe vai conseguir usar?', a: 'Vai, porque o sistema é desenhado em cima do que vocês já fazem. E eu acompanho o começo de perto.' },
     ],
     caseSlug: 'closr',
-    forWho: 'Para equipes que dependem de planilhas e tarefas repetitivas.',
-    value: 'Uma ferramenta feita para o seu processo, com login, painel e dados organizados.',
+    proofNote:
+      'Num estágio numa corretora de seguros, vi a equipe montando mensagem de pós-venda na mão o dia todo. Criei o Closr: o atendente preenche um formulário e a mensagem sai pronta pra copiar.',
     deliverables: [
-      'Levantamento do processo',
+      'Conversa pra entender o processo',
       'Painel com login',
-      'Níveis de acesso',
-      'Publicação e suporte inicial',
+      'Níveis de acesso pra cada pessoa',
+      'Publicação e acompanhamento no começo',
     ],
     priceFrom: null,
     deadline: 'Definido na proposta',
@@ -189,7 +193,7 @@ export function getService(slug: string | undefined) {
 }
 
 export const servicesNote =
-  'Manutenção mensal disponível para todos os projetos: hospedagem, ajustes e suporte.'
+  'Depois que o site vai pro ar, eu continuo por perto: a manutenção mensal cobre hospedagem, ajustes e suporte.'
 
 export function formatPrice(priceFrom: number | null) {
   if (priceFrom === null) return 'Sob consulta'

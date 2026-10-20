@@ -34,6 +34,8 @@
 | 19/10/2026 | Case conta história: desafio → o que eu fiz → resultado → telas → "Por trás do código" (recolhível) | O case antigo falava de CORS e JWT para dono de negócio. A parte técnica continua lá para recrutador |
 | 19/10/2026 | Prints de projeto em WebP (PNGs removidos, foto de perfil também) | `/` caiu de LCP 12 s para ~4,6 s |
 | 19/10/2026 | Wordmark gigante do rodapé desenhado por `::before` (`data-text`) | É decorativo; como texto real falhava no contraste do Lighthouse |
+| 19/10/2026 | **Tom de conversa** em serviços e projetos (primeira pessoa, "pra", situações reais) — regras em docs/01 | Pedido do Vinícius: os textos estavam genéricos e formais demais |
+| 19/10/2026 | Scroll zerado via `resetScroll()` (Lenis `immediate`) na troca de rota e de novo no `onExitComplete` da transição; `scrollRestoration = manual` | Páginas abriam no meio/fim quando o clique acontecia com o Lenis ainda deslizando |
 | 19/10/2026 | Nome no hero do `/sobre`: texto final invisível reserva o espaço, embaralhado por cima | O efeito de embaralhar gerava CLS de 0,25 |
 
 ## Pendências com o Vinícius
@@ -43,7 +45,7 @@
 - [ ] **Estágio na corretora** (Closr): incluir em "Experiência" no `/sobre`? Precisa de cargo, empresa (pode citar?) e datas.
 - [ ] Depoimentos reais (mesmo uma frase, por WhatsApp) dos responsáveis pelo Imersão Coreia e pela Enquete.
 - [ ] Fotos `about/vinicius-conversando.jpg` e `about/vinicius-trabalhando.jpg` (hoje usa a foto de perfil).
-- [ ] Revisar os textos novos dos cases (`highlights`, `outcome`) e os números do `/sobre` (3.700+ = 1.500 inscritos + 2.218 respostas).
+- [ ] Revisar a copy nova (tom de conversa) dos serviços e cases, e os textos (`highlights`, `outcome`) e os números do `/sobre` (3.700+ = 1.500 inscritos + 2.218 respostas).
 
 ## Próximos passos
 
@@ -65,4 +67,6 @@
   - Etapa C: `ProofBlocks` (números reais com NumberFlow), `CaseDoors` (Embla), FAQ em Radix Accordion, CTA final com foto de Fortaleza, wordmark gigante no rodapé, GitHub no rodapé.
   - Etapa D: `/servicos/:slug` (`src/pages/Service.tsx`) com hero + cartão, dor, antes/depois, incluso, calculadora, prova, como funciona, FAQ do serviço, outros serviços.
   - `/sobre`: papéis concretos, números reais, faixa "Projetos para olhar de perto", CLS corrigido.
+  - Correção: páginas novas sempre abrem no topo (ver Decisões).
+  - Copy reescrita em tom de conversa: `services.ts` (novos campos `intro` e `proofNote`, saem `forWho`/`value`/`proof`), textos dos projetos e títulos de /projetos, case e serviço.
   - Galeria do hero sem imagem quebrada (só projetos com print). `robots.txt` criado (SEO 92 → 100).
