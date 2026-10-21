@@ -28,8 +28,6 @@ export interface Service {
   /** Frase que liga o case ao serviço, na seção de prova. */
   proofNote?: string
   deliverables: string[]
-  /** null exibe "sob consulta" */
-  priceFrom: number | null
   deadline: string
   message: string
 }
@@ -68,7 +66,6 @@ export const services: Service[] = [
       'Configuração básica pro Google',
       'Domínio e publicação por minha conta',
     ],
-    priceFrom: 800,
     deadline: '7 a 10 dias úteis',
     message: 'Olá! Vim pelo site da Dourado Studio e quero uma landing page.',
   },
@@ -105,7 +102,6 @@ export const services: Service[] = [
       'Contagem regressiva',
       'Prévia bonita quando o link é compartilhado',
     ],
-    priceFrom: 1000,
     deadline: '10 a 15 dias úteis',
     message: 'Olá! Vim pelo site da Dourado Studio e quero uma página para meu curso ou evento.',
   },
@@ -129,7 +125,7 @@ export const services: Service[] = [
       { before: 'Telefone e endereço difíceis de achar', after: 'WhatsApp, telefone e mapa a um toque' },
     ],
     faq: [
-      { q: 'Quantas páginas vêm?', a: 'Até 6 no pacote base, o que cobre a maioria das empresas. Se precisar de mais, dá pra ver no simulador.' },
+      { q: 'Quantas páginas vêm?', a: 'Até 6 no pacote base, o que cobre a maioria das empresas. Se precisar de mais, é só marcar quando for montar seu projeto.' },
       { q: 'Vou aparecer no Google?', a: 'O site já sai preparado pra isso: rápido, bem estruturado e com as informações certas. Mas vou ser sincero: subir nas buscas também leva tempo e depende de conteúdo.' },
       { q: 'Preciso escrever os textos?', a: 'Não sozinho. A gente conversa, eu organizo e escrevo com você. Se precisar de um trabalho maior de texto, eu te aviso antes.' },
     ],
@@ -142,7 +138,6 @@ export const services: Service[] = [
       'Preparado pra aparecer nas buscas da sua região',
       'Google Maps e WhatsApp integrados',
     ],
-    priceFrom: 1800,
     deadline: '15 a 25 dias úteis',
     message: 'Olá! Vim pelo site da Dourado Studio e quero um site institucional.',
   },
@@ -179,7 +174,6 @@ export const services: Service[] = [
       'Níveis de acesso pra cada pessoa',
       'Publicação e acompanhamento no começo',
     ],
-    priceFrom: null,
     deadline: 'Definido na proposta',
     message: 'Olá! Vim pelo site da Dourado Studio e quero conversar sobre um sistema sob medida.',
   },
@@ -194,8 +188,3 @@ export function getService(slug: string | undefined) {
 
 export const servicesNote =
   'Depois que o site vai pro ar, eu continuo por perto: a manutenção mensal cobre hospedagem, ajustes e suporte.'
-
-export function formatPrice(priceFrom: number | null) {
-  if (priceFrom === null) return 'Sob consulta'
-  return 'A partir de R$ ' + priceFrom.toLocaleString('pt-BR')
-}

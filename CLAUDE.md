@@ -2,7 +2,7 @@
 
 Site da **Dourado Studio**, o estúdio de Vinícius Dourado (desenvolvedor front-end, Fortaleza, CE).
 Dois públicos, nesta ordem:
-1. **Donos de negócio** (não técnicos, quase sempre no celular) → a home conduz até o WhatsApp ou o simulador de orçamento.
+1. **Donos de negócio** (não técnicos, quase sempre no celular) → a home conduz até o WhatsApp ou o "Monte seu projeto" (`/orcamento`, sem preço).
 2. **Recrutadores** → `/sobre` (trajetória, stack, experiência) e o bloco "Por trás do código" de cada case.
 
 ## Ordem de leitura (obrigatória antes de qualquer código)

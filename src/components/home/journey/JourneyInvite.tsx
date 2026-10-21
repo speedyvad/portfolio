@@ -44,7 +44,7 @@ export default function JourneyInvite() {
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
             <Link className="btn btn-primary" to="/orcamento">
-              Simular orçamento
+              Monte seu projeto
             </Link>
             <a className="btn btn-secondary" href={whatsappLink(MESSAGE)} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon size={18} color="var(--sea)" />

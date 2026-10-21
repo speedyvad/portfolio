@@ -17,10 +17,10 @@ src/
   config/contact.ts     WhatsApp, e-mail, redes, SITE_URL — fonte única de contato
   data/                 conteúdo: projects, services, faq, stats, trust, pricing, testimonials, galleryImages
   lib/motion.ts         GSAP + Lenis num único lugar
-  hooks/                useSEO, useLenis, useAnimatedNumber, ...
+  hooks/                useSEO, useLenis, ...
   components/           compartilhados (DeviceMockup, Footer, Navbar, Wordmark, ScrollReveal...)
   components/home/      seções da home; journey/ = capítulos 1–4; gallery/ = galeria do hero
-  components/orcamento/ peças do simulador
+  components/orcamento/ peças do "Monte seu projeto"
   pages/                uma por rota
 public/images/
   cases/<slug>-desktop.png|webp, <slug>-mobile.*, <slug>-<n>.*   prints dos projetos

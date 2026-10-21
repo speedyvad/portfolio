@@ -308,13 +308,13 @@
   }
 
   /* Estimativa ao vivo do simulador de orçamento */
-  .estimate-sidebar { display: none; }
-  .estimate-mobilebar { display: none; }
+  .summary-sidebar { display: none; }
+  .summary-mobilebar { display: none; }
   @media (min-width: 860px) {
-    .estimate-sidebar { display: block; position: sticky; top: 100px; align-self: start; }
+    .summary-sidebar { display: block; position: sticky; top: 100px; align-self: start; }
   }
   @media (max-width: 859px) {
-    .estimate-mobilebar {
+    .summary-mobilebar {
       display: flex;
       align-items: center;
       justify-content: space-between;

@@ -8,6 +8,7 @@
 - **Rotas no ar no código:** `/`, `/servicos/:slug` (4 serviços), `/orcamento`, `/projetos`, `/projetos/:slug`, `/sobre`. `/raio-x` pausada.
 - **Projetos:** Harmon Visagismo (conceito, destaque), Imersão Coreia e Enquete Shalom (clientes), Closr (laboratório), Lectio Divina, CalTracker, StudyHub (faculdade).
 - **Depoimentos:** nenhum. A seção fica oculta até existir um real.
+- **Preços:** nenhum valor em R$ no site desde 21/10/2026. `/orcamento` virou "Monte seu projeto" (mini-briefing → WhatsApp, com prazo estimado). Os valores continuam em `src/data/pricing.ts` (e nos testes), sem uso na interface.
 - **Lighthouse mobile (build local, 19/10/2026):**
 
   | Página | Perf. | Acess. | Boas práticas | SEO | LCP | CLS |
@@ -37,6 +38,7 @@
 | 19/10/2026 | **Tom de conversa** em serviços e projetos (primeira pessoa, "pra", situações reais) — regras em docs/01 | Pedido do Vinícius: os textos estavam genéricos e formais demais |
 | 19/10/2026 | Scroll zerado via `resetScroll()` (Lenis `immediate`) na troca de rota e de novo no `onExitComplete` da transição; `scrollRestoration = manual` | Páginas abriam no meio/fim quando o clique acontecia com o Lenis ainda deslizando |
 | 19/10/2026 | Nome no hero do `/sobre`: texto final invisível reserva o espaço, embaralhado por cima | O efeito de embaralhar gerava CLS de 0,25 |
+| 21/10/2026 | **Sem preço no site.** Sai a calculadora de perda (`LossCalculator`), o "a partir de" de serviços/portas, o valor do FAQ e a estimativa em R$ do simulador. `/orcamento` vira "Monte seu projeto" (botões renomeados em todo o site), com passo opcional "ideia" e prazo estimado | Pedido do Vinícius: facilitar a chegada do cliente ao WhatsApp. Preço na tela afasta antes da conversa, e a calculadora abria vazia ("R$ 0,00") e pedia digitação no celular |
 
 ## Pendências com o Vinícius
 
@@ -47,12 +49,15 @@
 - [ ] Fotos `about/vinicius-conversando.jpg` e `about/vinicius-trabalhando.jpg` (hoje usa a foto de perfil).
 - [ ] Revisar a copy nova (tom de conversa) dos serviços e cases, e os textos (`highlights`, `outcome`) e os números do `/sobre` (3.700+ = 1.500 inscritos + 2.218 respostas).
 
+- [ ] Site institucional: o simulador oferece "Até 4 / 5 a 6 / 7 a 10 páginas", mas o pacote em `services.ts` diz "Até 6 páginas". Alinhar as opções.
+
 ## Próximos passos
 
 1. Publicar (commit + push → Vercel) e conferir no celular de verdade.
-2. Performance: dividir o chunk principal (GSAP/Lenis/Framer fora do caminho crítico), pré-renderizar o HTML das rotas (hoje o LCP depende do JS), revisar o LCP de 7,5 s do `/sobre`.
-3. Preencher as pendências acima.
-4. `/creditos` (rota prevista na v3) se forem usadas fotos de banco com atribuição.
+2. Home (pedido de 21/10/2026): hero com carrossel cilindro 3D (prints novos, mesma proporção, recortes das melhores partes; substituir a galeria OGL) e capítulo "A dor" no estilo texto + imagens reveladas no scroll (GSAP).
+3. Performance: dividir o chunk principal (GSAP/Lenis/Framer fora do caminho crítico), pré-renderizar o HTML das rotas (hoje o LCP depende do JS), revisar o LCP de 7,5 s do `/sobre`.
+4. Preencher as pendências acima.
+5. `/creditos` (rota prevista na v3) se forem usadas fotos de banco com atribuição.
 
 ## Changelog
 
@@ -70,3 +75,7 @@
   - Correção: páginas novas sempre abrem no topo (ver Decisões).
   - Copy reescrita em tom de conversa: `services.ts` (novos campos `intro` e `proofNote`, saem `forWho`/`value`/`proof`), textos dos projetos e títulos de /projetos, case e serviço.
   - Galeria do hero sem imagem quebrada (só projetos com print). `robots.txt` criado (SEO 92 → 100).
+- **21/10/2026:**
+  - Preços removidos do site: `LossCalculator` apagado (home e serviços), `priceFrom`/`formatPrice` fora de `services.ts`, portas e "outros serviços" mostram o prazo, FAQ "Quanto custa" reescrito.
+  - `/orcamento` → "Monte seu projeto": `EstimateBar` e `useAnimatedNumber` saem, entra `ProjectSummary` (resumo + prazo estimado). Novo passo opcional "ideia", tela final com resumo e mensagem do WhatsApp montadas da mesma lista.
+  - "Simular orçamento" → "Monte seu projeto" em menu, hero, serviços, case e /raio-x.

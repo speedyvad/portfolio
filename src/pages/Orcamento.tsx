@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import ProgressBar from '../components/orcamento/ProgressBar'
 import OptionCard from '../components/orcamento/OptionCard'
-import EstimateBar from '../components/orcamento/EstimateBar'
+import ProjectSummary, { type SummaryItem } from '../components/orcamento/ProjectSummary'
 import Footer from '../components/Footer'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { useSEO } from '../hooks/useSEO'
@@ -11,10 +11,7 @@ import { services } from '../data/services'
 import { whatsappLink } from '../config/contact'
 import {
   EXTRAS,
-  MAINTENANCE_MONTHLY,
-  calculateEstimate,
   estimateDeadlineLabel,
-  formatRange,
   type ContentStatus,
   type InstitutionalSize,
   type PricedServiceType,
@@ -39,6 +36,7 @@ type StepId =
   | 'visual'
   | 'urgency'
   | 'maintenance'
+  | 'idea'
   | 'contact'
   | 'result'
 
@@ -55,6 +53,7 @@ interface Answers {
   maintenance?: 'sim' | 'nao'
   customDescription: string
   customPeople?: string
+  idea: string
   name: string
   company: string
 }
@@ -64,6 +63,7 @@ const EMPTY_ANSWERS: Answers = {
   extraIds: [],
   extraUnits: {},
   customDescription: '',
+  idea: '',
   name: '',
   company: '',
 }
@@ -149,6 +149,8 @@ function getNextStep(current: StepId, answers: Answers): StepId {
     case 'urgency':
       return 'maintenance'
     case 'maintenance':
+      return 'idea'
+    case 'idea':
       return 'contact'
     case 'contact':
       return 'result'
@@ -165,7 +167,7 @@ function getPathSteps(answers: Answers): StepId[] {
   const steps: StepId[] = ['type']
   if (answers.type === 'ainda-nao-sei' || answers.wasUnsure) steps.push('unsure')
   if (answers.type === 'site-institucional') steps.push('institutional-size')
-  steps.push('extras', 'content', 'visual', 'urgency', 'maintenance', 'contact', 'result')
+  steps.push('extras', 'content', 'visual', 'urgency', 'maintenance', 'idea', 'contact', 'result')
   return steps
 }
 
@@ -191,6 +193,8 @@ function isStepValid(step: StepId, answers: Answers): boolean {
       return !!answers.urgency
     case 'maintenance':
       return !!answers.maintenance
+    case 'idea':
+      return true
     case 'contact':
       return answers.name.trim().length > 0
     case 'result':
@@ -199,35 +203,66 @@ function isStepValid(step: StepId, answers: Answers): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Mensagem do WhatsApp
+// Resumo do projeto (painel lateral, tela final e mensagem do WhatsApp)
 // ---------------------------------------------------------------------------
 
-function buildWhatsAppMessage(answers: Answers, estimate: { min: number; max: number } | null): string {
-  const lines: string[] = ['Olá! Fiz uma simulação no site da Dourado Studio.', '']
+function extraLabel(id: string, units: Partial<Record<string, number>>): string | undefined {
+  const extra = EXTRAS.find((e) => e.id === id)
+  if (!extra) return undefined
+  const count = units[id] ?? 1
+  return extra.perUnit && count > 1 ? `${extra.label} (${count})` : extra.label
+}
+
+function buildSummary(answers: Answers): SummaryItem[] {
+  const items: SummaryItem[] = []
 
   if (answers.type === 'sistema-sob-medida') {
-    lines.push('Projeto: Sistema sob medida')
-    if (answers.customDescription.trim()) lines.push(`O que precisa automatizar: ${answers.customDescription.trim()}`)
-    if (answers.customPeople) lines.push(`Pessoas que vão usar: ${answers.customPeople}`)
-    lines.push('', 'Estimativa: sob consulta')
-  } else if (isPricedType(answers.type)) {
-    const sizeSuffix = answers.type === 'site-institucional' && answers.institutionalSize
-      ? ` (${SIZE_LABELS[answers.institutionalSize]})`
-      : ''
-    lines.push(`Projeto: ${serviceName(answers.type)}${sizeSuffix}`)
-
-    const extraLabels = answers.extraIds
-      .map((id) => EXTRAS.find((e) => e.id === id)?.label)
-      .filter(Boolean) as string[]
-    if (extraLabels.length > 0) lines.push(`Extras: ${extraLabels.join(', ')}`)
-
-    if (answers.content) lines.push(`Conteúdo: ${CONTENT_LABELS[answers.content]}`)
-    if (answers.visual) lines.push(`Identidade visual: ${VISUAL_LABELS[answers.visual]}`)
-    if (answers.urgency) lines.push(`Prazo: ${answers.urgency === 'urgente' ? 'com urgência' : 'normal'}`)
-    if (answers.maintenance) lines.push(`Manutenção mensal: ${answers.maintenance === 'sim' ? 'sim' : 'não'}`)
-
-    if (estimate) lines.push('', `Estimativa: ${formatRange(estimate.min, estimate.max)}`)
+    items.push({ label: 'Projeto', value: serviceName('sistema-sob-medida') })
+    if (answers.customDescription.trim()) {
+      items.push({ label: 'O que precisa automatizar', value: answers.customDescription.trim() })
+    }
+    if (answers.customPeople) items.push({ label: 'Pessoas que vão usar', value: answers.customPeople })
+    return items
   }
+
+  if (!isPricedType(answers.type)) return items
+
+  const sizeSuffix = answers.type === 'site-institucional' && answers.institutionalSize
+    ? ` (${SIZE_LABELS[answers.institutionalSize]})`
+    : ''
+  items.push({ label: 'Projeto', value: `${serviceName(answers.type)}${sizeSuffix}` })
+
+  const extras = answers.extraIds
+    .map((id) => extraLabel(id, answers.extraUnits))
+    .filter((label): label is string => !!label)
+  if (extras.length > 0) items.push({ label: 'Funcionalidades', value: extras.join(', ') })
+
+  if (answers.content) items.push({ label: 'Textos e fotos', value: CONTENT_LABELS[answers.content] })
+  if (answers.visual) items.push({ label: 'Identidade visual', value: VISUAL_LABELS[answers.visual] })
+  if (answers.urgency) items.push({ label: 'Urgência', value: answers.urgency === 'urgente' ? 'preciso com urgência' : 'prazo normal' })
+  if (answers.maintenance) items.push({ label: 'Manutenção mensal', value: answers.maintenance === 'sim' ? 'quero' : 'não preciso' })
+  if (answers.idea.trim()) items.push({ label: 'Sobre a ideia', value: answers.idea.trim() })
+
+  return items
+}
+
+function getDeadline(answers: Answers): string | undefined {
+  if (answers.type === 'sistema-sob-medida') return services.find((s) => s.slug === answers.type)?.deadline
+  if (!isPricedType(answers.type)) return undefined
+  const type = answers.type
+  const service = services.find((s) => s.slug === type)
+  if (!service) return undefined
+  const extraCount = answers.extraIds.filter((id) => !EXTRAS.find((e) => e.id === id)?.includedIn?.includes(type)).length
+  return estimateDeadlineLabel(service.deadline, extraCount, answers.urgency ?? 'normal')
+}
+
+function buildWhatsAppMessage(answers: Answers): string {
+  const lines: string[] = ['Olá! Montei meu projeto no site da Dourado Studio.', '']
+
+  for (const item of buildSummary(answers)) lines.push(`${item.label}: ${item.value}`)
+
+  const deadline = getDeadline(answers)
+  if (deadline) lines.push('', `Prazo estimado: ${deadline}`)
 
   lines.push('', `Meu nome é ${answers.name.trim()}${answers.company.trim() ? `, da ${answers.company.trim()}` : ''}.`)
 
@@ -274,7 +309,7 @@ function RecommendationBanner({ reason, typeLabel }: { reason: string; typeLabel
       }}
     >
       <p className="fs-small" style={{ color: 'var(--sea-soft)' }}>
-        Como você quer <strong style={{ color: 'var(--sea)' }}>{reason}</strong>, recomendamos:{' '}
+        Como você quer <strong style={{ color: 'var(--sea)' }}>{reason}</strong>, eu recomendo:{' '}
         <strong style={{ color: 'var(--gold-deep)' }}>{typeLabel}</strong>.
       </p>
     </div>
@@ -304,119 +339,78 @@ const inputStyle: React.CSSProperties = {
 // Resultado
 // ---------------------------------------------------------------------------
 
-function ResultScreen({
-  answers,
-  estimate,
-  onRestart,
-}: {
-  answers: Answers
-  estimate: { min: number; max: number; extrasBreakdown: { id: string; label: string; min: number; max: number; included: boolean }[] } | null
-  onRestart: () => void
-}) {
-  const message = buildWhatsAppMessage(answers, estimate)
-  const isCustom = answers.type === 'sistema-sob-medida'
-
+function ResultScreen({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
+  const message = buildWhatsAppMessage(answers)
+  const summary = buildSummary(answers)
+  const deadline = getDeadline(answers)
   const service = isPricedType(answers.type) ? services.find((s) => s.slug === answers.type) : undefined
-  const extraCount = estimate?.extrasBreakdown.filter((e) => !e.included).length ?? 0
-  const deadline = service && answers.urgency ? estimateDeadlineLabel(service.deadline, extraCount, answers.urgency) : undefined
+  const firstName = answers.name.trim().split(/\s+/)[0]
 
   return (
     <div className="container-x" style={{ paddingBlock: '4rem', maxWidth: '46rem' }}>
       <p className="fs-small" style={{ color: 'var(--gold-deep)', fontWeight: 600, marginBottom: '0.75rem' }}>
-        Resultado da simulação
+        Seu projeto
+      </p>
+      <h1 className="fs-h2-section" style={{ marginBottom: '1rem', maxWidth: '20ch' }}>
+        Pronto, {firstName}. Agora é só me mandar.
+      </h1>
+      <p className="measure" style={{ color: 'var(--sea-soft)', marginBottom: '2.25rem' }}>
+        Esse resumo vai inteiro pro meu WhatsApp. Eu leio, tiro as dúvidas com você e te mando uma proposta
+        por escrito, com valor e prazo fechados.
       </p>
 
-      {isCustom ? (
-        <h1 className="fs-h2-section" style={{ marginBottom: '1.5rem' }}>
-          Sob consulta
-        </h1>
-      ) : (
-        <h1 className="fs-h2-section" style={{ marginBottom: '1.5rem' }}>
-          {estimate ? formatRange(estimate.min, estimate.max) : '—'}
-        </h1>
-      )}
+      <dl className="orc-summary">
+        {summary.map((item) => (
+          <div key={item.label}>
+            <dt className="fs-small">{item.label}</dt>
+            <dd>{item.value}</dd>
+          </div>
+        ))}
+        {deadline && (
+          <div>
+            <dt className="fs-small">Prazo estimado</dt>
+            <dd className="display" style={{ fontSize: '1.35rem' }}>
+              {deadline}
+            </dd>
+          </div>
+        )}
+      </dl>
 
-      {!isCustom && deadline && (
-        <p style={{ color: 'var(--sea-soft)', marginBottom: '2rem' }}>Prazo estimado: {deadline}</p>
-      )}
-
-      {isCustom ? (
-        <div style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {answers.customDescription && (
-            <p style={{ color: 'var(--sea-soft)' }}>
-              <strong style={{ color: 'var(--sea)' }}>O que você quer automatizar: </strong>
-              {answers.customDescription}
-            </p>
-          )}
-          {answers.customPeople && (
-            <p style={{ color: 'var(--sea-soft)' }}>
-              <strong style={{ color: 'var(--sea)' }}>Pessoas que vão usar: </strong>
-              {answers.customPeople}
-            </p>
-          )}
+      {service && service.deliverables.length > 0 && (
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h2 className="fs-small" style={{ fontStretch: '100%', letterSpacing: 0, marginBottom: '0.75rem' }}>
+            O que já vem incluso
+          </h2>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            {service.deliverables.map((d) => (
+              <li key={d} style={{ display: 'flex', gap: '0.6rem', color: 'var(--sea-soft)' }}>
+                <span aria-hidden="true" style={{ color: 'var(--gold-deep)' }}>
+                  ✓
+                </span>
+                {d}
+              </li>
+            ))}
+          </ul>
         </div>
-      ) : (
-        <>
-          {service && service.deliverables.length > 0 && (
-            <div style={{ marginBottom: '1.75rem' }}>
-              <h2 className="fs-small" style={{ fontStretch: '100%', letterSpacing: 0, marginBottom: '0.75rem' }}>
-                O que está incluso
-              </h2>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                {service.deliverables.map((d) => (
-                  <li key={d} style={{ display: 'flex', gap: '0.6rem', color: 'var(--sea-soft)' }}>
-                    <span aria-hidden="true" style={{ color: 'var(--gold-deep)' }}>
-                      ✓
-                    </span>
-                    {d}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {estimate && estimate.extrasBreakdown.length > 0 && (
-            <div style={{ marginBottom: '1.75rem' }}>
-              <h2 className="fs-small" style={{ fontStretch: '100%', letterSpacing: 0, marginBottom: '0.75rem' }}>
-                Extras escolhidos
-              </h2>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                {estimate.extrasBreakdown.map((e) => (
-                  <li
-                    key={e.id}
-                    style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', color: 'var(--sea-soft)' }}
-                  >
-                    <span>{e.label}</span>
-                    <span style={{ color: 'var(--gold-deep)', fontWeight: 600, flexShrink: 0 }}>
-                      {e.included ? 'Incluso' : formatRange(e.min, e.max)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {answers.maintenance === 'sim' && (
-            <p style={{ color: 'var(--sea-soft)', marginBottom: '1.75rem' }}>
-              Manutenção mensal (à parte): {formatRange(MAINTENANCE_MONTHLY.min, MAINTENANCE_MONTHLY.max)} por mês.
-            </p>
-          )}
-        </>
       )}
-
-      <p className="fs-small" style={{ color: 'var(--sea-soft)', marginBottom: '2.5rem' }}>
-        Esta é uma estimativa. O valor final vem por escrito na proposta, depois da nossa conversa.
-      </p>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
         <a className="btn btn-primary" href={whatsappLink(message)} target="_blank" rel="noopener noreferrer">
           <WhatsAppIcon size={20} color="var(--sea)" />
-          Enviar resumo pelo WhatsApp
+          Enviar pelo WhatsApp
         </a>
         <button type="button" className="btn btn-secondary" onClick={onRestart}>
-          Refazer simulação
+          Começar de novo
         </button>
       </div>
+
+      <style>{`
+        .orc-summary { display: flex; flex-direction: column; margin-bottom: 2.5rem; border-top: 1px solid var(--line); }
+        .orc-summary > div { display: grid; gap: 0.2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+        @media (min-width: 640px) { .orc-summary > div { grid-template-columns: 12rem 1fr; gap: 1.5rem; } }
+        .orc-summary dt { color: var(--sea-soft); }
+        .orc-summary dd { color: var(--sea); font-weight: 600; }
+      `}</style>
     </div>
   )
 }
@@ -448,8 +442,9 @@ export default function Orcamento() {
   }, [current])
 
   useSEO({
-    title: 'Simulador de orçamento de site — Dourado Studio',
-    description: 'Descubra quanto custa o site da sua empresa em menos de 2 minutos e receba a proposta pelo WhatsApp.',
+    title: 'Monte seu projeto — Dourado Studio',
+    description:
+      'Escolha o tipo de site, as funcionalidades e o prazo em menos de 2 minutos e mande o resumo pelo WhatsApp. A proposta vem por escrito.',
     path: '/orcamento',
   })
 
@@ -493,20 +488,10 @@ export default function Orcamento() {
     setAnswers((a) => ({ ...a, extraUnits: { ...a.extraUnits, [id]: Math.max(1, units) } }))
   }
 
-  const estimate = useMemo(() => {
-    if (!isPricedType(answers.type)) return null
-    return calculateEstimate({
-      type: answers.type,
-      institutionalSize: answers.institutionalSize,
-      extraIds: answers.extraIds,
-      extraUnits: answers.extraUnits,
-      content: answers.content ?? 'tenho-tudo',
-      visual: answers.visual ?? 'tenho',
-      urgency: answers.urgency ?? 'normal',
-    })
-  }, [answers])
+  const summary = useMemo(() => buildSummary(answers), [answers])
+  const deadline = useMemo(() => getDeadline(answers), [answers])
 
-  const hasEstimate = estimate !== null && current !== 'type' && current !== 'unsure'
+  const hasSummary = summary.length > 0 && current !== 'type' && current !== 'unsure'
   const showRecommendation = answers.wasUnsure && history[history.length - 2] === 'unsure'
 
   const questionSteps: StepId[] = getPathSteps(answers).filter((s) => s !== 'result')
@@ -718,7 +703,7 @@ export default function Orcamento() {
               checked={answers.urgency === 'urgente'}
               onChange={() => update('urgency', 'urgente')}
               label="Preciso com urgência"
-              badge="+25%"
+              hint="A gente combina um prazo menor na conversa."
             />
           </Question>
         )
@@ -727,7 +712,7 @@ export default function Orcamento() {
         return (
           <Question
             title="Quer manutenção mensal?"
-            subtitle={`Hospedagem, ajustes e suporte por ${formatRange(MAINTENANCE_MONTHLY.min, MAINTENANCE_MONTHLY.max)} por mês, à parte do projeto.`}
+            subtitle="Hospedagem, ajustes e suporte depois que o site vai pro ar, à parte do projeto."
           >
             <OptionCard
               type="radio"
@@ -748,9 +733,25 @@ export default function Orcamento() {
           </Question>
         )
 
+      case 'idea':
+        return (
+          <Question
+            title="Quer me contar mais da sua ideia?"
+            subtitle="Opcional. Seu negócio, o que você quer que o site resolva, um site que você acha bonito."
+          >
+            <textarea
+              value={answers.idea}
+              onChange={(e) => update('idea', e.target.value)}
+              rows={5}
+              placeholder="Ex.: tenho uma loja de roupas no Centro e quero que as pessoas vejam as peças novas e chamem no WhatsApp..."
+              style={{ ...inputStyle, resize: 'vertical', minHeight: 120 }}
+            />
+          </Question>
+        )
+
       case 'contact':
         return (
-          <Question title="Quase lá! Como podemos te chamar?">
+          <Question title="Quase lá! Como posso te chamar?">
             <div>
               {fieldLabel('Nome *')}
               <input
@@ -783,7 +784,7 @@ export default function Orcamento() {
     return (
       <>
         <main>
-          <ResultScreen answers={answers} estimate={estimate} onRestart={restart} />
+          <ResultScreen answers={answers} onRestart={restart} />
         </main>
         <Footer />
       </>
@@ -793,7 +794,7 @@ export default function Orcamento() {
   return (
     <>
       <main>
-        <div className={`container-x orcamento-content${hasEstimate ? ' has-mobilebar' : ''}`} style={{ paddingBlock: '3rem' }}>
+        <div className={`container-x orcamento-content${hasSummary ? ' has-mobilebar' : ''}`} style={{ paddingBlock: '3rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2.5rem' }}>
             {history.length > 1 && (
               <button
@@ -832,7 +833,7 @@ export default function Orcamento() {
               </AnimatePresence>
 
               <div
-                className={hasEstimate ? 'step-continue-desktop-only' : undefined}
+                className={hasSummary ? 'step-continue-desktop-only' : undefined}
                 style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}
               >
                 <button
@@ -847,8 +848,8 @@ export default function Orcamento() {
               </div>
             </div>
 
-            {hasEstimate && estimate && (
-              <EstimateBar min={estimate.min} max={estimate.max} onContinue={goNext} continueDisabled={!canContinue} />
+            {hasSummary && (
+              <ProjectSummary items={summary} deadline={deadline} onContinue={goNext} continueDisabled={!canContinue} />
             )}
           </div>
         </div>

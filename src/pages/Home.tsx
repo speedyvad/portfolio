@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import JourneyInvite from '../components/home/journey/JourneyInvite'
 import JourneyPain from '../components/home/journey/JourneyPain'
-import LossCalculator from '../components/home/journey/LossCalculator'
 import JourneyTurn from '../components/home/journey/JourneyTurn'
 import FortalezaBand from '../components/home/journey/FortalezaBand'
 import TrustBar from '../components/home/TrustBar'
@@ -43,7 +42,6 @@ export default function Home() {
         <JourneyInvite />
         <TrustBar />
         <JourneyPain />
-        <LossCalculator />
         <JourneyTurn />
         <ProofBlocks />
         <CaseShowcase />

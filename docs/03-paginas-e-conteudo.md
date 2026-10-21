@@ -7,14 +7,14 @@ Textos e números ficam em `src/data/*` — este doc descreve estrutura e inten�
 ```
 /                     Home — a jornada                         src/pages/Home.tsx
 /servicos/:slug       Página de cada serviço                   src/pages/Service.tsx      (dados: services.ts)
-/orcamento            Simulador de orçamento                   src/pages/Orcamento.tsx    (dados: pricing.ts)
+/orcamento            Monte seu projeto (sem preço)            src/pages/Orcamento.tsx    (dados: pricing.ts)
 /projetos             Lista de projetos                        src/pages/Projects.tsx     (dados: projects.ts)
 /projetos/:slug       Case                                     src/pages/ProjectDetail.tsx
 /sobre                Trajetória do Vinícius (recrutadores)    src/pages/About.tsx
 /raio-x               PAUSADO — fora da navegação
 /projects, /projects/:slug  → redirecionam para /projetos
 ```
-Navegação: Serviços, Projetos, Sobre + botão "Simular orçamento". Menu mobile em gaveta.
+Navegação: Serviços, Projetos, Sobre + botão "Monte seu projeto". Menu mobile em gaveta.
 
 ## Home — a jornada
 
@@ -23,7 +23,6 @@ Navegação: Serviços, Projetos, Sobre + botão "Simular orçamento". Menu mobi
 | 1 | Convite (hero) ★ | branco | `journey/JourneyInvite` + `gallery/*` | Galeria curva OGL no desktop; faixa Embla no mobile/reduced-motion |
 | — | Faixa de confiança | branco | `TrustBar` | dados em `trust.ts` |
 | 2 | A dor ★ | --sea | `journey/JourneyPain` | 3 frases com pin no desktop; dados de `stats.ts` com fonte |
-| 3 | Calculadora de perda ★ | --sea | `journey/LossCalculator` | só números do visitante; aviso "não é promessa" obrigatório |
 | — | A tela clareia | sea → sand | dentro de `JourneyTurn` | scrub de cor |
 | 4 | A virada | --sand | `journey/JourneyTurn` | 3 cenas foto + cartões de interface fictícios |
 | 5 | A prova | branco/sand | `ProofBlocks` + `CaseShowcase` + `Testimonials` | blocos ouro com números reais; vitrines dos cases; depoimentos só se existirem |
@@ -41,8 +40,8 @@ Navegação: Serviços, Projetos, Sobre + botão "Simular orçamento". Menu mobi
 Template único (`src/pages/Service.tsx`) alimentado por `src/data/services.ts`
 (`title`, `heroImage`, `painLines[3]`, `beforeAfter[3]`, `faq[]`, `caseSlug`).
 
-1. Hero (branco): título display + foto com cartão de interface por cima, "a partir de", prazo, botões
-   "Simular orçamento" (`/orcamento?tipo={slug}`) e WhatsApp (mensagem do serviço).
+1. Hero (branco): título display + foto com cartão de interface por cima, prazo (sem preço), botões
+   "Monte seu projeto" (`/orcamento?tipo={slug}`) e WhatsApp (mensagem do serviço).
 2. A dor (--sea): as três `painLines`.
 3. O que muda (--sand): três pares antes/depois, o "depois" em destaque.
 4. O que vem incluso (branco): `deliverables` + prazo + nota de manutenção.
@@ -51,6 +50,21 @@ Template único (`src/pages/Service.tsx`) alimentado por `src/data/services.ts`
 7. Perguntas do serviço (Radix Accordion).
 8. CTA final (compartilhado).
 SEO: "{nome do serviço} em Fortaleza — Dourado Studio".
+
+## Monte seu projeto — `/orcamento`
+
+**Nenhum valor em R$ no site** (decisão de 21/10/2026). O preço vem só na proposta por escrito.
+O visitante monta um mini-briefing e manda pelo WhatsApp.
+
+1. Perguntas, uma por tela: tipo (ou "ainda não sei"), páginas (institucional), funcionalidades,
+   textos e fotos, identidade visual, urgência, manutenção, ideia (texto livre, opcional), nome.
+   Sistema sob medida: descrição do processo, pessoas que vão usar, nome.
+2. Painel "Seu projeto até agora" (`ProjectSummary`): lateral fixa no desktop, barra no rodapé no mobile
+   com o prazo estimado e o botão Continuar.
+3. Tela final: resumo + prazo estimado + o que vem incluso + botão "Enviar pelo WhatsApp".
+   A mensagem é montada a partir do mesmo resumo.
+
+`?tipo={slug}` pula a primeira pergunta. Prazo estimado: `estimateDeadlineLabel` em `pricing.ts`.
 
 ## Projetos — `/projetos`
 

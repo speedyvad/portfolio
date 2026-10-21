@@ -4,11 +4,10 @@ import ScrollReveal from '../components/ScrollReveal'
 import DeviceMockup from '../components/DeviceMockup'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import Footer from '../components/Footer'
-import LossCalculator from '../components/home/journey/LossCalculator'
 import ProcessSteps from '../components/home/ProcessSteps'
 import FaqAccordion from '../components/home/FaqAccordion'
 import FinalCta from '../components/home/FinalCta'
-import { getService, services, servicesNote, formatPrice } from '../data/services'
+import { getService, services, servicesNote } from '../data/services'
 import { projects, clientProjects, KIND_LABEL, type Project } from '../data/projects'
 import { whatsappLink } from '../config/contact'
 import { useSEO } from '../hooks/useSEO'
@@ -42,7 +41,7 @@ export default function Service() {
 
   useSEO({
     title: service ? `${service.name} em Fortaleza — Dourado Studio` : 'Serviços — Dourado Studio',
-    description: service ? `${service.title} ${formatPrice(service.priceFrom)}, em ${service.deadline.toLowerCase()}.` : '',
+    description: service ? `${service.title} Prazo: ${service.deadline.toLowerCase()}.` : '',
     path: `/servicos/${slug ?? ''}`,
     image: service?.heroImage,
   })
@@ -70,10 +69,6 @@ export default function Service() {
 
               <dl className="sv-price">
                 <div>
-                  <dt className="fs-small">Quanto custa</dt>
-                  <dd className="text-proof">{formatPrice(service.priceFrom)}</dd>
-                </div>
-                <div>
                   <dt className="fs-small">Quanto tempo leva</dt>
                   <dd className="text-proof">{service.deadline}</dd>
                 </div>
@@ -81,7 +76,7 @@ export default function Service() {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <Link className="btn btn-primary" to={`/orcamento?tipo=${service.slug}`}>
-                  Simular orçamento
+                  Monte seu projeto
                 </Link>
                 <a className="btn btn-secondary" href={whatsappLink(service.message)} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon size={18} color="var(--sea)" />
@@ -187,10 +182,8 @@ export default function Service() {
           </div>
         </section>
 
-        {/* 5. Calculadora */}
-        <LossCalculator />
 
-        {/* 6. Prova */}
+        {/* 5. Prova */}
         {proofCases.length > 0 && (
           <section className="section-y">
             <div className="container-x">
@@ -210,10 +203,10 @@ export default function Service() {
           </section>
         )}
 
-        {/* 7. Como funciona */}
+        {/* 6. Como funciona */}
         <ProcessSteps />
 
-        {/* 8. Perguntas */}
+        {/* 7. Perguntas */}
         <FaqAccordion
           title="Dúvidas que sempre aparecem"
           items={service.faq.map((f) => ({ question: f.q, answer: f.a }))}
@@ -231,7 +224,7 @@ export default function Service() {
                   <Link to={`/servicos/${s.slug}`}>
                     <span className="sv-others-name">{s.name}</span>
                     <span className="fs-small" style={{ color: 'var(--sea-soft)' }}>
-                      {formatPrice(s.priceFrom)}
+                      {s.deadline}
                     </span>
                   </Link>
                 </li>
@@ -240,7 +233,7 @@ export default function Service() {
           </div>
         </section>
 
-        {/* 9. CTA final */}
+        {/* 8. CTA final */}
         <FinalCta />
       </main>
 

@@ -7,7 +7,7 @@ export const faq: FaqItem[] = [
   {
     question: 'Quanto custa um site?',
     answer:
-      'Landing pages a partir de R$ 800 e sites institucionais a partir de R$ 1.800. O valor final depende do número de páginas e funcionalidades e vem por escrito na proposta.',
+      'Depende do que você precisa: quantas páginas, quais funcionalidades, se já tem textos e fotos. Monte seu projeto aqui no site, me manda pelo WhatsApp e eu te devolvo uma proposta por escrito, com valor e prazo fechados.',
   },
   {
     question: 'Quanto tempo leva?',

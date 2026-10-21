@@ -26,11 +26,11 @@ export default function RaioX() {
           </h1>
           <p className="fs-lead measure" style={{ color: 'var(--sea-soft)', marginBottom: '2rem' }}>
             Em poucos segundos você vai poder descobrir se o seu site está lento no celular e o
-            que está afastando seus clientes. Enquanto isso, monte uma estimativa do seu projeto.
+            que está afastando seus clientes. Enquanto isso, monte o seu projeto.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
             <Link className="btn btn-primary" to="/orcamento">
-              Simular orçamento
+              Monte seu projeto
             </Link>
             <Link className="btn btn-secondary" to="/">
               Voltar para a home

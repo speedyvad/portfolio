@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
-import { services, doorOrder, formatPrice, type Service } from '../../data/services'
+import { services, doorOrder, type Service } from '../../data/services'
 
 const doors = doorOrder
   .map((slug) => services.find((s) => s.slug === slug))
@@ -83,7 +83,7 @@ export default function CaseDoors() {
                     <span className="door-meta">
                       <span className="label-ui">{s.name}</span>
                       <span className="fs-small" style={{ color: 'rgba(255,255,255,0.78)' }}>
-                        {formatPrice(s.priceFrom)}
+                        {s.deadline}
                       </span>
                     </span>
                   </span>

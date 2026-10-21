@@ -96,7 +96,7 @@ export default function Navbar() {
               to="/orcamento"
               style={{ padding: '0.65rem 1.4rem', fontSize: '0.95rem' }}
             >
-              Simular orçamento
+              Monte seu projeto
             </Link>
           </div>
 
@@ -194,7 +194,7 @@ export default function Navbar() {
                   to="/orcamento"
                   style={{ marginTop: '1.5rem', display: 'inline-flex' }}
                 >
-                  Simular orçamento
+                  Monte seu projeto
                 </Link>
               </motion.div>
             </div>

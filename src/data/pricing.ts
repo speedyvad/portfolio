@@ -1,6 +1,7 @@
 /**
- * Preços do Simulador de orçamento (/orcamento).
- * PROPOSTA INICIAL — o Vinícius revisa estes valores antes do deploy.
+ * Tipos, funcionalidades extras e prazo do "Monte seu projeto" (/orcamento).
+ * Os valores em R$ estão guardados, mas NÃO aparecem no site desde 21/10/2026
+ * (decisão no MEMORY.md): o preço vem só na proposta, depois da conversa.
  */
 
 export type PricedServiceType = 'landing-page' | 'pagina-de-curso-ou-evento' | 'site-institucional'
@@ -49,7 +50,7 @@ export const EXTRAS: Extra[] = [
   {
     id: 'idiomas',
     label: 'Site em outro idioma',
-    hint: 'Valor por idioma adicional.',
+    hint: 'Um ou mais idiomas além do português.',
     min: 300,
     max: 450,
     perUnit: true,

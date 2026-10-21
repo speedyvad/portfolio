@@ -48,5 +48,5 @@ Situação de cada projeto:
 - Evitar jargão de agência e frases que serviriam para qualquer empresa. Se a frase cabe no site de outro estúdio, reescreva.
 - Sinceridade vale mais que promessa ("vou ser sincero: subir no Google leva tempo").
 - Títulos em sentence case, sem caixa alta, sem destacar palavra isolada com outra cor.
-- Botão diz o que acontece ("Simular orçamento", "Ver o case"), sem "→" automático.
+- Botão diz o que acontece ("Monte seu projeto", "Ver o case"), sem "→" automático.
 - Na home e nas páginas de serviço: zero jargão técnico. Termos técnicos ficam em `/sobre` e no bloco "Por trás do código" dos cases.

@@ -8,7 +8,7 @@ import { whatsappLink, DEFAULT_MESSAGE } from '../config/contact'
  * Botão flutuante global. Na home só aparece depois que o usuário passa do hero;
  * nas outras páginas aparece imediatamente. Fica escondido enquanto o CTA final
  * ou o rodapé estiverem visíveis (eles já têm WhatsApp) e em toda a rota
- * /orcamento — lá a barra fixa de estimativa (mobile) e o CTA de resultado já
+ * /orcamento — lá a barra fixa do resumo (mobile) e o CTA de resultado já
  * cobrem esse papel, e o botão flutuante entraria em conflito com a barra.
  */
 export default function WhatsAppFloat() {

@@ -25,7 +25,7 @@ Contraste: texto dourado sobre claro = `--gold-deep`. Botão dourado = fundo `--
 | Papel | Configuração |
 |---|---|
 | Títulos (hero, capítulos, h2) | wght 400–500, wdth 100, letter-spacing -0.025/-0.035em, line-height 0.98 |
-| Números de prova e preços (`.text-proof`) | wght 700, wdth 75 (condensado) |
+| Números de prova e prazos (`.text-proof`) | wght 700, wdth 75 (condensado) |
 | Wordmark gigante do rodapé (`.wordmark-giant`) | wght 800, wdth 75 |
 | Corpo | wght 400, 18px, line-height 1.6 |
 | Labels e botões (`.label-ui`) | wght 600, 15–16px |
@@ -58,13 +58,13 @@ Regras: títulos LEVES (nunca 800 em título de seção). Texto corrido com `.me
 |---|---|---|
 | GSAP + ScrollTrigger | cenas ligadas ao scroll (pin, scrub, troca de cor, parallax) | micro-interações |
 | GSAP SplitText | títulos que se montam por linha/palavra | texto corrido |
-| Framer Motion | hover, AnimatePresence, transição de página, layout, simulador, reveals simples | cenas de scroll |
+| Framer Motion | hover, AnimatePresence, transição de página, layout, "Monte seu projeto", reveals simples | cenas de scroll |
 | Lenis | scroll suave global, integrado ao ScrollTrigger em `src/lib/motion.ts` | — |
 | Embla | carrosséis arrastáveis e faixa contínua de mockups | galeria do hero |
 | OGL | galeria curva em WebGL do hero (só desktop) | qualquer outra coisa |
-| NumberFlow | números que mudam (calculadora, simulador, faixa de prova) | contagens decorativas |
+| NumberFlow | números que mudam (faixa de prova) | contagens decorativas |
 | Radix | Accordion (FAQ), Tabs | — |
-| Vaul | gavetas no mobile (menu, resumo do simulador) | desktop |
+| Vaul | gavetas no mobile (menu) | desktop |
 | Phosphor Icons | todos os ícones (peso regular/light) | — |
 | Devicon (CDN) | ícones de tecnologia, só em `/sobre` e nos cases | — |
 

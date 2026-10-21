@@ -337,7 +337,7 @@ export default function ProjectDetail() {
                   Conversar no WhatsApp
                 </a>
                 <Link className="btn btn-on-sea" to="/orcamento">
-                  Simular orçamento
+                  Monte seu projeto
                 </Link>
               </div>
             </div>
