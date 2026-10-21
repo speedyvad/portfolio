@@ -4,7 +4,7 @@
 
 ## Estado atual
 
-- **Versão:** v3 "A jornada", etapas A–D implementadas (19/10/2026). Ainda não publicada: as mudanças de 19/10 estão no `main` local.
+- **Versão:** v3 "A jornada", etapas A–D implementadas (19/10/2026) + site sem preço (21/10/2026). Publicada: push do `main` para o `origin` em 21/10/2026 (commit `abadfb9`), deploy pela Vercel. Ainda não conferido no celular de verdade.
 - **Rotas no ar no código:** `/`, `/servicos/:slug` (4 serviços), `/orcamento`, `/projetos`, `/projetos/:slug`, `/sobre`. `/raio-x` pausada.
 - **Projetos:** Harmon Visagismo (conceito, destaque), Imersão Coreia e Enquete Shalom (clientes), Closr (laboratório), Lectio Divina, CalTracker, StudyHub (faculdade).
 - **Depoimentos:** nenhum. A seção fica oculta até existir um real.
@@ -53,7 +53,7 @@
 
 ## Próximos passos
 
-1. Publicar (commit + push → Vercel) e conferir no celular de verdade.
+1. Conferir o site publicado no celular de verdade (home, "Monte seu projeto" até o WhatsApp, páginas de serviço).
 2. Home (pedido de 21/10/2026): hero com carrossel cilindro 3D (prints novos, mesma proporção, recortes das melhores partes; substituir a galeria OGL) e capítulo "A dor" no estilo texto + imagens reveladas no scroll (GSAP).
 3. Performance: dividir o chunk principal (GSAP/Lenis/Framer fora do caminho crítico), pré-renderizar o HTML das rotas (hoje o LCP depende do JS), revisar o LCP de 7,5 s do `/sobre`.
 4. Preencher as pendências acima.
