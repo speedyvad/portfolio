@@ -4,6 +4,7 @@ import bricolageLatinWoff2 from '@fontsource-variable/bricolage-grotesque/files/
 import '@fontsource-variable/bricolage-grotesque/standard.css'
 import './styles/globals.css'
 import App from './App.tsx'
+import { initConsent } from './lib/consent'
 
 // O app cuida da posição do scroll em cada troca de página (ver resetScroll).
 if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
@@ -16,6 +17,8 @@ fontPreload.type = 'font/woff2'
 fontPreload.href = bricolageLatinWoff2
 fontPreload.crossOrigin = 'anonymous'
 document.head.prepend(fontPreload)
+
+initConsent()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

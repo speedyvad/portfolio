@@ -9,6 +9,9 @@ import {
   DEFAULT_MESSAGE,
   whatsappLink,
 } from '../config/contact'
+import { GA_MEASUREMENT_ID } from '../config/analytics'
+import { CONSENT_COPY } from '../data/consent'
+import { openConsent } from '../lib/consent'
 
 const PAGES = [
   { label: 'Serviços', to: '/#servicos' },
@@ -117,7 +120,14 @@ export default function Footer() {
           <p className="fs-small" style={{ color: 'var(--sea-soft)' }}>
             Dourado Studio · por Vinícius Dourado · Fortaleza, CE
           </p>
-          <p className="fs-small" style={{ color: 'var(--sea-soft)' }}>© {year}</p>
+          <p className="fs-small" style={{ color: 'var(--sea-soft)', display: 'flex', gap: '1.25rem' }}>
+            {GA_MEASUREMENT_ID && (
+              <button type="button" className="link-underline" style={{ color: 'inherit' }} onClick={openConsent}>
+                {CONSENT_COPY.footerLink}
+              </button>
+            )}
+            <span>© {year}</span>
+          </p>
         </div>
       </div>
 

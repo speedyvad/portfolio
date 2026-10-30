@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { SITE_URL } from '../config/contact'
+import { trackPageView } from '../lib/analytics'
 
 interface SEO {
   title: string
@@ -45,5 +46,7 @@ export function useSEO({ title, description, path, image }: SEO) {
       document.head.appendChild(canonical)
     }
     canonical.href = url
+
+    trackPageView(title)
   }, [title, description, path, image])
 }

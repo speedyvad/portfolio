@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Cursor from './components/Cursor'
 import PageTransition from './components/PageTransition'
 import WhatsAppFloat from './components/WhatsAppFloat'
+import ConsentBanner from './components/ConsentBanner'
 import { useLenis } from './hooks/useLenis'
 import { resetScroll } from './lib/motion'
 
@@ -73,6 +74,7 @@ function AppInner() {
       </div>
 
       <WhatsAppFloat />
+      <ConsentBanner />
     </>
   )
 }

@@ -45,6 +45,15 @@ tests/                  testes unitários
 - JSON-LD `ProfessionalService` no `index.html`.
 - Título da home: "Dourado Studio — Criação de sites e landing pages em Fortaleza".
 
+## Analytics (GA4) e cookies
+
+- Google Analytics 4 via `gtag.js`, **sem pacote npm**. ID em `src/config/analytics.ts` (`GA_MEASUREMENT_ID`; vazio = tudo desligado, inclusive o aviso).
+- **Nada carrega antes do "Aceitar"** (LGPD). Aviso em `ConsentBanner`, escolha no `localStorage` (`ds-consent`), reaberto pelo botão "Cookies" do rodapé. "Agora não" depois de aceitar desliga o GA e apaga os cookies `_ga*`. Sinais de anúncio sempre `denied`.
+- O aviso aparece 1,5 s depois do `load`, para não disputar o LCP. Com consentimento salvo, o GA também só sobe depois do `load`.
+- Page view manual, disparado pelo `useSEO` (título e URL certos em cada rota). **No GA4, desligar "Mudanças de página com base em eventos do histórico"** na medição otimizada, senão conta em dobro.
+- Eventos-chave por clique (listener único em `src/lib/analytics.ts`, regra pura `classifyLink` testada): `whatsapp_click`, `orcamento_enviado` (WhatsApp dentro de `/orcamento`), `email_click`, `cv_download`. Marcar como "evento principal" no GA4.
+- Em localhost (dev e preview) o `dataLayer` é montado, mas o `gtag.js` não é baixado: dá pra inspecionar `window.dataLayer` sem sujar relatório.
+
 ## Acessibilidade
 
 - Mobile-first (375, 768, 1280, 1440). Sem rolagem horizontal.

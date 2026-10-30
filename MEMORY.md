@@ -38,10 +38,13 @@
 | 19/10/2026 | **Tom de conversa** em serviços e projetos (primeira pessoa, "pra", situações reais) — regras em docs/01 | Pedido do Vinícius: os textos estavam genéricos e formais demais |
 | 19/10/2026 | Scroll zerado via `resetScroll()` (Lenis `immediate`) na troca de rota e de novo no `onExitComplete` da transição; `scrollRestoration = manual` | Páginas abriam no meio/fim quando o clique acontecia com o Lenis ainda deslizando |
 | 19/10/2026 | Nome no hero do `/sobre`: texto final invisível reserva o espaço, embaralhado por cima | O efeito de embaralhar gerava CLS de 0,25 |
+| 30/10/2026 | **Google Analytics 4 com aviso de cookies**, sem pacote npm, carregado só depois do "Aceitar"; page view manual pelo `useSEO`; eventos-chave por clique | Medir visitas e conversões (WhatsApp, "Monte seu projeto", CV). GA4 grátis cobre eventos próprios (Vercel Analytics só no Pro). Carregar só com consentimento atende a LGPD e não pesa para quem recusa |
 | 21/10/2026 | **Sem preço no site.** Sai a calculadora de perda (`LossCalculator`), o "a partir de" de serviços/portas, o valor do FAQ e a estimativa em R$ do simulador. `/orcamento` vira "Monte seu projeto" (botões renomeados em todo o site), com passo opcional "ideia" e prazo estimado | Pedido do Vinícius: facilitar a chegada do cliente ao WhatsApp. Preço na tela afasta antes da conversa, e a calculadora abria vazia ("R$ 0,00") e pedia digitação no celular |
 
 ## Pendências com o Vinícius
 
+- [ ] **GA4** (ID `G-YMKF1H51QQ` já no código desde 30/10/2026). Na propriedade: confirmar desligado "Mudanças de página com base em eventos do histórico" e marcar `whatsapp_click`, `orcamento_enviado`, `cv_download` como eventos principais.
+- [ ] Verificar o domínio no **Google Search Console** e enviar um `sitemap.xml` (ainda não existe).
 - [ ] **URL da versão de teste da Harmon** — para preencher `live` em `src/data/projects.ts` (hoje o case não tem botão "Abrir o site").
 - [ ] Quando a Harmon fechar: trocar `kind` para `cliente`, remover `stage`, pedir autorização para citar a marca como cliente.
 - [ ] **Estágio na corretora** (Closr): incluir em "Experiência" no `/sobre`? Precisa de cargo, empresa (pode citar?) e datas.
@@ -79,3 +82,4 @@
   - Preços removidos do site: `LossCalculator` apagado (home e serviços), `priceFrom`/`formatPrice` fora de `services.ts`, portas e "outros serviços" mostram o prazo, FAQ "Quanto custa" reescrito.
   - `/orcamento` → "Monte seu projeto": `EstimateBar` e `useAnimatedNumber` saem, entra `ProjectSummary` (resumo + prazo estimado). Novo passo opcional "ideia", tela final com resumo e mensagem do WhatsApp montadas da mesma lista.
   - "Simular orçamento" → "Monte seu projeto" em menu, hero, serviços, case e /raio-x.
+- **30/10/2026:** Google Analytics 4 + aviso de cookies: `src/config/analytics.ts`, `src/lib/analytics.ts`, `src/lib/consent.ts`, `src/data/consent.ts`, `ConsentBanner`, botão "Cookies" no rodapé, `trackPageView` no `useSEO`, teste `tests/analytics.spec.ts`. ID `G-YMKF1H51QQ` preenchido no mesmo dia.

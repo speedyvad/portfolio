@@ -50,6 +50,7 @@ Regras: títulos LEVES (nunca 800 em título de seção). Texto corrido com `.me
 - **Wordmark**: logo textual "Dourado Studio".
 - **Footer**: rodapé com wordmark gigante.
 - **WhatsAppFloat**: some sobre CTA final e rodapé; oculto em `/orcamento`.
+- **ConsentBanner**: aviso de cookies fixo embaixo (largura toda no celular, cartão à esquerda a partir de 768px), não bloqueia a página.
 - **Cursor customizado e partículas**: só em `/sobre`.
 
 ## Movimento — uma biblioteca por papel
