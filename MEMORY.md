@@ -44,6 +44,7 @@
 ## Pendências com o Vinícius
 
 - [ ] **GA4** (ID `G-YMKF1H51QQ` já no código desde 30/10/2026). Na propriedade: confirmar desligado "Mudanças de página com base em eventos do histórico" e marcar `whatsapp_click`, `orcamento_enviado`, `cv_download` como eventos principais.
+- [ ] **CV em PDF** (`public/cv-vinicius-dourado.pdf`) ainda traz o WhatsApp antigo (98211-6585). Gerar de novo com o 98107-7888.
 - [ ] Verificar o domínio no **Google Search Console** e enviar um `sitemap.xml` (ainda não existe).
 - [ ] **URL da versão de teste da Harmon** — para preencher `live` em `src/data/projects.ts` (hoje o case não tem botão "Abrir o site").
 - [ ] Quando a Harmon fechar: trocar `kind` para `cliente`, remover `stage`, pedir autorização para citar a marca como cliente.
@@ -83,3 +84,4 @@
   - `/orcamento` → "Monte seu projeto": `EstimateBar` e `useAnimatedNumber` saem, entra `ProjectSummary` (resumo + prazo estimado). Novo passo opcional "ideia", tela final com resumo e mensagem do WhatsApp montadas da mesma lista.
   - "Simular orçamento" → "Monte seu projeto" em menu, hero, serviços, case e /raio-x.
 - **30/10/2026:** Google Analytics 4 + aviso de cookies: `src/config/analytics.ts`, `src/lib/analytics.ts`, `src/lib/consent.ts`, `src/data/consent.ts`, `ConsentBanner`, botão "Cookies" no rodapé, `trackPageView` no `useSEO`, teste `tests/analytics.spec.ts`. ID `G-YMKF1H51QQ` preenchido no mesmo dia.
+  - WhatsApp trocado para +55 85 98107-7888 (`src/config/contact.ts`, JSON-LD do `index.html`, teste).

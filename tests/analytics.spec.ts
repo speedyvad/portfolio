@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { classifyLink } from '../src/lib/analytics'
 
 test.describe('classifyLink', () => {
-  const wa = 'https://wa.me/5585982116585?text=Ol%C3%A1'
+  const wa = 'https://wa.me/5585981077888?text=Ol%C3%A1'
 
   test('WhatsApp fora do "Monte seu projeto" é whatsapp_click', () => {
     expect(classifyLink(wa, '/')).toBe('whatsapp_click')

@@ -1,5 +1,5 @@
-export const WHATSAPP_NUMBER = '5585982116585'
-export const WHATSAPP_DISPLAY = '+55 85 98211-6585'
+export const WHATSAPP_NUMBER = '5585981077888'
+export const WHATSAPP_DISPLAY = '+55 85 98107-7888'
 export const EMAIL = 'viniciusdourado020506@gmail.com'
 export const INSTAGRAM = 'https://www.instagram.com/douradovini/'
 export const LINKEDIN = 'https://www.linkedin.com/in/vinícius-dourado-29a5422b7'
