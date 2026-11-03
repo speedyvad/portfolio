@@ -14,7 +14,7 @@ import { CONSENT_COPY } from '../data/consent'
 import { openConsent } from '../lib/consent'
 
 const PAGES = [
-  { label: 'Serviços', to: '/#servicos' },
+  { label: 'Serviços', to: '/servicos' },
   { label: 'Projetos', to: '/projetos' },
   { label: 'Sobre', to: '/sobre' },
 ]

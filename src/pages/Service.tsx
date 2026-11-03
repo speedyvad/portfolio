@@ -7,8 +7,8 @@ import Footer from '../components/Footer'
 import ProcessSteps from '../components/home/ProcessSteps'
 import FaqAccordion from '../components/home/FaqAccordion'
 import FinalCta from '../components/home/FinalCta'
-import { getService, services, servicesNote } from '../data/services'
-import { projects, clientProjects, KIND_LABEL, type Project } from '../data/projects'
+import { getService, legacyServiceSlugs, services } from '../data/services'
+import { projects, KIND_LABEL, type Project } from '../data/projects'
 import { whatsappLink } from '../config/contact'
 import { useSEO } from '../hooks/useSEO'
 
@@ -41,15 +41,17 @@ export default function Service() {
 
   useSEO({
     title: service ? `${service.name} em Fortaleza — Dourado Studio` : 'Serviços — Dourado Studio',
-    description: service ? `${service.title} Prazo: ${service.deadline.toLowerCase()}.` : '',
+    description: service ? service.summary : '',
     path: `/servicos/${slug ?? ''}`,
     image: service?.heroImage,
   })
 
-  if (!service) return <Navigate to="/" state={{ scrollTo: 'servicos' }} replace />
+  if (!service) {
+    const moved = slug ? legacyServiceSlugs[slug] : undefined
+    return <Navigate to={moved ? `/servicos/${moved}` : '/servicos'} replace />
+  }
 
   const proofCase = service.caseSlug ? projects.find((p) => p.slug === service.caseSlug) : undefined
-  const proofCases = proofCase ? [proofCase] : clientProjects
   const others = services.filter((s) => s.slug !== service.slug)
 
   return (
@@ -69,20 +71,15 @@ export default function Service() {
 
               <dl className="sv-price">
                 <div>
-                  <dt className="fs-small">Quanto tempo leva</dt>
+                  <dt className="fs-small">{service.recurring ? 'Com que frequência' : 'Quanto tempo leva'}</dt>
                   <dd className="text-proof">{service.deadline}</dd>
                 </div>
               </dl>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <Link className="btn btn-primary" to={`/orcamento?tipo=${service.slug}`}>
-                  Monte seu projeto
-                </Link>
-                <a className="btn btn-secondary" href={whatsappLink(service.message)} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon size={18} color="var(--sea)" />
-                  Conversar no WhatsApp
-                </a>
-              </div>
+              <a className="btn btn-primary" href={whatsappLink(service.message)} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon size={18} color="var(--sea)" />
+                Conversar no WhatsApp
+              </a>
             </motion.div>
 
             <motion.div
@@ -91,23 +88,43 @@ export default function Service() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, ease, delay: 0.1 }}
             >
-              <img src={service.heroImage} alt="" decoding="async" fetchPriority="high" />
-              <motion.div
-                className="sv-card"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease, delay: 0.6 }}
-              >
-                <span className="sv-card-dot" aria-hidden="true" />
-                <span>
-                  <span className="label-ui" style={{ display: 'block', color: 'var(--sea-soft)', fontSize: 13 }}>
-                    {service.heroCard.label}
+              {service.heroImage && <img src={service.heroImage} alt="" decoding="async" fetchPriority="high" />}
+              {service.heroCard && (
+                <motion.div
+                  className="sv-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease, delay: 0.6 }}
+                >
+                  <span className="sv-card-dot" aria-hidden="true" />
+                  <span>
+                    <span className="label-ui" style={{ display: 'block', color: 'var(--sea-soft)', fontSize: 13 }}>
+                      {service.heroCard.label}
+                    </span>
+                    <span className="fs-small" style={{ color: 'var(--sea)' }}>
+                      {service.heroCard.text}
+                    </span>
                   </span>
-                  <span className="fs-small" style={{ color: 'var(--sea)' }}>
-                    {service.heroCard.text}
-                  </span>
-                </span>
-              </motion.div>
+                </motion.div>
+              )}
+              {service.heroPanel && (
+                <div className="sv-panel bg-sand">
+                  <div className="sv-panel-card" aria-hidden="true">
+                    <p className="label-ui" style={{ color: 'var(--sea-soft)', fontSize: 13, marginBottom: '0.5rem' }}>
+                      {service.heroPanel.label}
+                    </p>
+                    {service.heroPanel.rows.map((row) => (
+                      <p key={row.label} className="sv-panel-row">
+                        <span className="sv-card-dot" />
+                        <span className="sv-panel-text">
+                          <span className="fs-small" style={{ fontWeight: 600 }}>{row.label}</span>
+                          <span className="fs-small" style={{ color: 'var(--sea-soft)' }}>{row.value}</span>
+                        </span>
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           </div>
         </section>
@@ -169,14 +186,16 @@ export default function Service() {
           <div className="container-x sv-included">
             <ScrollReveal>
               <h2 className="fs-h2-section">O que você recebe</h2>
-              <p style={{ color: 'var(--sea-soft)', marginTop: '1.25rem', maxWidth: '24rem' }}>{servicesNote}</p>
+              {service.includedNote && (
+                <p style={{ color: 'var(--sea-soft)', marginTop: '1.25rem', maxWidth: '24rem' }}>{service.includedNote}</p>
+              )}
             </ScrollReveal>
             <ScrollReveal delay={0.1}>
               <ul className="sv-list">
                 {service.deliverables.map((d) => (
                   <li key={d}>{d}</li>
                 ))}
-                <li>Prazo: {service.deadline.toLowerCase()}</li>
+                {!service.recurring && <li>Prazo: {service.deadline.toLowerCase()}</li>}
               </ul>
             </ScrollReveal>
           </div>
@@ -184,27 +203,23 @@ export default function Service() {
 
 
         {/* 5. Prova */}
-        {proofCases.length > 0 && (
+        {proofCase && (
           <section className="section-y">
             <div className="container-x">
               <ScrollReveal>
                 <h2 className="fs-h2-section" style={{ marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
-                  {proofCases.length > 1 ? 'Coisas parecidas que já fiz' : 'Já fiz algo bem parecido'}
+                  Já fiz algo bem parecido
                 </h2>
               </ScrollReveal>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5rem' }}>
-                {proofCases.map((p) => (
-                  <ScrollReveal key={p.slug}>
-                    <ProofCase project={p} note={proofCase ? service.proofNote : undefined} />
-                  </ScrollReveal>
-                ))}
-              </div>
+              <ScrollReveal>
+                <ProofCase project={proofCase} note={service.proofNote} />
+              </ScrollReveal>
             </div>
           </section>
         )}
 
         {/* 6. Como funciona */}
-        <ProcessSteps />
+        <ProcessSteps steps={service.steps} />
 
         {/* 7. Perguntas */}
         <FaqAccordion
@@ -234,7 +249,7 @@ export default function Service() {
         </section>
 
         {/* 8. CTA final */}
-        <FinalCta />
+        <FinalCta message={service.message} />
       </main>
 
       <Footer />
@@ -250,6 +265,11 @@ export default function Service() {
         @media (min-width: 1000px) { .sv-hero-media img { aspect-ratio: 4 / 4.6; } }
         .sv-card { position: absolute; left: -1rem; bottom: 2rem; display: flex; gap: 0.75rem; align-items: flex-start; max-width: 270px; padding: 1rem 1.15rem; border-radius: var(--r-card); background: var(--white); box-shadow: 0 24px 50px -16px rgba(14,44,63,0.35); }
         @media (max-width: 999px) { .sv-card { left: 1rem; } }
+        .sv-panel { position: relative; display: flex; align-items: center; justify-content: center; padding: clamp(1.5rem, 5vw, 3rem); border-radius: var(--r-media); overflow: hidden; }
+        @media (min-width: 1000px) { .sv-panel { aspect-ratio: 4 / 4.6; } }
+        .sv-panel-card { position: relative; width: 100%; max-width: 340px; padding: 1.25rem 1.35rem; border-radius: var(--r-card); background: var(--white); box-shadow: 0 24px 50px -16px rgba(14,44,63,0.35); }
+        .sv-panel-row { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.7rem 0; border-top: 1px solid var(--line); }
+        .sv-panel-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.35; }
         .sv-card-dot { flex-shrink: 0; width: 9px; height: 9px; margin-top: 0.35rem; border-radius: 50%; background: var(--whatsapp); }
 
         .sv-pain { list-style: none; display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.5rem); }

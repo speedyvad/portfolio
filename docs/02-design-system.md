@@ -49,7 +49,7 @@ Regras: títulos LEVES (nunca 800 em título de seção). Texto corrido com `.me
 - **ScrollReveal**: fadeUp padrão (Framer Motion).
 - **Wordmark**: logo textual "Dourado Studio".
 - **Footer**: rodapé com wordmark gigante.
-- **WhatsAppFloat**: some sobre CTA final e rodapé; oculto em `/orcamento`.
+- **WhatsAppFloat**: some sobre CTA final e rodapé.
 - **ConsentBanner**: aviso de cookies fixo embaixo (largura toda no celular, cartão à esquerda a partir de 768px), não bloqueia a página.
 - **Cursor customizado e partículas**: só em `/sobre`.
 
@@ -59,7 +59,7 @@ Regras: títulos LEVES (nunca 800 em título de seção). Texto corrido com `.me
 |---|---|---|
 | GSAP + ScrollTrigger | cenas ligadas ao scroll (pin, scrub, troca de cor, parallax) | micro-interações |
 | GSAP SplitText | títulos que se montam por linha/palavra | texto corrido |
-| Framer Motion | hover, AnimatePresence, transição de página, layout, "Monte seu projeto", reveals simples | cenas de scroll |
+| Framer Motion | hover, AnimatePresence, transição de página, layout, reveals simples | cenas de scroll |
 | Lenis | scroll suave global, integrado ao ScrollTrigger em `src/lib/motion.ts` | — |
 | Embla | carrosséis arrastáveis e faixa contínua de mockups | galeria do hero |
 | OGL | galeria curva em WebGL do hero (só desktop) | qualquer outra coisa |

@@ -5,10 +5,10 @@
 ## Estado atual
 
 - **Versão:** v3 "A jornada", etapas A–D implementadas (19/10/2026) + site sem preço (21/10/2026). Publicada: push do `main` para o `origin` em 21/10/2026 (commit `abadfb9`), deploy pela Vercel. Ainda não conferido no celular de verdade.
-- **Rotas no ar no código:** `/`, `/servicos/:slug` (4 serviços), `/orcamento`, `/projetos`, `/projetos/:slug`, `/sobre`. `/raio-x` pausada.
+- **Rotas no código:** `/`, `/servicos`, `/servicos/:slug` (9 serviços), `/projetos`, `/projetos/:slug`, `/sobre`. `/orcamento` redireciona para `/servicos`. `/raio-x` pausada. Serviços e remoção do orçamento publicados em 03/11/2026.
 - **Projetos:** Harmon Visagismo (conceito, destaque), Imersão Coreia e Enquete Shalom (clientes), Closr (laboratório), Lectio Divina, CalTracker, StudyHub (faculdade).
 - **Depoimentos:** nenhum. A seção fica oculta até existir um real.
-- **Preços:** nenhum valor em R$ no site desde 21/10/2026. `/orcamento` virou "Monte seu projeto" (mini-briefing → WhatsApp, com prazo estimado). Os valores continuam em `src/data/pricing.ts` (e nos testes), sem uso na interface.
+- **Preços e orçamento:** nada no site. `/orcamento`, "Monte seu projeto" e `pricing.ts` foram removidos em 03/11/2026; todo contato vai pelo WhatsApp.
 - **Lighthouse mobile (build local, 19/10/2026):**
 
   | Página | Perf. | Acess. | Boas práticas | SEO | LCP | CLS |
@@ -38,12 +38,14 @@
 | 19/10/2026 | **Tom de conversa** em serviços e projetos (primeira pessoa, "pra", situações reais) — regras em docs/01 | Pedido do Vinícius: os textos estavam genéricos e formais demais |
 | 19/10/2026 | Scroll zerado via `resetScroll()` (Lenis `immediate`) na troca de rota e de novo no `onExitComplete` da transição; `scrollRestoration = manual` | Páginas abriam no meio/fim quando o clique acontecia com o Lenis ainda deslizando |
 | 19/10/2026 | Nome no hero do `/sobre`: texto final invisível reserva o espaço, embaralhado por cima | O efeito de embaralhar gerava CLS de 0,25 |
+| 03/11/2026 | **Catálogo de 9 serviços em `/servicos`**, cada um com página própria (lista da Keyla; nomes mantidos, textos no tom do site). Curso/evento entra em Landing page de campanha; Sistema sob medida vira Automação. Sem case, a seção de prova some: a página mostra o que será feito e leva ao WhatsApp. Escopos: Marketing = páginas e medição (sem gerir anúncios); Presença = perfil no Google e visual das redes; Design = revisão do que já existe; Diagnóstico = pago, com plano escrito; Manutenção = verificação, até 1 h/mês, hospedagem e suporte, só para sites feitos por mim | Pedido do Vinícius em 03/11/2026 |
+| 03/11/2026 | **Sai toda a parte de orçamento:** `/orcamento` e "Monte seu projeto", botões, `pricing.ts`, valores em R$. Todo contato vai pelo WhatsApp | Vinícius não quer mais orçamento no site; a decisão de 21/10 só tinha tirado os valores |
 | 30/10/2026 | **Google Analytics 4 com aviso de cookies**, sem pacote npm, carregado só depois do "Aceitar"; page view manual pelo `useSEO`; eventos-chave por clique | Medir visitas e conversões (WhatsApp, "Monte seu projeto", CV). GA4 grátis cobre eventos próprios (Vercel Analytics só no Pro). Carregar só com consentimento atende a LGPD e não pesa para quem recusa |
 | 21/10/2026 | **Sem preço no site.** Sai a calculadora de perda (`LossCalculator`), o "a partir de" de serviços/portas, o valor do FAQ e a estimativa em R$ do simulador. `/orcamento` vira "Monte seu projeto" (botões renomeados em todo o site), com passo opcional "ideia" e prazo estimado | Pedido do Vinícius: facilitar a chegada do cliente ao WhatsApp. Preço na tela afasta antes da conversa, e a calculadora abria vazia ("R$ 0,00") e pedia digitação no celular |
 
 ## Pendências com o Vinícius
 
-- [ ] **GA4** (ID `G-YMKF1H51QQ` já no código desde 30/10/2026). Na propriedade: confirmar desligado "Mudanças de página com base em eventos do histórico" e marcar `whatsapp_click`, `orcamento_enviado`, `cv_download` como eventos principais.
+- [ ] **GA4** (ID `G-YMKF1H51QQ` já no código desde 30/10/2026). Na propriedade: confirmar desligado "Mudanças de página com base em eventos do histórico" e marcar `whatsapp_click` e `cv_download` como eventos principais.
 - [ ] **CV em PDF** (`public/cv-vinicius-dourado.pdf`) ainda traz o WhatsApp antigo (98211-6585). Gerar de novo com o 98107-7888.
 - [ ] Verificar o domínio no **Google Search Console** e enviar um `sitemap.xml` (ainda não existe).
 - [ ] **URL da versão de teste da Harmon** — para preencher `live` em `src/data/projects.ts` (hoje o case não tem botão "Abrir o site").
@@ -53,11 +55,11 @@
 - [ ] Fotos `about/vinicius-conversando.jpg` e `about/vinicius-trabalhando.jpg` (hoje usa a foto de perfil).
 - [ ] Revisar a copy nova (tom de conversa) dos serviços e cases, e os textos (`highlights`, `outcome`) e os números do `/sobre` (3.700+ = 1.500 inscritos + 2.218 respostas).
 
-- [ ] Site institucional: o simulador oferece "Até 4 / 5 a 6 / 7 a 10 páginas", mas o pacote em `services.ts` diz "Até 6 páginas". Alinhar as opções.
+- [ ] Confirmar textos publicados sem certeza nas páginas novas de serviço, principalmente: "Você mesmo programa as mudanças?" (Design), "acessos no seu nome" (Presença) e o que entra no plano do Diagnóstico.
 
 ## Próximos passos
 
-1. Conferir o site publicado no celular de verdade (home, "Monte seu projeto" até o WhatsApp, páginas de serviço).
+1. Conferir o site publicado no celular de verdade (home, `/servicos`, páginas de serviço até o WhatsApp).
 2. Home (pedido de 21/10/2026): hero com carrossel cilindro 3D (prints novos, mesma proporção, recortes das melhores partes; substituir a galeria OGL) e capítulo "A dor" no estilo texto + imagens reveladas no scroll (GSAP).
 3. Performance: dividir o chunk principal (GSAP/Lenis/Framer fora do caminho crítico), pré-renderizar o HTML das rotas (hoje o LCP depende do JS), revisar o LCP de 7,5 s do `/sobre`.
 4. Preencher as pendências acima.
@@ -85,3 +87,7 @@
   - "Simular orçamento" → "Monte seu projeto" em menu, hero, serviços, case e /raio-x.
 - **30/10/2026:** Google Analytics 4 + aviso de cookies: `src/config/analytics.ts`, `src/lib/analytics.ts`, `src/lib/consent.ts`, `src/data/consent.ts`, `ConsentBanner`, botão "Cookies" no rodapé, `trackPageView` no `useSEO`, teste `tests/analytics.spec.ts`. ID `G-YMKF1H51QQ` preenchido no mesmo dia.
   - WhatsApp trocado para +55 85 98107-7888 (`src/config/contact.ts`, JSON-LD do `index.html`, teste).
+- **03/11/2026:**
+  - Nova página `/servicos` e 9 páginas de serviço, com a lista da Keyla. Novas: Manutenção mensal, Presença digital, Design de interfaces, Marketing digital, Diagnóstico e Landing page de campanha (absorve Curso ou evento). Sistema sob medida vira Automação e integração; os endereços antigos redirecionam.
+  - Template de serviço: `heroPanel` no lugar da foto, `steps` e `includedNote` por serviço, seção de prova só com case, CTA final com a mensagem do serviço.
+  - Orçamento removido: `Orcamento.tsx`, `components/orcamento/`, `pricing.ts` e teste, CSS do simulador, evento `orcamento_enviado`, `priceRange` do JSON-LD, valores de domínio em R$. Botões viram WhatsApp e "Ver os serviços".

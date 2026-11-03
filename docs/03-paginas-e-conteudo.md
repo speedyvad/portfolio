@@ -6,15 +6,17 @@ Textos e números ficam em `src/data/*` — este doc descreve estrutura e inten�
 
 ```
 /                     Home — a jornada                         src/pages/Home.tsx
+/servicos             Todos os serviços                        src/pages/Services.tsx     (dados: services.ts)
 /servicos/:slug       Página de cada serviço                   src/pages/Service.tsx      (dados: services.ts)
-/orcamento            Monte seu projeto (sem preço)            src/pages/Orcamento.tsx    (dados: pricing.ts)
 /projetos             Lista de projetos                        src/pages/Projects.tsx     (dados: projects.ts)
 /projetos/:slug       Case                                     src/pages/ProjectDetail.tsx
 /sobre                Trajetória do Vinícius (recrutadores)    src/pages/About.tsx
 /raio-x               PAUSADO — fora da navegação
 /projects, /projects/:slug  → redirecionam para /projetos
+/orcamento            → redireciona para /servicos
+/servicos/sistema-sob-medida, /servicos/pagina-de-curso-ou-evento → redirecionam (`legacyServiceSlugs`)
 ```
-Navegação: Serviços, Projetos, Sobre + botão "Monte seu projeto". Menu mobile em gaveta.
+Navegação: Serviços (`/servicos`), Projetos, Sobre + botão "Falar no WhatsApp". Menu mobile em gaveta.
 
 ## Home — a jornada
 
@@ -38,33 +40,18 @@ Navegação: Serviços, Projetos, Sobre + botão "Monte seu projeto". Menu mobil
 ## Página de serviço — `/servicos/:slug`
 
 Template único (`src/pages/Service.tsx`) alimentado por `src/data/services.ts`
-(`title`, `heroImage`, `painLines[3]`, `beforeAfter[3]`, `faq[]`, `caseSlug`).
+(`title`, `heroImage` ou `heroPanel`, `painLines[3]`, `beforeAfter[3]`, `faq[]`, `caseSlug`, `steps?`).
 
-1. Hero (branco): título display + foto com cartão de interface por cima, prazo (sem preço), botões
-   "Monte seu projeto" (`/orcamento?tipo={slug}`) e WhatsApp (mensagem do serviço).
+1. Hero (branco): título display + foto com cartão de interface por cima (ou `heroPanel`, sem foto), prazo
+   (sem preço), botão de WhatsApp com a mensagem do serviço.
 2. A dor (--sea): as três `painLines`.
 3. O que muda (--sand): três pares antes/depois, o "depois" em destaque.
 4. O que vem incluso (branco): `deliverables` + prazo + nota de manutenção.
-5. Prova: case de `caseSlug` com DeviceMockup; se `null`, os cases de cliente.
-6. Como funciona (componente compartilhado).
+5. Prova: case de `caseSlug` com DeviceMockup; se `null`, a seção não aparece.
+6. Como funciona: `steps` do serviço ou os passos padrão de construir um site.
 7. Perguntas do serviço (Radix Accordion).
-8. CTA final (compartilhado).
+8. CTA final (WhatsApp com a mensagem do serviço).
 SEO: "{nome do serviço} em Fortaleza — Dourado Studio".
-
-## Monte seu projeto — `/orcamento`
-
-**Nenhum valor em R$ no site** (decisão de 21/10/2026). O preço vem só na proposta por escrito.
-O visitante monta um mini-briefing e manda pelo WhatsApp.
-
-1. Perguntas, uma por tela: tipo (ou "ainda não sei"), páginas (institucional), funcionalidades,
-   textos e fotos, identidade visual, urgência, manutenção, ideia (texto livre, opcional), nome.
-   Sistema sob medida: descrição do processo, pessoas que vão usar, nome.
-2. Painel "Seu projeto até agora" (`ProjectSummary`): lateral fixa no desktop, barra no rodapé no mobile
-   com o prazo estimado e o botão Continuar.
-3. Tela final: resumo + prazo estimado + o que vem incluso + botão "Enviar pelo WhatsApp".
-   A mensagem é montada a partir do mesmo resumo.
-
-`?tipo={slug}` pula a primeira pergunta. Prazo estimado: `estimateDeadlineLabel` em `pricing.ts`.
 
 ## Projetos — `/projetos`
 

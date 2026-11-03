@@ -1,7 +1,7 @@
 import WhatsAppIcon from '../WhatsAppIcon'
 import { EMAIL, DEFAULT_MESSAGE, whatsappLink } from '../../config/contact'
 
-export default function FinalCta() {
+export default function FinalCta({ message = DEFAULT_MESSAGE }: { message?: string }) {
   return (
     <section id="cta-final" className="section-y final-cta">
       <img
@@ -21,7 +21,7 @@ export default function FinalCta() {
 
         <a
           className="btn btn-primary"
-          href={whatsappLink(DEFAULT_MESSAGE)}
+          href={whatsappLink(message)}
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -11,14 +11,11 @@ import { GA_MEASUREMENT_ID } from '../config/analytics'
  * senão cada troca de rota conta duas vezes.
  */
 
-export type LinkEvent = 'whatsapp_click' | 'orcamento_enviado' | 'email_click' | 'cv_download'
+export type LinkEvent = 'whatsapp_click' | 'email_click' | 'cv_download'
 
 /** Qual evento-chave um clique em link representa. Função pura (testada em tests/analytics.spec.ts). */
-export function classifyLink(href: string, pathname: string): LinkEvent | null {
-  if (href.startsWith('https://wa.me/')) {
-    // No "Monte seu projeto" o único link de WhatsApp é o envio do briefing.
-    return pathname.startsWith('/orcamento') ? 'orcamento_enviado' : 'whatsapp_click'
-  }
+export function classifyLink(href: string): LinkEvent | null {
+  if (href.startsWith('https://wa.me/')) return 'whatsapp_click'
   if (href.startsWith('mailto:')) return 'email_click'
   if (/\.pdf($|[?#])/i.test(href)) return 'cv_download'
   return null
@@ -86,7 +83,7 @@ function onClick(event: MouseEvent) {
   const href = link?.getAttribute('href')
   if (!link || !href) return
 
-  const name = classifyLink(href, window.location.pathname)
+  const name = classifyLink(href)
   if (!name) return
 
   const text = (link.getAttribute('aria-label') ?? link.textContent ?? '').trim().replace(/\s+/g, ' ')

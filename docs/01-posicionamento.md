@@ -4,7 +4,7 @@
 
 | Público | Quer saber | Onde encontra | Ação esperada |
 |---|---|---|---|
-| Dono de pequeno/médio negócio, organizador de curso/evento, comunidade | "Isso resolve o meu problema? Quanto custa? Dá pra confiar?" | Home, `/servicos/:slug`, cases | WhatsApp ou `/orcamento` |
+| Dono de pequeno/médio negócio, organizador de curso/evento, comunidade | "Isso resolve o meu problema? Dá pra confiar?" | Home, `/servicos`, `/servicos/:slug`, cases | WhatsApp |
 | Recrutador de empresa | "Ele sabe construir? Com o quê? Já trabalhou em equipe?" | `/sobre`, bloco "Por trás do código" dos cases, laboratório | LinkedIn, GitHub, e-mail, CV |
 
 **Diferencial a comunicar sempre:** "você fala direto com quem desenha e programa o seu site".
@@ -41,6 +41,14 @@ Situação de cada projeto:
 - **Closr** — `laboratorio`. Protótipo criado durante ~3 meses de estágio numa corretora de seguros, usado internamente pela equipe; ficou com a empresa. Não nomear a corretora, não dizer que é um SaaS em operação.
 - **StudyHub, Lectio Divina, CalTracker** — `faculdade`.
 
+## Escopo dos serviços (o site só promete isto)
+
+- **Marketing digital:** página da campanha e medição. Não gerencia anúncios nem cria conteúdo, e a página diz isso.
+- **Presença digital:** perfil no Google e visual das redes. Não inclui site nem posts mensais.
+- **Design de interfaces:** revisão do que já existe e redesenho das telas que confundem. Não inclui programar as mudanças.
+- **Diagnóstico:** pago, com plano por escrito.
+- **Manutenção mensal:** verificação, até 1 hora de alterações por mês, hospedagem e suporte, só para sites feitos por Vinícius.
+
 ## Voz
 
 - **Tom de conversa.** Como o Vinícius explicaria pessoalmente para um cliente: primeira pessoa ("eu faço", "eu cuido"), "você", "pra" no lugar de "para" quando soa natural, frases curtas.
@@ -48,5 +56,5 @@ Situação de cada projeto:
 - Evitar jargão de agência e frases que serviriam para qualquer empresa. Se a frase cabe no site de outro estúdio, reescreva.
 - Sinceridade vale mais que promessa ("vou ser sincero: subir no Google leva tempo").
 - Títulos em sentence case, sem caixa alta, sem destacar palavra isolada com outra cor.
-- Botão diz o que acontece ("Monte seu projeto", "Ver o case"), sem "→" automático.
+- Botão diz o que acontece ("Conversar no WhatsApp", "Ver o case"), sem "→" automático.
 - Na home e nas páginas de serviço: zero jargão técnico. Termos técnicos ficam em `/sobre` e no bloco "Por trás do código" dos cases.

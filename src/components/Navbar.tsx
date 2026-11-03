@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Wordmark from './Wordmark'
+import WhatsAppIcon from './WhatsAppIcon'
+import { DEFAULT_MESSAGE, whatsappLink } from '../config/contact'
 
 const NAV_LINKS = [
-  { label: 'Serviços', to: '/#servicos' },
+  { label: 'Serviços', to: '/servicos' },
   { label: 'Projetos', to: '/projetos' },
   { label: 'Sobre', to: '/sobre' },
 ]
@@ -13,7 +15,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
-  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -36,18 +37,6 @@ export default function Navbar() {
       document.body.style.overflow = ''
     }
   }, [menuOpen])
-
-  const goToAnchor = (e: React.MouseEvent, to: string) => {
-    if (!to.startsWith('/#')) return
-    e.preventDefault()
-    const id = to.slice(2)
-    setMenuOpen(false)
-    if (location.pathname === '/') {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    } else {
-      navigate('/', { state: { scrollTo: id } })
-    }
-  }
 
   return (
     <>
@@ -81,7 +70,6 @@ export default function Navbar() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    onClick={(e) => goToAnchor(e, link.to)}
                     className="nav-link"
                     style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--sea)' }}
                   >
@@ -91,13 +79,16 @@ export default function Navbar() {
               ))}
             </ul>
 
-            <Link
+            <a
               className="btn btn-primary"
-              to="/orcamento"
+              href={whatsappLink(DEFAULT_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{ padding: '0.65rem 1.4rem', fontSize: '0.95rem' }}
             >
-              Monte seu projeto
-            </Link>
+              <WhatsAppIcon size={18} color="var(--sea)" />
+              Falar no WhatsApp
+            </a>
           </div>
 
           <button
@@ -175,7 +166,7 @@ export default function Navbar() {
                 >
                   <Link
                     to={link.to}
-                    onClick={(e) => goToAnchor(e, link.to)}
+                    onClick={() => setMenuOpen(false)}
                     className="display"
                     style={{ fontSize: 'clamp(2rem, 9vw, 3rem)', color: 'var(--sea)' }}
                   >
@@ -189,13 +180,16 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25, duration: 0.3 }}
               >
-                <Link
+                <a
                   className="btn btn-primary"
-                  to="/orcamento"
+                  href={whatsappLink(DEFAULT_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{ marginTop: '1.5rem', display: 'inline-flex' }}
                 >
-                  Monte seu projeto
-                </Link>
+                  <WhatsAppIcon size={18} color="var(--sea)" />
+                  Falar no WhatsApp
+                </a>
               </motion.div>
             </div>
           </motion.div>

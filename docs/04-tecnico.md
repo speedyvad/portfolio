@@ -15,12 +15,11 @@ src/
   App.tsx               rotas (páginas com React.lazy), Navbar, PageTransition, WhatsAppFloat
   main.tsx              fontes e CSS global
   config/contact.ts     WhatsApp, e-mail, redes, SITE_URL — fonte única de contato
-  data/                 conteúdo: projects, services, faq, stats, trust, pricing, testimonials, galleryImages
+  data/                 conteúdo: projects, services, faq, stats, trust, testimonials, galleryImages
   lib/motion.ts         GSAP + Lenis num único lugar
   hooks/                useSEO, useLenis, ...
   components/           compartilhados (DeviceMockup, Footer, Navbar, Wordmark, ScrollReveal...)
   components/home/      seções da home; journey/ = capítulos 1–4; gallery/ = galeria do hero
-  components/orcamento/ peças do "Monte seu projeto"
   pages/                uma por rota
 public/images/
   cases/<slug>-desktop.png|webp, <slug>-mobile.*, <slug>-<n>.*   prints dos projetos
@@ -51,7 +50,7 @@ tests/                  testes unitários
 - **Nada carrega antes do "Aceitar"** (LGPD). Aviso em `ConsentBanner`, escolha no `localStorage` (`ds-consent`), reaberto pelo botão "Cookies" do rodapé. "Agora não" depois de aceitar desliga o GA e apaga os cookies `_ga*`. Sinais de anúncio sempre `denied`.
 - O aviso aparece 1,5 s depois do `load`, para não disputar o LCP. Com consentimento salvo, o GA também só sobe depois do `load`.
 - Page view manual, disparado pelo `useSEO` (título e URL certos em cada rota). **No GA4, desligar "Mudanças de página com base em eventos do histórico"** na medição otimizada, senão conta em dobro.
-- Eventos-chave por clique (listener único em `src/lib/analytics.ts`, regra pura `classifyLink` testada): `whatsapp_click`, `orcamento_enviado` (WhatsApp dentro de `/orcamento`), `email_click`, `cv_download`. Marcar como "evento principal" no GA4.
+- Eventos-chave por clique (listener único em `src/lib/analytics.ts`, regra pura `classifyLink` testada): `whatsapp_click`, `email_click`, `cv_download`. O `page_path` do evento diz de qual serviço veio o clique. Marcar como "evento principal" no GA4.
 - Em localhost (dev e preview) o `dataLayer` é montado, mas o `gtag.js` não é baixado: dá pra inspecionar `window.dataLayer` sem sujar relatório.
 
 ## Acessibilidade

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
-import { services, doorOrder, type Service } from '../../data/services'
+import { services, doorOrder, servicesPageCopy, type Service } from '../../data/services'
 
 const doors = doorOrder
   .map((slug) => services.find((s) => s.slug === slug))
@@ -96,6 +96,10 @@ export default function CaseDoors() {
         <div className="doors-progress" aria-hidden="true">
           <span style={{ transform: `scaleX(${0.25 + progress * 0.75})` }} />
         </div>
+
+        <Link className="btn btn-on-sea" to="/servicos" style={{ marginTop: '2rem' }}>
+          {servicesPageCopy.homeLink}
+        </Link>
       </div>
 
       <style>{`

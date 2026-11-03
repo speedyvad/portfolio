@@ -7,14 +7,11 @@ import { whatsappLink, DEFAULT_MESSAGE } from '../config/contact'
 /**
  * Botão flutuante global. Na home só aparece depois que o usuário passa do hero;
  * nas outras páginas aparece imediatamente. Fica escondido enquanto o CTA final
- * ou o rodapé estiverem visíveis (eles já têm WhatsApp) e em toda a rota
- * /orcamento — lá a barra fixa do resumo (mobile) e o CTA de resultado já
- * cobrem esse papel, e o botão flutuante entraria em conflito com a barra.
+ * ou o rodapé estiverem visíveis (eles já têm WhatsApp).
  */
 export default function WhatsAppFloat() {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
-  const isOrcamento = pathname.startsWith('/orcamento')
   const [pastHero, setPastHero] = useState(
     () => window.scrollY > window.innerHeight * 0.7
   )
@@ -47,7 +44,7 @@ export default function WhatsAppFloat() {
     return () => observer.disconnect()
   }, [pathname])
 
-  const visible = !isOrcamento && !obstructed && (!isHome || pastHero)
+  const visible = !obstructed && (!isHome || pastHero)
 
   return (
     <AnimatePresence>

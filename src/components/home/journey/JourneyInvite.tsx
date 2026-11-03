@@ -43,13 +43,13 @@ export default function JourneyInvite() {
             pelo WhatsApp. Feito em Fortaleza, por quem você conhece pelo nome.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
-            <Link className="btn btn-primary" to="/orcamento">
-              Monte seu projeto
-            </Link>
-            <a className="btn btn-secondary" href={whatsappLink(MESSAGE)} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-primary" href={whatsappLink(MESSAGE)} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon size={18} color="var(--sea)" />
               Conversar no WhatsApp
             </a>
+            <Link className="btn btn-secondary" to="/servicos">
+              Ver os serviços
+            </Link>
           </div>
         </div>
 

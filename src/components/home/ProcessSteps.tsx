@@ -8,7 +8,7 @@ const STEPS = [
   { title: 'No ar', text: 'Site publicado, com domínio e suporte inicial.' },
 ]
 
-export default function ProcessSteps() {
+export default function ProcessSteps({ steps = STEPS }: { steps?: { title: string; text: string }[] }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-15%' })
   const reduced = useReducedMotion()
@@ -31,7 +31,7 @@ export default function ProcessSteps() {
           />
 
           <ol className="process-list">
-            {STEPS.map((step, i) => (
+            {steps.map((step, i) => (
               <motion.li
                 key={step.title}
                 className="process-step"

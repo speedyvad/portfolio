@@ -336,8 +336,8 @@ export default function ProjectDetail() {
                   <WhatsAppIcon size={20} color="var(--sea)" />
                   Conversar no WhatsApp
                 </a>
-                <Link className="btn btn-on-sea" to="/orcamento">
-                  Monte seu projeto
+                <Link className="btn btn-on-sea" to="/servicos">
+                  Ver os serviços
                 </Link>
               </div>
             </div>

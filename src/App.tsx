@@ -14,8 +14,8 @@ const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const Projects = lazy(() => import('./pages/Projects'))
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
+const Services = lazy(() => import('./pages/Services'))
 const Service = lazy(() => import('./pages/Service'))
-const Orcamento = lazy(() => import('./pages/Orcamento'))
 const RaioX = lazy(() => import('./pages/RaioX'))
 
 /** Redireciona os links antigos /projects/:slug já divulgados. */
@@ -25,12 +25,11 @@ function LegacyProjectRedirect() {
 }
 
 function ScrollToTop() {
-  const { pathname, state } = useLocation()
+  const { pathname } = useLocation()
 
   useLayoutEffect(() => {
-    if ((state as { scrollTo?: string } | null)?.scrollTo) return
     resetScroll()
-  }, [pathname, state])
+  }, [pathname])
 
   return null
 }
@@ -47,12 +46,8 @@ function AppInner() {
       <Navbar />
       <ScrollToTop />
 
-      {/* /orcamento cuida da própria barra fixa no rodapé (mobile); as demais
-          páginas reservam espaço para o botão flutuante do WhatsApp não cobrir conteúdo. */}
-      <div
-        style={{ paddingTop: 72 }}
-        className={pathname.startsWith('/orcamento') ? undefined : 'reserve-fab-space'}
-      >
+      {/* Reserva espaço para o botão flutuante do WhatsApp não cobrir conteúdo. */}
+      <div style={{ paddingTop: 72 }} className="reserve-fab-space">
         <PageTransition>
           <Suspense fallback={null}>
             <Routes>
@@ -60,8 +55,9 @@ function AppInner() {
               <Route path="/sobre" element={<About />} />
               <Route path="/projetos" element={<Projects />} />
               <Route path="/projetos/:slug" element={<ProjectDetail />} />
+              <Route path="/servicos" element={<Services />} />
               <Route path="/servicos/:slug" element={<Service />} />
-              <Route path="/orcamento" element={<Orcamento />} />
+              <Route path="/orcamento" element={<Navigate to="/servicos" replace />} />
               <Route path="/raio-x" element={<RaioX />} />
 
               <Route path="/projects" element={<Navigate to="/projetos" replace />} />
