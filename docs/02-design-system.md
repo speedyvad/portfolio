@@ -61,8 +61,8 @@ Regras: títulos LEVES (nunca 800 em título de seção). Texto corrido com `.me
 | GSAP SplitText | títulos que se montam por linha/palavra | texto corrido |
 | Framer Motion | hover, AnimatePresence, transição de página, layout, reveals simples | cenas de scroll |
 | Lenis | scroll suave global, integrado ao ScrollTrigger em `src/lib/motion.ts` | — |
-| Embla | carrosséis arrastáveis e faixa contínua de mockups | galeria do hero |
-| OGL | galeria curva em WebGL do hero (só desktop) | qualquer outra coisa |
+| Embla | carrosséis arrastáveis ("Qual é o seu caso?") | cilindro do hero |
+| CSS 3D + rAF | cilindro do hero (`HeroCylinder`), sem biblioteca | qualquer outra coisa |
 | NumberFlow | números que mudam (faixa de prova) | contagens decorativas |
 | Radix | Accordion (FAQ), Tabs | — |
 | Vaul | gavetas no mobile (menu) | desktop |
@@ -70,4 +70,4 @@ Regras: títulos LEVES (nunca 800 em título de seção). Texto corrido com `.me
 | Devicon (CDN) | ícones de tecnologia, só em `/sobre` e nos cases | — |
 
 Regras: GSAP sempre via `useGSAP()` com `scope`. Importar GSAP só nas páginas que usam.
-`prefers-reduced-motion`: sem pin, sem scrub, sem WebGL, sem SplitText — conteúdo direto.
+`prefers-reduced-motion`: sem pin, sem scrub, sem giro automático, sem SplitText — conteúdo direto.

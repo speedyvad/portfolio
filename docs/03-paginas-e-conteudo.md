@@ -22,7 +22,7 @@ Navegação: Serviços (`/servicos`), Projetos, Sobre + botão "Falar no WhatsAp
 
 | # | Capítulo | Fundo | Componente | Observações |
 |---|---|---|---|---|
-| 1 | Convite (hero) ★ | branco | `journey/JourneyInvite` + `gallery/*` | Galeria curva OGL no desktop; faixa Embla no mobile/reduced-motion |
+| 1 | Convite (hero) ★ | branco | `journey/JourneyInvite` + `HeroCylinder` | Só no computador (≥ 1024px): cilindro 3D de prints dos projetos (`heroCards.ts`), gira sozinho, para com o mouse em cima, dá pra arrastar; parado com reduced-motion. Celular e tablet: só o texto |
 | — | Faixa de confiança | branco | `TrustBar` | dados em `trust.ts` |
 | 2 | A dor ★ | --sea | `journey/JourneyPain` | 3 frases com pin no desktop; dados de `stats.ts` com fonte |
 | — | A tela clareia | sea → sand | dentro de `JourneyTurn` | scrub de cor |

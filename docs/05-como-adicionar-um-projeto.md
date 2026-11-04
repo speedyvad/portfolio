@@ -33,7 +33,8 @@ Adicione um objeto ao array `projects`, na posição em que deve aparecer. Campo
 
 ## 4. Confira
 - `/projetos` (desktop e 375px), `/projetos/<slug>`, a home se for `cliente` ou `conceito`.
-- Projetos com imagem (exceto `faculdade`) entram sozinhos na galeria do hero (`src/data/galleryImages.ts`).
+- Para aparecer no cilindro do hero: adicione as posições em `scripts/build-hero-cards.mjs`, rode o script e inclua em `src/data/heroCards.ts`.
+- Adicione `/projetos/<slug>` em `public/sitemap.xml` (o teste avisa se faltar).
 - `npm run build` sem erros.
 - Se o projeto mudar um número de prova (ex.: "3 projetos no ar"), atualize `src/data/trust.ts`.
 - Registre no `MEMORY.md` (changelog).

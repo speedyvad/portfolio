@@ -1,17 +1,29 @@
-import { useRef } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useGSAP } from '@gsap/react'
 import { gsap, SplitText } from '../../../lib/motion'
 import { whatsappLink } from '../../../config/contact'
 import WhatsAppIcon from '../../WhatsAppIcon'
-import HeroGallery from '../gallery/HeroGallery'
+
+const HeroCylinder = lazy(() => import('../HeroCylinder'))
 
 const MESSAGE =
   'Olá! Vim pelo site da Dourado Studio e quero conversar sobre um projeto para o meu negócio.'
 
-/** Capítulo 1 — o convite. O momento memorável é a galeria curva ao lado. */
+const DESKTOP = '(min-width: 1024px)'
+
+/** Capítulo 1 — o convite. No computador, o cilindro de projetos ao lado; no celular e no tablet, só o texto. */
 export default function JourneyInvite() {
   const titleRef = useRef<HTMLHeadingElement>(null)
+  // Sem o cilindro montado, celular e tablet não baixam o código nem as imagens dele.
+  const [isDesktop, setIsDesktop] = useState(() => window.matchMedia(DESKTOP).matches)
+
+  useEffect(() => {
+    const query = window.matchMedia(DESKTOP)
+    const onChange = () => setIsDesktop(query.matches)
+    query.addEventListener('change', onChange)
+    return () => query.removeEventListener('change', onChange)
+  }, [])
 
   useGSAP(
     () => {
@@ -53,21 +65,28 @@ export default function JourneyInvite() {
           </div>
         </div>
 
-        <div className="invite-gallery" aria-hidden={false}>
-          <HeroGallery />
-        </div>
+        {isDesktop && (
+          <div className="invite-gallery">
+            <Suspense fallback={null}>
+              <HeroCylinder />
+            </Suspense>
+          </div>
+        )}
       </div>
 
       <style>{`
         .invite { padding-block: 3.5rem 2rem; overflow: hidden; }
-        .invite-grid { display: flex; flex-direction: column; gap: 2.5rem; }
-        .invite-copy { max-width: 42rem; }
-        .invite-gallery { position: relative; height: 320px; border-radius: var(--r-media); overflow: hidden; background: var(--sand); }
+        .invite-copy { position: relative; z-index: 1; max-width: 42rem; }
         @media (min-width: 1024px) {
-          .invite { padding-block: 5rem 3rem; }
-          .invite-grid { flex-direction: row; align-items: center; gap: 3rem; min-height: 60vh; }
+          .invite { padding-block: 4rem 3rem; }
+          .invite-grid { display: flex; align-items: center; gap: 2rem; min-height: 72vh; }
           .invite-copy { flex: 0 0 40%; min-width: 0; }
-          .invite-gallery { flex: 1; height: 50vh; min-height: 420px; background: transparent; overflow: visible; }
+          .invite-gallery {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+            min-height: calc(clamp(280px, 26vw, 420px) * 4 / 3 + 3rem);
+          }
         }
       `}</style>
     </section>

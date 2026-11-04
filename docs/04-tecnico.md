@@ -3,7 +3,7 @@
 ## Stack
 
 React 19 · TypeScript strict · Vite · Tailwind CSS v4 · React Router v7 · Framer Motion · GSAP (+ScrollTrigger, SplitText, @gsap/react) ·
-Lenis · Embla · OGL · NumberFlow · Radix (Accordion, Tabs) · Vaul · Phosphor Icons · Bricolage Grotesque (fontsource variável) · Devicon (CDN).
+Lenis · Embla · NumberFlow · Radix (Accordion, Tabs) · Vaul · Phosphor Icons · Bricolage Grotesque (fontsource variável) · Devicon (CDN).
 Testes: `@playwright/test` como runner de testes unitários em `tests/` (sem browser).
 
 Não instalar outra biblioteca sem perguntar.
@@ -19,7 +19,7 @@ src/
   lib/motion.ts         GSAP + Lenis num único lugar
   hooks/                useSEO, useLenis, ...
   components/           compartilhados (DeviceMockup, Footer, Navbar, Wordmark, ScrollReveal...)
-  components/home/      seções da home; journey/ = capítulos 1–4; gallery/ = galeria do hero
+  components/home/      seções da home; journey/ = capítulos 1–4; HeroCylinder = cilindro do hero
   pages/                uma por rota
 public/images/
   cases/<slug>-desktop.png|webp, <slug>-mobile.*, <slug>-<n>.*   prints dos projetos
@@ -32,7 +32,7 @@ tests/                  testes unitários
 ## Orçamento de performance
 
 - JS inicial da home ≤ ~180 KB gzip. Páginas em chunks próprios (`React.lazy`).
-- OGL só com largura ≥ 1024px, sem reduced-motion e depois do primeiro paint; senão, fallback Embla.
+- Cilindro do hero: só monta em ≥ 1024px (celular e tablet não baixam o código nem as imagens); o loop só roda com ele na tela; com reduced-motion não gira sozinho.
 - GSAP importado só nas páginas que usam.
 - Imagens: WebP preferencialmente, `width`/`height` definidos, `loading="lazy"` abaixo da dobra.
 - Metas Lighthouse mobile: Performance ≥ 90, Acessibilidade ≥ 95, LCP ≤ 2,5 s, CLS ≤ 0,1.
@@ -42,6 +42,7 @@ tests/                  testes unitários
 
 - `useSEO({ title, description, path, image? })` em toda rota.
 - JSON-LD `ProfessionalService` no `index.html`.
+- `public/sitemap.xml` feito à mão, citado no `robots.txt`. Página nova entra lá: `tests/sitemap.spec.ts` falha se faltar serviço ou projeto.
 - Título da home: "Dourado Studio — Criação de sites e landing pages em Fortaleza".
 
 ## Analytics (GA4) e cookies
