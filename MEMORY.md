@@ -110,3 +110,4 @@
   - Página `NotFound`, `404.html`, redirecionamentos de `/orcamento`, `/projects` e serviços antigos em `vercel.json`, HTML próprio para `/raio-x`.
   - Frase sobre Fortaleza nas introduções de 4 serviços (landing page, site institucional, campanha, presença digital).
   - JSON-LD com `WebSite`, `ProfessionalService` e `Person`, e teste `tests/structured-data.spec.ts`.
+  - `og-image.png` passa a usar a foto do Vinícius no lugar do mar (pedido dele: mais pessoal).
