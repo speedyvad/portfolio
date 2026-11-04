@@ -47,19 +47,47 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Dourado Studio",
-        "url": "https://www.douradostudio.dev.br",
-        "telephone": "+55 85 98107-7888",
-        "email": "viniciusdourado020506@gmail.com",
-        "founder": { "@type": "Person", "name": "Vinícius Dourado" },
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Fortaleza",
-          "addressRegion": "CE",
-          "addressCountry": "BR"
-        },
-        "areaServed": "BR"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://www.douradostudio.dev.br/#website",
+            "name": "Dourado Studio",
+            "url": "https://www.douradostudio.dev.br/",
+            "inLanguage": "pt-BR",
+            "publisher": { "@id": "https://www.douradostudio.dev.br/#studio" }
+          },
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://www.douradostudio.dev.br/#studio",
+            "name": "Dourado Studio",
+            "description": "Estúdio de criação de sites e landing pages em Fortaleza, com atendimento para todo o Brasil.",
+            "url": "https://www.douradostudio.dev.br/",
+            "image": "https://www.douradostudio.dev.br/og-image.png",
+            "telephone": "+55 85 98107-7888",
+            "email": "viniciusdourado020506@gmail.com",
+            "founder": { "@id": "https://www.douradostudio.dev.br/#vinicius" },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Fortaleza",
+              "addressRegion": "CE",
+              "addressCountry": "BR"
+            },
+            "areaServed": "BR"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://www.douradostudio.dev.br/#vinicius",
+            "name": "Vinícius Dourado",
+            "jobTitle": "Desenvolvedor front-end",
+            "url": "https://www.douradostudio.dev.br/sobre",
+            "worksFor": { "@id": "https://www.douradostudio.dev.br/#studio" },
+            "sameAs": [
+              "https://www.instagram.com/douradovini/",
+              "https://www.linkedin.com/in/vinícius-dourado-29a5422b7",
+              "https://github.com/speedyvad"
+            ]
+          }
+        ]
       }
     </script>
   </head>

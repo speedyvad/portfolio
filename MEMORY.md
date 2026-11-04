@@ -41,6 +41,7 @@
 | 19/10/2026 | Scroll zerado via `resetScroll()` (Lenis `immediate`) na troca de rota e de novo no `onExitComplete` da transição; `scrollRestoration = manual` | Páginas abriam no meio/fim quando o clique acontecia com o Lenis ainda deslizando |
 | 19/10/2026 | Nome no hero do `/sobre`: texto final invisível reserva o espaço, embaralhado por cima | O efeito de embaralhar gerava CLS de 0,25 |
 | 04/11/2026 | **Hero com cilindro 3D em CSS + requestAnimationFrame**, sem OGL (`ogl` e `embla-carousel-auto-scroll` desinstalados), só no computador, sem botão de pausa (para com o mouse em cima ou foco do teclado), com 8 prints inteiros novos em vez de recortes | Pedido do Vinícius: maior e mais fluido; no celular e tablet achou feio e pesado, e os recortes estavam ruins. Sem biblioteca nova, e um único anel girando dispensa WebGL |
+| 04/11/2026 | **`sameAs` só na `Person`, não no estúdio** | Instagram, LinkedIn e GitHub são perfis pessoais do Vinícius; declará-los como sendo do estúdio seria impreciso. O nome "Dourado Studio" é disputado (salão, papelaria, academia), então o Perfil da Empresa e um perfil próprio do estúdio pesam mais |
 | 04/11/2026 | **404 de verdade:** sai o rewrite geral do `vercel.json`, o build grava `404.html` (noindex, sem canonical) e endereços antigos redirecionam no servidor | Endereço inexistente respondia 200 e ia para a home, o que o Google trata como soft 404. Se faltar uma rota, ela ainda abre pelo `404.html`, só com o status errado |
 | 04/11/2026 | **Build grava um HTML por página pública só com o `<head>` próprio** (`src/data/seo.ts`, `src/lib/routeHtml.ts`, plugin em `vite.config.ts`), sem renderizar o corpo | Resolve canonical e prévias de link sem biblioteca nova. Renderizar o corpo exigiria tratar GSAP, Framer e o estado inicial invisível das animações, com risco de piscar a tela; fica para a etapa de performance |
 | 04/11/2026 | **Endereço oficial: `www.douradostudio.dev.br`**; `vinidourado.vercel.app` e o domínio sem www redirecionam para ele | Os três endereços serviam o mesmo site, e o HTML ainda apontava o vercel.app como oficial. Para o Google, tem que existir um só |
@@ -53,7 +54,8 @@
 ## Pendências com o Vinícius
 
 - [x] Verificar `douradostudio.dev.br` no **Google Search Console** (propriedade de domínio, registro TXT no DNS da Vercel; feito em 04/11/2026). Não apagar esse TXT.
-- [ ] No Search Console: enviar o `sitemap.xml` e solicitar a indexação da home, `/servicos` e `/sobre`.
+- [x] Enviar o `sitemap.xml` no Search Console (processado em 04/11/2026, 20 páginas).
+- [ ] Solicitar a indexação da home, `/servicos/landing-page`, `/servicos` e `/sobre`, e conferir **Indexação > Páginas** nos dias seguintes.
 - [ ] Criar o **Perfil da Empresa no Google** e trocar o link do site no Instagram, LinkedIn e GitHub pelo domínio novo.
 - [ ] **URL da versão de teste da Harmon** — para preencher `live` em `src/data/projects.ts` (hoje o case não tem botão "Abrir o site").
 - [ ] Quando a Harmon fechar: trocar `kind` para `cliente`, remover `stage`, pedir autorização para citar a marca como cliente.
@@ -107,3 +109,4 @@
   - `public/og-image.png` nova (`scripts/og-image.html` + `scripts/build-og-image.mjs`), no lugar da arte antiga "VD." que estava publicada em `/og-image.html`.
   - Página `NotFound`, `404.html`, redirecionamentos de `/orcamento`, `/projects` e serviços antigos em `vercel.json`, HTML próprio para `/raio-x`.
   - Frase sobre Fortaleza nas introduções de 4 serviços (landing page, site institucional, campanha, presença digital).
+  - JSON-LD com `WebSite`, `ProfessionalService` e `Person`, e teste `tests/structured-data.spec.ts`.
