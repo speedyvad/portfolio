@@ -17,6 +17,7 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
 const Services = lazy(() => import('./pages/Services'))
 const Service = lazy(() => import('./pages/Service'))
 const RaioX = lazy(() => import('./pages/RaioX'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 /** Redireciona os links antigos /projects/:slug já divulgados. */
 function LegacyProjectRedirect() {
@@ -63,7 +64,7 @@ function AppInner() {
               <Route path="/projects" element={<Navigate to="/projetos" replace />} />
               <Route path="/projects/:slug" element={<LegacyProjectRedirect />} />
 
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </PageTransition>

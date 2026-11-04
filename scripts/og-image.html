@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Imagem de prévia — Dourado Studio</title>
+  <style>
+    @font-face {
+      font-family: 'Bricolage';
+      src: url('../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2') format('woff2');
+      font-weight: 200 800;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #0E2C3F;
+      color: #FFFFFF;
+      font-family: 'Bricolage', sans-serif;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 56px;
+      padding: 56px;
+    }
+    .text { display: flex; flex-direction: column; justify-content: space-between; }
+    .brand { font-size: 30px; font-weight: 600; display: flex; align-items: center; gap: 14px; }
+    .brand::before { content: ''; width: 34px; height: 5px; background: #D9A21B; }
+    h1 { font-size: 78px; font-weight: 500; line-height: 0.98; letter-spacing: -0.03em; }
+    .lead { font-size: 29px; line-height: 1.3; margin-top: 26px; color: rgba(255, 255, 255, 0.78); }
+    .domain { font-size: 25px; font-weight: 600; color: #D9A21B; }
+    img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="text">
+    <div class="brand">Dourado Studio</div>
+    <div>
+      <h1>Sites e landing pages em Fortaleza.</h1>
+      <p class="lead">Você fala direto com quem desenha e programa o seu site.</p>
+    </div>
+    <div class="domain">douradostudio.dev.br</div>
+  </div>
+  <img src="../public/images/fortaleza/skyline-beira-mar.webp" alt="" />
+</body>
+</html>

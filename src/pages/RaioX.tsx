@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
+import { raioXSeo } from '../data/seo'
 import { useSEO } from '../hooks/useSEO'
 
 /**
@@ -8,11 +9,7 @@ import { useSEO } from '../hooks/useSEO'
  * está linkada na navegação.
  */
 export default function RaioX() {
-  useSEO({
-    title: 'Raio-X grátis do seu site — em breve | Dourado Studio',
-    description: 'Uma ferramenta para descobrir em segundos se o seu site está afastando clientes. Em breve.',
-    path: '/raio-x',
-  })
+  useSEO(raioXSeo)
 
   return (
     <>

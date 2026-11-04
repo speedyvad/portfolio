@@ -43,6 +43,13 @@ export function renderRouteHtml(baseHtml: string, page: PageSeo, siteUrl: string
   return html
 }
 
+/** HTML servido com status 404: não entra no índice e não aponta canonical para lugar nenhum. */
+export function renderNotFoundHtml(baseHtml: string, page: PageSeo, siteUrl: string) {
+  const html = renderRouteHtml(baseHtml, page, siteUrl)
+  const withoutCanonical = replaceTag(html, /\s*<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, '', 'canonical')
+  return replaceMeta(withoutCanonical, 'name', 'robots', 'noindex')
+}
+
 /** Caminho do arquivo gerado, relativo à pasta do build: `/sobre` → `sobre/index.html`. */
 export function routeHtmlFile(path: string) {
   return path === '/' ? 'index.html' : `${path.replace(/^\//, '')}/index.html`

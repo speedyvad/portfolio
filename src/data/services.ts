@@ -67,7 +67,7 @@ export const services: Service[] = [
     door: 'Quero vender um produto ou serviço',
     title: 'Você tem o que vender. Só falta um lugar que mostre isso direito.',
     intro:
-      'Sabe quando alguém pergunta "como funciona?" e você manda áudio, print, link do destaque… e a pessoa some? Uma landing page resolve isso: uma página só, direta, que explica o que você vende e leva a pessoa até o seu WhatsApp já sabendo o que quer.',
+      'Sabe quando alguém pergunta "como funciona?" e você manda áudio, print, link do destaque… e a pessoa some? Uma landing page resolve isso: uma página só, direta, que explica o que você vende e leva a pessoa até o seu WhatsApp já sabendo o que quer. Eu faço landing page aqui em Fortaleza, pra negócios daqui e de todo o Brasil.',
     heroImage: '/images/servicos/landing-page.webp',
     heroCard: { label: 'Nova mensagem', text: 'Oi! Vi a página. Ainda tem vaga essa semana?' },
     painLines: [
@@ -107,7 +107,7 @@ export const services: Service[] = [
     door: 'Quero ser encontrado no Google',
     title: 'Quando alguém pesquisar o que você faz, é você que tem que aparecer.',
     intro:
-      'Antes de comprar, quase todo mundo dá uma olhada no Google. Se a sua empresa não aparece, ou aparece com um site de 2015, a pessoa segue pro próximo resultado. Eu faço um site que passa a mesma confiança que você passa pessoalmente, e que deixa fácil chegar até você.',
+      'Antes de comprar, quase todo mundo dá uma olhada no Google. Se a sua empresa não aparece, ou aparece com um site de 2015, a pessoa segue pro próximo resultado. Eu faço um site que passa a mesma confiança que você passa pessoalmente, e que deixa fácil chegar até você. Eu crio sites aqui em Fortaleza, pra empresas daqui e de todo o Brasil.',
     heroImage: '/images/servicos/site-institucional.webp',
     heroCard: { label: 'Google', text: 'Sua Empresa · ★ 4,9 · Aberto agora' },
     painLines: [
@@ -146,7 +146,7 @@ export const services: Service[] = [
     door: 'Quero divulgar um curso, evento ou oferta',
     title: 'Sua campanha merece mais do que um link perdido na bio.',
     intro:
-      'Quem organiza curso, evento ou lançamento conhece a rotina: a mesma pergunta cinquenta vezes, inscrição chegando por todo lado, planilha que ninguém atualiza. Eu faço uma página que conta tudo de uma vez (o que é, quando, quanto, com quem), junta os inscritos num lugar só e mostra de onde eles vieram.',
+      'Quem organiza curso, evento ou lançamento conhece a rotina: a mesma pergunta cinquenta vezes, inscrição chegando por todo lado, planilha que ninguém atualiza. Eu faço uma página que conta tudo de uma vez (o que é, quando, quanto, com quem), junta os inscritos num lugar só e mostra de onde eles vieram. Eu trabalho de Fortaleza, e a página serve pra evento daqui ou de qualquer outra cidade.',
     heroImage: '/images/servicos/curso-evento.webp',
     heroCard: { label: 'Nova inscrição', text: 'Turma de sábado · 12 vagas restantes' },
     painLines: [
@@ -234,7 +234,7 @@ export const services: Service[] = [
     summary: 'Crio ou arrumo o seu perfil no Google e deixo o visual das suas redes com a cara do seu negócio.',
     title: 'Quem pesquisa o seu negócio precisa achar a informação certa. E gostar do que vê.',
     intro:
-      'Antes de te chamar, a pessoa olha o Google e o Instagram. Se o telefone está errado, o horário é antigo ou o perfil parece abandonado, ela desconfia e vai embora. Eu crio ou arrumo o seu perfil no Google e organizo o visual das suas redes, pra quem te procura te achar e confiar.',
+      'Antes de te chamar, a pessoa olha o Google e o Instagram. Se o telefone está errado, o horário é antigo ou o perfil parece abandonado, ela desconfia e vai embora. Eu crio ou arrumo o seu perfil no Google e organizo o visual das suas redes, pra quem te procura te achar e confiar. Eu atendo negócios de Fortaleza e de outras cidades.',
     heroPanel: {
       label: 'Perfil no Google',
       rows: [

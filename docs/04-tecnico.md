@@ -42,6 +42,8 @@ tests/                  testes unitários
 
 - Título, descrição e imagem de cada página ficam em `src/data/seo.ts`. A página chama `useSEO(...)` com esses dados.
 - No build, o plugin `route-html` (`vite.config.ts`) grava `dist/<rota>/index.html` com o `<head>` certo para cada página de `publicPages()`, e o build falha se faltar uma tag no `index.html` base. O corpo continua sendo montado pelo JavaScript.
+- O build também grava `dist/404.html` (noindex, sem canonical). O `vercel.json` não tem rewrite geral: a Vercel responde 404 em endereço inexistente. Rota nova precisa de HTML gerado (`publicPages()` ou lista do plugin), e endereço antigo vira redirecionamento no `vercel.json`.
+- Imagem de prévia padrão: `public/og-image.png`, gerada por `node scripts/build-og-image.mjs` a partir de `scripts/og-image.html`.
 - Para conferir no `npm run preview`, abra a rota com barra no fim (`/sobre/`): sem barra, o Vite entrega o `index.html` da raiz.
 - JSON-LD `ProfessionalService` no `index.html`.
 - `public/sitemap.xml` feito à mão, citado no `robots.txt`. Página nova entra lá: `tests/sitemap.spec.ts` falha se faltar serviço ou projeto.

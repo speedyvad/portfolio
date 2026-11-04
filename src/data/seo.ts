@@ -36,6 +36,19 @@ export const servicesSeo: PageSeo = {
   path: '/servicos',
 }
 
+/** Página em pausa: fora do sitemap, mas com HTML próprio porque a rota continua existindo. */
+export const raioXSeo: PageSeo = {
+  title: 'Raio-X grátis do seu site — em breve | Dourado Studio',
+  description: 'Uma ferramenta para descobrir em segundos se o seu site está afastando clientes. Em breve.',
+  path: '/raio-x',
+}
+
+export const notFoundSeo: PageSeo = {
+  title: 'Página não encontrada — Dourado Studio',
+  description: 'Este endereço não existe. Os serviços e os projetos da Dourado Studio continuam no site.',
+  path: '/404',
+}
+
 export function serviceSeo(service: Service): PageSeo {
   return {
     title: `${service.name} em Fortaleza — Dourado Studio`,

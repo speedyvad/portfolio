@@ -11,9 +11,11 @@
       "has": [{ "type": "host", "value": "douradostudio.dev.br" }],
       "destination": "https://www.douradostudio.dev.br/:path",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    },
+    { "source": "/orcamento", "destination": "/servicos", "permanent": true },
+    { "source": "/projects", "destination": "/projetos", "permanent": true },
+    { "source": "/projects/:slug", "destination": "/projetos/:slug", "permanent": true },
+    { "source": "/servicos/pagina-de-curso-ou-evento", "destination": "/servicos/landing-page-de-campanha", "permanent": true },
+    { "source": "/servicos/sistema-sob-medida", "destination": "/servicos/automacao-e-integracao", "permanent": true }
   ]
 }
