@@ -1,15 +1,15 @@
 {
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/:path(.*)",
       "has": [{ "type": "host", "value": "vinidourado.vercel.app" }],
-      "destination": "https://www.douradostudio.dev.br/:path*",
+      "destination": "https://www.douradostudio.dev.br/:path",
       "permanent": true
     },
     {
-      "source": "/:path*",
+      "source": "/:path(.*)",
       "has": [{ "type": "host", "value": "douradostudio.dev.br" }],
-      "destination": "https://www.douradostudio.dev.br/:path*",
+      "destination": "https://www.douradostudio.dev.br/:path",
       "permanent": true
     }
   ],
