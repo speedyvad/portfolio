@@ -5,7 +5,7 @@ export const INSTAGRAM = 'https://www.instagram.com/douradovini/'
 export const LINKEDIN = 'https://www.linkedin.com/in/vinícius-dourado-29a5422b7'
 export const GITHUB = 'https://github.com/speedyvad'
 
-export const SITE_URL = 'https://vinidourado.vercel.app'
+export const SITE_URL = 'https://www.douradostudio.dev.br'
 export const STUDIO_NAME = 'Dourado Studio'
 export const CITY = 'Fortaleza, CE'
 
