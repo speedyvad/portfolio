@@ -10,6 +10,7 @@ import FinalCta from '../components/home/FinalCta'
 import { getService, legacyServiceSlugs, services } from '../data/services'
 import { projects, KIND_LABEL, type Project } from '../data/projects'
 import { whatsappLink } from '../config/contact'
+import { serviceSeo } from '../data/seo'
 import { useSEO } from '../hooks/useSEO'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
@@ -39,12 +40,7 @@ export default function Service() {
   const { slug } = useParams<{ slug: string }>()
   const service = getService(slug)
 
-  useSEO({
-    title: service ? `${service.name} em Fortaleza — Dourado Studio` : 'Serviços — Dourado Studio',
-    description: service ? service.summary : '',
-    path: `/servicos/${slug ?? ''}`,
-    image: service?.heroImage,
-  })
+  useSEO(service ? serviceSeo(service) : { title: 'Serviços — Dourado Studio', description: '', path: `/servicos/${slug ?? ''}` })
 
   if (!service) {
     const moved = slug ? legacyServiceSlugs[slug] : undefined

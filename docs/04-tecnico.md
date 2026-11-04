@@ -40,7 +40,9 @@ tests/                  testes unitários
 
 ## SEO
 
-- `useSEO({ title, description, path, image? })` em toda rota.
+- Título, descrição e imagem de cada página ficam em `src/data/seo.ts`. A página chama `useSEO(...)` com esses dados.
+- No build, o plugin `route-html` (`vite.config.ts`) grava `dist/<rota>/index.html` com o `<head>` certo para cada página de `publicPages()`, e o build falha se faltar uma tag no `index.html` base. O corpo continua sendo montado pelo JavaScript.
+- Para conferir no `npm run preview`, abra a rota com barra no fim (`/sobre/`): sem barra, o Vite entrega o `index.html` da raiz.
 - JSON-LD `ProfessionalService` no `index.html`.
 - `public/sitemap.xml` feito à mão, citado no `robots.txt`. Página nova entra lá: `tests/sitemap.spec.ts` falha se faltar serviço ou projeto.
 - Título da home: "Dourado Studio — Criação de sites e landing pages em Fortaleza".

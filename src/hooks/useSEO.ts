@@ -1,13 +1,7 @@
 import { useEffect } from 'react'
 import { SITE_URL } from '../config/contact'
+import type { PageSeo } from '../data/seo'
 import { trackPageView } from '../lib/analytics'
-
-interface SEO {
-  title: string
-  description: string
-  path: string
-  image?: string
-}
 
 function setMeta(selector: string, attr: 'name' | 'property', key: string, content: string) {
   let el = document.head.querySelector<HTMLMetaElement>(selector)
@@ -19,7 +13,7 @@ function setMeta(selector: string, attr: 'name' | 'property', key: string, conte
   el.setAttribute('content', content)
 }
 
-export function useSEO({ title, description, path, image }: SEO) {
+export function useSEO({ title, description, path, image }: PageSeo) {
   useEffect(() => {
     const url = `${SITE_URL}${path}`
 

@@ -41,6 +41,7 @@
 | 19/10/2026 | Scroll zerado via `resetScroll()` (Lenis `immediate`) na troca de rota e de novo no `onExitComplete` da transição; `scrollRestoration = manual` | Páginas abriam no meio/fim quando o clique acontecia com o Lenis ainda deslizando |
 | 19/10/2026 | Nome no hero do `/sobre`: texto final invisível reserva o espaço, embaralhado por cima | O efeito de embaralhar gerava CLS de 0,25 |
 | 04/11/2026 | **Hero com cilindro 3D em CSS + requestAnimationFrame**, sem OGL (`ogl` e `embla-carousel-auto-scroll` desinstalados), só no computador, sem botão de pausa (para com o mouse em cima ou foco do teclado), com 8 prints inteiros novos em vez de recortes | Pedido do Vinícius: maior e mais fluido; no celular e tablet achou feio e pesado, e os recortes estavam ruins. Sem biblioteca nova, e um único anel girando dispensa WebGL |
+| 04/11/2026 | **Build grava um HTML por página pública só com o `<head>` próprio** (`src/data/seo.ts`, `src/lib/routeHtml.ts`, plugin em `vite.config.ts`), sem renderizar o corpo | Resolve canonical e prévias de link sem biblioteca nova. Renderizar o corpo exigiria tratar GSAP, Framer e o estado inicial invisível das animações, com risco de piscar a tela; fica para a etapa de performance |
 | 04/11/2026 | **Endereço oficial: `www.douradostudio.dev.br`**; `vinidourado.vercel.app` e o domínio sem www redirecionam para ele | Os três endereços serviam o mesmo site, e o HTML ainda apontava o vercel.app como oficial. Para o Google, tem que existir um só |
 | 04/11/2026 | CV em PDF continua com o número pessoal (98211-6585) | Decisão do Vinícius |
 | 03/11/2026 | **Catálogo de 9 serviços em `/servicos`**, cada um com página própria (lista da Keyla; nomes mantidos, textos no tom do site). Curso/evento entra em Landing page de campanha; Sistema sob medida vira Automação. Sem case, a seção de prova some: a página mostra o que será feito e leva ao WhatsApp. Escopos: Marketing = páginas e medição (sem gerir anúncios); Presença = perfil no Google e visual das redes; Design = revisão do que já existe; Diagnóstico = pago, com plano escrito; Manutenção = verificação, até 1 h/mês, hospedagem e suporte, só para sites feitos por mim | Pedido do Vinícius em 03/11/2026 |
@@ -50,7 +51,8 @@
 
 ## Pendências com o Vinícius
 
-- [ ] Verificar `douradostudio.dev.br` no **Google Search Console** (propriedade de domínio, por DNS) e enviar o `sitemap.xml` depois de publicar a troca de domínio.
+- [x] Verificar `douradostudio.dev.br` no **Google Search Console** (propriedade de domínio, registro TXT no DNS da Vercel; feito em 04/11/2026). Não apagar esse TXT.
+- [ ] No Search Console: enviar o `sitemap.xml` e solicitar a indexação da home, `/servicos` e `/sobre`.
 - [ ] Criar o **Perfil da Empresa no Google** e trocar o link do site no Instagram, LinkedIn e GitHub pelo domínio novo.
 - [ ] **URL da versão de teste da Harmon** — para preencher `live` em `src/data/projects.ts` (hoje o case não tem botão "Abrir o site").
 - [ ] Quando a Harmon fechar: trocar `kind` para `cliente`, remover `stage`, pedir autorização para citar a marca como cliente.
@@ -63,7 +65,7 @@
 
 ## Próximos passos
 
-0. SEO técnico (levantado em 04/11/2026): pré-renderizar o HTML das rotas (hoje toda rota nasce com o canonical da home), criar `/og-image.png` (não existe), 404 de verdade (hoje endereço inexistente responde 200 e vai para a home), citar Fortaleza nos textos dos serviços.
+0. SEO técnico (levantado em 04/11/2026): criar `/og-image.png` (não existe), 404 de verdade (hoje endereço inexistente responde 200 e vai para a home), citar Fortaleza nos textos dos serviços. O `<head>` por rota já é gerado; o corpo da página ainda depende de JavaScript (ver item 3).
 1. Medir o Lighthouse da home depois de publicar o cilindro.
 2. Home (pedido de 21/10/2026): capítulo "A dor" no estilo texto + imagens reveladas no scroll (GSAP). O cilindro do hero já foi feito.
 3. Performance: dividir o chunk principal (GSAP/Lenis/Framer fora do caminho crítico), pré-renderizar o HTML das rotas (hoje o LCP depende do JS), revisar o LCP de 7,5 s do `/sobre`.
@@ -100,3 +102,4 @@
   - Hero: `HeroCylinder` só em ≥ 1024px, com 8 prints novos (`heroCards.ts`, `scripts/build-hero-cards.mjs` captura os sites em 3:4). Saem `gallery/*`, `galleryImages.ts` e as dependências `ogl` e `embla-carousel-auto-scroll`.
   - `public/sitemap.xml`, linha `Sitemap` no `robots.txt` e teste `tests/sitemap.spec.ts`.
   - Domínio `www.douradostudio.dev.br` no código, com redirecionamentos em `vercel.json`. Publicado no mesmo dia.
+  - HTML por rota: `src/data/seo.ts` vira a fonte única de título e descrição (páginas e build), `renderRouteHtml` e plugin `route-html`, teste `tests/route-html.spec.ts`. O `vite preview` só entrega esses arquivos com barra no fim (`/sobre/`); sem barra ele cai no `index.html`.

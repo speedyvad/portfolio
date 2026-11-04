@@ -10,6 +10,7 @@ import {
   techLabel,
   type Project,
 } from '../data/projects'
+import { projectsSeo } from '../data/seo'
 import { useSEO } from '../hooks/useSEO'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
@@ -139,12 +140,7 @@ function StudyRow({ project }: { project: Project }) {
 export default function Projects() {
   const [feature, ...rest] = highlightProjects
 
-  useSEO({
-    title: 'Projetos — Dourado Studio',
-    description:
-      'Sites, landing pages e sistemas desenhados e programados pela Dourado Studio: cases de clientes, projetos conceito e laboratório.',
-    path: '/projetos',
-  })
+  useSEO(projectsSeo)
 
   return (
     <>

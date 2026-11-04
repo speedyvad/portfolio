@@ -11,6 +11,7 @@ import { projects, KIND_LABEL } from '../data/projects'
 import { useTextScramble } from '../hooks/useTextScramble'
 import { useTypewriter } from '../hooks/useTypewriter'
 import { useCountUp } from '../hooks/useCountUp'
+import { aboutSeo } from '../data/seo'
 import { useSEO } from '../hooks/useSEO'
 import { EMAIL, GITHUB, INSTAGRAM, LINKEDIN, WHATSAPP_DISPLAY, whatsappLink } from '../config/contact'
 
@@ -236,12 +237,7 @@ export default function About() {
   const name = useTextScramble('Vinícius Dourado', 1200)
   const role = useTypewriter(ROLES, 75, 2000)
 
-  useSEO({
-    title: 'Vinícius Dourado — Desenvolvedor front-end | Dourado Studio',
-    description:
-      'Trajetória de Vinícius Dourado: desenvolvedor front-end em Fortaleza, com experiência no Sistema Verdes Mares e formação em Ciências da Computação na Unifor.',
-    path: '/sobre',
-  })
+  useSEO(aboutSeo)
 
   const { scrollY } = useScroll()
   const nameY = useTransform(scrollY, [0, 500], [0, -150])

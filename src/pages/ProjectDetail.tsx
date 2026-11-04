@@ -6,6 +6,7 @@ import ProjectMedia from '../components/ProjectMedia'
 import Footer from '../components/Footer'
 import WhatsAppIcon from '../components/WhatsAppIcon'
 import { projects, KIND_LABEL, techIcon, techLabel, type ProjectShot } from '../data/projects'
+import { projectSeo } from '../data/seo'
 import { useSEO } from '../hooks/useSEO'
 import { whatsappLink } from '../config/contact'
 
@@ -64,12 +65,7 @@ export default function ProjectDetail() {
   const index = projects.findIndex((p) => p.slug === slug)
   const project = projects[index]
 
-  useSEO({
-    title: project ? `${project.title} — Case Dourado Studio` : 'Case — Dourado Studio',
-    description: project ? (project.problem ?? project.shortDesc) : 'Case da Dourado Studio.',
-    path: `/projetos/${slug ?? ''}`,
-    image: project?.images?.desktop,
-  })
+  useSEO(project ? projectSeo(project) : { title: 'Case — Dourado Studio', description: 'Case da Dourado Studio.', path: `/projetos/${slug ?? ''}` })
 
   if (!project) return <NotFound />
 

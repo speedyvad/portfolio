@@ -4,17 +4,14 @@ import ScrollReveal from '../components/ScrollReveal'
 import Footer from '../components/Footer'
 import FinalCta from '../components/home/FinalCta'
 import { services, servicesPageCopy } from '../data/services'
+import { servicesSeo } from '../data/seo'
 import { useSEO } from '../hooks/useSEO'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 /** /servicos — todos os serviços, cada um levando à própria página. */
 export default function Services() {
-  useSEO({
-    title: servicesPageCopy.seoTitle,
-    description: servicesPageCopy.seoDescription,
-    path: '/servicos',
-  })
+  useSEO(servicesSeo)
 
   return (
     <>
