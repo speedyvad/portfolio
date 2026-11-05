@@ -44,6 +44,7 @@ tests/                  testes unitários
 - No build, o plugin `route-html` (`vite.config.ts`) grava `dist/<rota>/index.html` com o `<head>` certo para cada página de `publicPages()`, e o build falha se faltar uma tag no `index.html` base. O corpo continua sendo montado pelo JavaScript.
 - O build também grava `dist/404.html` (noindex, sem canonical). O `vercel.json` não tem rewrite geral: a Vercel responde 404 em endereço inexistente. Rota nova precisa de HTML gerado (`publicPages()` ou lista do plugin), e endereço antigo vira redirecionamento no `vercel.json`.
 - Imagem de prévia padrão: `public/og-image.png`, gerada por `node scripts/build-og-image.mjs` a partir de `scripts/og-image.html`.
+- Favicon: `public/favicon.svg` é a fonte (desenho sem fonte instalada). `node scripts/build-favicons.mjs` gera `favicon.ico`, `favicon-192.png` e `apple-touch-icon.png`. `tests/favicon.spec.ts` confere os links do `index.html`.
 - Para conferir no `npm run preview`, abra a rota com barra no fim (`/sobre/`): sem barra, o Vite entrega o `index.html` da raiz.
 - JSON-LD no `index.html` com `WebSite`, `ProfessionalService` e `Person`; `tests/structured-data.spec.ts` confere contra `src/config/contact.ts`. Os perfis em `sameAs` ficam na `Person` porque são pessoais; perfil do estúdio (Perfil da Empresa, Instagram próprio) entra em `sameAs` do `ProfessionalService` quando existir.
 - `public/sitemap.xml` feito à mão, citado no `robots.txt`. Página nova entra lá: `tests/sitemap.spec.ts` falha se faltar serviço ou projeto.

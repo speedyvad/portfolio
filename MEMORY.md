@@ -56,6 +56,7 @@
 - [x] Verificar `douradostudio.dev.br` no **Google Search Console** (propriedade de domínio, registro TXT no DNS da Vercel; feito em 04/11/2026). Não apagar esse TXT.
 - [x] Enviar o `sitemap.xml` no Search Console (processado em 04/11/2026, 20 páginas).
 - [ ] Solicitar a indexação da home, `/servicos/landing-page`, `/servicos` e `/sobre`, e conferir **Indexação > Páginas** nos dias seguintes.
+- [ ] Conferir o ícone no resultado do Google. Depende do Google buscar de novo a home (dias a semanas); ajuda pedir a indexação da home no Search Console depois de publicar.
 - [ ] Criar o **Perfil da Empresa no Google** e trocar o link do site no Instagram, LinkedIn e GitHub pelo domínio novo.
 - [ ] **URL da versão de teste da Harmon** — para preencher `live` em `src/data/projects.ts` (hoje o case não tem botão "Abrir o site").
 - [ ] Quando a Harmon fechar: trocar `kind` para `cliente`, remover `stage`, pedir autorização para citar a marca como cliente.
@@ -111,3 +112,4 @@
   - Frase sobre Fortaleza nas introduções de 4 serviços (landing page, site institucional, campanha, presença digital).
   - JSON-LD com `WebSite`, `ProfessionalService` e `Person`, e teste `tests/structured-data.spec.ts`.
   - `og-image.png` passa a usar a foto do Vinícius no lugar do mar (pedido dele: mais pessoal).
+- **04/11/2026:** favicon reforçado para o Google: `favicon.ico` (48px), PNG de 192px e `apple-touch-icon`, gerados por `scripts/build-favicons.mjs`; o "D" do SVG virou desenho em vez de texto com fonte.
